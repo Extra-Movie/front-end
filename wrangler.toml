@@ -1,3 +1,0 @@
-name = "extra-movie"
-compatibility_date = "2024-04-28" # today's date or the date you're deploying
-pages_build_output_dir = "./dist/extra-movie"
