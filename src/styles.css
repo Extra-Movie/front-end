@@ -1,1 +1,41 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "retro";
+  default: false;
+  prefersdark: true;
+  color-scheme: "light";
+  --color-base-100: #15191e;
+  --color-base-300: #393e46;
+  --color-base-200: #222831;
+  --color-base-content: #dfd0b8;
+  --color-primary: #dfd0b8;
+  --color-primary-content: #222831;
+  --color-secondary: #948979;
+  --color-secondary-content: #222831;
+  --color-accent: #af8f64;
+  --color-accent-content: #2f0407;
+  --color-neutral: #470612;
+  --color-neutral-content: oklch(86% 0.005 56.366);
+  --color-info: oklch(58% 0.158 241.966);
+  --color-info-content: oklch(96% 0.059 95.617);
+  --color-success: oklch(51% 0.096 186.391);
+  --color-success-content: oklch(96% 0.059 95.617);
+  --color-warning: oklch(64% 0.222 41.116);
+  --color-warning-content: oklch(96% 0.059 95.617);
+  --color-error: oklch(70% 0.191 22.216);
+  --color-error-content: oklch(40% 0.123 38.172);
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+.container {
+  @apply mx-auto p-4 sm:px-6 lg:px-8;
+}
