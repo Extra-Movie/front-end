@@ -1,0 +1,180 @@
+<div
+  class="min-h-screen w-full bg-[url('/images/the-godfather.jpg')] bg-cover bg-center bg-no-repeat relative overflow-hidden"
+>
+  <div
+    class="bg-gradient-to-r from-[rgba(0,0,0,0.9)] to-[rgba(0,0,0,0.8)] absolute inset-0"
+  >
+    <div class="container flex justify-center items-center h-screen flex-col">
+      <!-- header-sec  -->
+      <div class="header-sec">
+        <h1 class="text-white text-center text-3xl text-bold mb-5 anm-item">
+          Enter The Club
+        </h1>
+      </div>
+      <!-- registeration form  -->
+      <form [formGroup] ="loginForm"
+        class="py-6 flex flex-col justify-start items-center px-3 md:px-1 lg:w-1/3 w-11/12 bg-primary-content h-auto rounded-sm border-t-[3px] border-accent-content shadow-sm shadow-accent"
+      >
+        <!-- logo -->
+        <div (click) ="routeHome()" class="header my-3 w-1/4 text-center text-3xl cursor-pointer">
+          <img src="../../../../images/test_logo.png" alt="logo" class="w-full">
+        </div>
+
+        <!-- email  -->
+        <div class="email-sec my-3 w-10/12 lg:w-8/12">
+          <label
+            class="input hover:border-2 hover:border-accent-content rounded-sm w-full"
+          >
+            <svg
+              class="h-[1em] opacity-50 w-[1em]"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+            >
+              <path
+                d="M2 4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4zm2 0v.01L12 13l8-8.99V4H4zm16 2.83l-8 8-8-8V20h16V6.83z"
+              />
+            </svg>
+            <input
+              formControlName="email"
+              type="email"
+              required
+              placeholder="Email"
+              class="text-lg placeholder:text-gray-500 placeholder:text-md ps-3"
+              accesskey="m"
+              maxlength="30"
+              #email
+            />
+          </label>
+
+          @if(!emailStatusFlag)
+          {
+            <p class="text-red-600 mt-0.5">
+              sorry , we couldn't find your account !
+            </p>
+          }
+
+          @if(email.value.length>emailCheckLength &&!emailStatus&&emailValue&&emailStatusFlag)
+          {
+            <p class="text-red-600 mt-0.5">
+              invalid email format
+            </p>
+          }
+
+        </div>
+
+        <!-- password -->
+        <div class="pass-sec my-3 w-10/12 rounded-sm lg:w-8/12">
+          <label
+            class="input w-full hover:border-2 hover:border-accent-content"
+          >
+            <svg
+              class="h-[1em] w-[1em] opacity-50"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <g
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"
+                ></path>
+                <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+              </g>
+            </svg>
+            <input
+              formControlName="password"
+              type="password"
+              required
+              placeholder="Password"
+              minlength="8"
+              class="text-lg placeholder:text-gray-500 placeholder:text-md ps-3"
+              accesskey="p"
+              maxlength="30"
+              #pass
+            />
+          </label>
+
+          @if(!passwordStatusFlag)
+          {
+            <p class="text-red-600 mt-0.5 text-sm">
+              Wrong Password
+            </p>
+          }
+
+          @if(pass.value.length>passwordCheckLength&&!passwordStatus&&passwordValue&&passwordStatusFlag)
+          {
+            <p class="text-red-600 mt-0.5 text-sm">
+              invalid Password Format
+            </p>
+          }
+
+
+        </div>
+
+        <!-- Remember Me sction -->
+        <div class="remember-sec  my-2 w-10/12 lg:w-8/12">
+          <div class="inner-container flex justify-start items-center gap-2 ">
+            <input
+            #checkRem
+            type="checkbox"
+            class="checkbox checkbox-neutral"
+            id="remember"
+            accesskey="r"
+            (click)="rememberFun(checkRem)"
+          />
+          <label for="remember" class="text-sm lg:text-lg cursor-pointer" >
+            Remember Me
+          </label>
+          </div>
+
+        </div>
+
+        <!-- register-sec  -->
+        <div class="btn-sec w-10/12 my-4 lg:w-8/12">
+          <div class="button-center mx-auto w-8/12">
+            <button (click)="loginFun()"
+              class="text-shadow-lg btn rounded-lg text-lg !py-6 bg-gradient-to-r from-accent-content to-neutral hover:drop-shadow-sm hover:drop-shadow-base-content w-full text-white"
+            >
+              Sign In
+            </button>
+          </div>
+        </div>
+
+        @if(!loginValidStatus )
+        {
+          <p class="text-red-600 mt-0.5 text-sm">
+            Invalid Input Data
+          </p>
+        }
+        <!-- navigate to sign in  -->
+        <div class="login-sec">
+          <p class="text-sm lg:text-lg">
+            Don't have an account?
+            <span (click) ="directRegister()"
+              class="text-[#FF4D7B] cursor-pointer hover:text-red-500"
+              >Sign Up!</span
+            >
+          </p>
+        </div>
+
+        <!-- forget Password Section  -->
+         <div class="my-3">
+          <p (click)="forgetPassword()" class="text-[#FF4D7B] cursor-pointer hover:text-red-500">Forget Password?</p>
+         </div>
+
+      </form>
+
+      <div
+        class="shape lg:w-1/3 w-10/12 bg-primary-content shadow-2xl h-7 my-3 skew-x-[45deg] translate-y-1 translate-x-2 rounded-md text-white opacity-60"
+      ></div>
+    </div>
+  </div>
+</div>
+
