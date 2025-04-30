@@ -57,7 +57,7 @@
           </label>
           @if(!nameStatus&&nameValue)
           {
-            <p class="text-[12px] text-red-600 mt-1">
+            <p class="text-[12px] text-error mt-1">
               Must be 3 to 30 characters
               <br />containing only letters or one of (. , _ , -)
             </p>
@@ -94,7 +94,7 @@
           </label>
           @if(!emailStatus&&emailValue)
           {
-            <p class="text-[12px] text-red-600 mt-1">
+            <p class="text-[12px] text-error mt-1">
               Must follow this pattern<br/> example..&#64;domain .com/.org..
             </p>
           }
@@ -138,7 +138,7 @@
 
           @if(!passwordStatus&&passwordValue)
           {
-            <p class="text-[12px] text-red-600 mt-1 text-sm">
+            <p class="text-[12px] text-error mt-1 text-sm">
               Must be more than 8 characters, including At least one number & one lowercase letter & one uppercase letter & one special character
             </p>
 
