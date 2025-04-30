@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import {LoggedUser} from './../../Utils/interface';
-
+import { Router,RouterLink } from '@angular/router';
+import {loginUser} from './../../Types/Authentication.types';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,RouterLink],
   templateUrl: './login.component.html',
   styles: ``
 })
@@ -19,13 +18,12 @@ export class LoginComponent implements OnInit {
   }
 
   //value to check email status
-  emailCheckLength:number = 12 ;
-  passwordCheckLength:number = 15 ;
   remberMeStatus :boolean = false ;
   loginValidStatus : boolean = true ;
-  passwordStatusFlag:boolean = true ;
+  //change this to true to remove inital test of timer 
+  passwordStatusFlag:boolean = false ;
   emailStatusFlag:boolean = true ;
-  timerCounter : number = 5 ;
+  timerCounter : number = 3 ;
 
 
 
@@ -46,33 +44,18 @@ export class LoginComponent implements OnInit {
       {
         that.passwordStatusFlag = true ;
         that.emailStatusFlag = true ;
+        that.loginValidStatus = true ;
+        clearInterval(timerRet);
       }
     },1000);
   }
 
-  //status for input fields
-  get emailStatus():boolean
-  {
-    return this.loginForm.controls['email'].valid ;
-  }
-  get passwordStatus():boolean
-  {
-    return this.loginForm.controls['password'].valid ;
-  }
 
-  //getter values
-  get emailValue():string
-  {
-    return (this.loginForm.controls['email'].value??"") ;
-  }
-  get passwordValue():string
-  {
-    return (this.loginForm.controls['password'].value??"") ;
-  }
 
   //login function
   loginFun()
   {
+    this.timerFunc();
     //first check form Validation
     if(this.loginForm.valid)
     {
@@ -117,25 +100,6 @@ export class LoginComponent implements OnInit {
       this.remberMeStatus = false ;
     }
 
-  }
-
-  //register route
-  directRegister() {
-    //routes to Register
-    this.router.navigate(['/register']);
-  }
-
-  //route Home
-  routeHome()
-  {
-    this.router.navigate(['/home']);
-  }
-
-  //forget password
-  forgetPassword()
-  {
-    //routes to reset (reset password)
-    this.router.navigate(['/reset']);
   }
 
 }
