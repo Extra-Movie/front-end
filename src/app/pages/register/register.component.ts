@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { User } from './../../Utils/interface';
+import { Router, RouterLink } from '@angular/router';
+import { registeredUser } from './../../Types/Authentication.types';
+
 
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,RouterLink],
 
 templateUrl: './register.component.html',
   styles: ``
@@ -17,9 +18,9 @@ export class RegisterComponent {
   constructor(private router:Router){}
 
 
-  privacyCheck:boolean = true;
+  privacyCheck:boolean = false;
   termsCheck : boolean = true ;
-  newUser!: User;
+  newUser!: registeredUser;
 
   //form register
   registerForm = new FormGroup({
@@ -27,11 +28,6 @@ export class RegisterComponent {
     email: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z][a-zA-Z0-9_.]{3,}@[a-zA-Z]{3,}.[a-zA-Z]{3,}$/)]),
     password: new FormControl(null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/), Validators.minLength(8),Validators.maxLength(30)]),
   });
-
-  directLogin() {
-    //routes to login
-    this.router.navigate(['/login']);
-  }
 
   //status for input fields
   get emailStatus():boolean
@@ -99,17 +95,6 @@ export class RegisterComponent {
     }
   }
 
-  //navigate to privacy
-  goToPrivacy() {
-    this.router.navigate(['/privacy']);
-  }
-
-
-  //route Home
-  routeHome()
-  {
-    this.router.navigate(['/home']);
-  }
 
   //update privacy status
   checkPrivacySstatus(privelem:any) {
