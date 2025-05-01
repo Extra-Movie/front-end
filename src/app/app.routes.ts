@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { NavLayoutComponent } from './layouts/nav-layout/nav-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { ErrorComponent } from './pages/error/error.component';
+
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 
@@ -19,6 +19,7 @@ export const routes: Routes = [
     ],
   },
   {
+
     path: 'register',
     component: RegisterComponent,
     title:"Register"
@@ -27,10 +28,6 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title:"Login"
-  },
-  {
-    path: 'error',
-    component: ErrorComponent,
   },
   {
     path: '**',
