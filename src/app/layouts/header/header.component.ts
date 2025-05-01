@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidCartShopping } from '@ng-icons/font-awesome/solid';
+import { solarMoonStarsBold ,solarSun2Bold} from '@ng-icons/solar-icons/bold';
 @Component({
   selector: 'app-header',
-  imports: [CommonModule],
+  imports: [CommonModule,NgIcon],
   templateUrl: './header.component.html',
-  styles: ``
+  styles: ``,
+  viewProviders: [provideIcons({ faSolidCartShopping ,solarMoonStarsBold,solarSun2Bold})]
 })
 export class HeaderComponent {
   menuOpen = false;
