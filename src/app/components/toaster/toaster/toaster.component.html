@@ -1,0 +1,11 @@
+<div role="alert" class="flex items-stretch gap-3 rounded-box p-2 w-96 mx-auto" [ngClass]="toastType">
+  <ng-icon *ngIf="toast?.showIcon" [name]="toastIcon" size="24" class="place-self-center" />
+  <div class="text-shadow-xs flex-1" [ngClass]="`text-shadow-${toast.type}-content`">
+    <h6 class="font-bold text-sm">{{toast.title}}</h6>
+    <div class="text-xs block">{{toast.message}}</div>
+  </div>
+  <button (click)="toast.cancelable && close.emit()" class="btn btn-xs btn-ghost btn-circle " *ngIf="toast.cancelable"
+    [ngClass]="`btn-${toast.type}`" aria-label="Close Toast">
+    <ng-icon *ngIf="toast?.cancelable" name="heroXMark" size="16" />
+  </button>
+</div>
