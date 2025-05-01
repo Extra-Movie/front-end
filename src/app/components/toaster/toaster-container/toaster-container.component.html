@@ -1,0 +1,5 @@
+<div class="toast toast-top toast-center">
+  @for (toast of toasts; track $index) {
+  <app-toaster [toast]="toast" (close)="removeToast(toast)" />
+  }
+</div>
