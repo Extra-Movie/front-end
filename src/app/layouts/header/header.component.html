@@ -33,11 +33,15 @@
       </label>
 
       <!-- Icons & Button -->
-      <button (click)="toggleDarkMode()"
-        class="text-2xl cursor-pointer hover:text-primary transition-all hover:text-shadow-[0px_0px_10px_var(--color-primary)] ">
-        <ng-icon name="solarMoonStarsBold" *ngIf="!darkMode" />
-        <ng-icon name="solarSun2Bold" *ngIf="darkMode" />
-      </button>
+      <label class="swap text-2xl hover:text-primary transition-all cursor-pointer hover:text-shadow-[0px_0px_10px_var(--color-primary)] swap-rotate">
+        <!-- this hidden checkbox controls the state -->
+        <input type="checkbox" [checked]="darkMode" (input)="toggleDarkMode()" />
+        <!-- sun icon -->
+        <ng-icon class="swap-off" name="solarMoonStarsBold" />
+        <!-- moon icon -->
+        <ng-icon class="swap-on" name="solarSun2Bold" />
+
+      </label>
       <button
         class="text-2xl hover:text-primary transition-all cursor-pointer hover:text-shadow-[0px_0px_10px_var(--color-primary)]">
         <ng-icon name="faSolidCartShopping" />
