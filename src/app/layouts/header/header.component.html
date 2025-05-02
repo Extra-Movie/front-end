@@ -6,19 +6,19 @@
         <img src="logo.svg" alt="Logo" class="h-10 w-auto" />
         <!-- <span class="font-bold text-xl text-blue-600">ExtraMovie</span> -->
       </div>
-  
+
       <!-- Tabs (Large Screens) -->
       <div class="hidden lg:flex space-x-6 items-center">
         <a href="#" class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1  font-medium">Home</a>
         <a href="#" class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium">About Us</a>
         <a href="#" class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium">Movies & Series</a>
-  
-        
+
+
       </div>
       <div class="actions hidden lg:flex gap-4">
             <!-- Search -->
             <input type="search" placeholder="Search..." class="px-3 py-1 rounded border border-secondary border-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary)"/>
-    
+
             <!-- Icons & Button -->
             <button (click)="toggleDarkMode()" *ngIf="!darkMode" class="text-2xl cursor-pointer hover:text-primary transition-all hover:text-shadow-[0px_0px_10px_var(--color-primary)] ">
                <ng-icon name="solarMoonStarsBold"/>
@@ -33,7 +33,7 @@
                Sign Up
             </button>
       </div>
-  
+
       <!-- Burger Icon (Mobile) -->
       <div class="lg:hidden">
         <button (click)="toggleMenu()">
@@ -41,7 +41,7 @@
         </button>
       </div>
     </div>
-  
+
     <!-- Sidebar -->
     <div
       class="fixed top-0 left-0 h-full w-64 bg-base-200 text-base-content shadow-lg z-50 transform transition-all duration-500 "
@@ -55,13 +55,13 @@
         </button>
       </div>
       <ul class="p-4 space-y-4">
+        <li>
+          <input type="search" placeholder="Search..." class="input input-primary bg-transparent"/>
+        </li>
         <li><a href="#" class=" font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Home</a></li>
         <li><a href="#" class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">About Us</a></li>
         <li><a href="#" class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Movies & Series</a></li>
-        <li>
-            <input type="search" placeholder="Search..." class="px-3 py-1 rounded border border-secondary border-2 focus:outline-none focus:ring-2 focus:ring-(--color-primary) focus:border-(--color-primary)"/>
-        </li>
-        <li class="flex justify-center">        
+        <li class="flex justify-center">
           <button class="bg-primary btn btn-active text-primary-content px-4 py-1 rounded hover:shadow-[0px_0px_5px_var(--color-primary)] hover:text-neutral-content transition-all">
             Sign Up
           </button>
@@ -80,4 +80,3 @@
       </ul>
     </div>
   </nav>
-  
