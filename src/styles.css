@@ -69,7 +69,7 @@
   --depth: 0;
   --noise: 0;
 }
-
+@custom-variant dark (&:where([data-theme=light], [data-theme=dark] *));
 .container {
   @apply mx-auto p-4 sm:px-6 lg:px-8;
 }
