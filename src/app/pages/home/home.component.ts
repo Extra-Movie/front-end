@@ -43,6 +43,14 @@ export class HomeComponent {
       showIcon: true,
     });
   }
+  showPrimaryToast() {
+    this.toast.custom('this is a primary toast', 'default', {
+      title: 'Primary',
+      duration: 5000,
+      cancelable: true,
+      showIcon: true,
+    });
+  }
 
   toggleTheme() {
     this.theme.toggleDarkMode();
