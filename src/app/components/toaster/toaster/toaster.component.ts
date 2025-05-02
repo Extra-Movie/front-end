@@ -30,10 +30,10 @@ export class ToasterComponent {
   @Input({ required: true }) toast!: Toast;
   @Output() close = new EventEmitter<void>();
   private TOAST_TYPES: Record<Toast['type'], string> = {
-    success: 'bg-success/10 text-success',
-    error: 'bg-error/10 text-error ',
-    info: 'bg-info/10 text-info ',
-    warning: 'bg-warning/10 text-warning ',
+    success: ' dark:bg-[#002c16bf] bg-[#e0fff2] text-success',
+    error: ' dark:bg-[#4c000bbd] bg-[#fff5f5bd] text-error ',
+    info: ' dark:bg-[#001a5cc4] bg-[#f0fdff] text-info ',
+    warning: ' dark:bg-[#3d1a0057] bg-[#fff8e2bd] text-warning ',
     default: 'bg-primary/10 text-primary',
   };
 
