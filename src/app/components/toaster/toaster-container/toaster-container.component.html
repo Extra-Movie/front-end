@@ -1,0 +1,5 @@
+<div class="toast toast-top toast-center items-center flex-col-reverse w-full">
+  @for (toast of toasts; track $index) {
+  <app-toaster class="w-full" [toast]="toast" (close)="removeToast(toast)" />
+  }
+</div>
