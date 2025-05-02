@@ -5,7 +5,6 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { AboutComponent } from './pages/about/about.component';
 import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 
-
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 
@@ -14,29 +13,31 @@ export const routes: Routes = [
     path: '',
     component: NavLayoutComponent,
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },  //change again ghada
+      { path: '', redirectTo: 'home', pathMatch: 'full' }, //change again ghada
       {
         path: 'home',
         component: HomeComponent,
+      },
+      {
+        path: 'about',
+        component: AboutComponent,
+      }, //about
+      {
+        path: 'contact-us',
+        component: ContactUsComponent,
       },
     ],
   },
   {
     path: 'register',
     component: RegisterComponent,
-    title:"Register"
+    title: 'Register',
   },
   {
     path: 'login',
     component: LoginComponent,
-    title:"Login"
-  },
-  {
-    path:'about',component:AboutComponent
-  },  //about
-  {
-    path:'contactUs',component:ContactUsComponent
-  },  //contact us
+    title: 'Login',
+  }, //contact us
   {
     path: '**',
     component: NotFoundComponent,
