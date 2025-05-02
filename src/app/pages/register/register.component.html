@@ -1,0 +1,120 @@
+<div
+  class="min-h-screen w-full bg-[url('/images/fight-club.webp')] bg-cover bg-center bg-no-repeat relative bg-black/80 dark:bg-black/85 bg-blend-color text-base-content">
+  <div class="container flex justify-center items-center min-h-screen flex-col">
+    <!-- header-sec  -->
+    <h1
+      class="font-bold text-center text-3xl md:text-4xl mb-3 bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent text-shadow-sm font-mono">
+      Welcome To The Club
+    </h1>
+    <!-- registration form  -->
+    <form [formGroup]="registerForm"
+      class="py-6  px-6 md:px-12  bg-base-100 rounded-lg border-t-[3px] border-accent-content shadow-sm shadow-secondary max-w-[440px] w-full">
+      <!-- logo -->
+      <a routerLink='/home' class="block mb-5 text-center cursor-pointer w-full max-w-24 mx-auto">
+        <img src="../../../../images/test_logo.png" alt="logo" class="aspect-square w-full max-w-24 mx-auto" />
+      </a>
+
+      <!-- name  -->
+      <div class="name-sec my-3 w-full ">
+        <label class="input bg-transparent duration-500 hover:border-accent-content rounded-sm w-full">
+          <svg class="h-[1em] w-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </g>
+          </svg>
+          <input formControlName="name" type="input" required placeholder="User Name" accesskey="u"
+            pattern="[A-Za-z][A-Za-z0-9\-]*" minlength="3" maxlength="30" title="Only letters, numbers or dash"
+            class="text-base placeholder:text-gray-500 placeholder:text-md ps-3 " />
+        </label>
+        @if(!nameStatus&&nameValue)
+        {
+        <p class="text-[12px] text-error mt-1">
+          Must be 3 to 30 characters
+          <br />containing only letters or one of (. , _ , -)
+        </p>
+        }
+
+      </div>
+
+      <!-- email  -->
+      <div class="email-sec my-3 w-full ">
+        <label class="input bg-transparent duration-500 hover:border-accent-content rounded-sm w-full">
+          <svg class="h-[1em] opacity-50 w-[1em]" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+            viewBox="0 0 24 24" width="20" height="20">
+            <path
+              d="M2 4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4zm2 0v.01L12 13l8-8.99V4H4zm16 2.83l-8 8-8-8V20h16V6.83z" />
+          </svg>
+          <input formControlName="email" type="email" required placeholder="Email"
+            class="text-base placeholder:text-gray-500 placeholder:text-md ps-3 " accesskey="m" maxlength="30" />
+        </label>
+        @if(!emailStatus&&emailValue)
+        {
+        <p class="text-xs text-error mt-1">
+          Must follow this pattern<br /> example..&#64;domain .com/.org..
+        </p>
+        }
+
+      </div>
+
+      <!-- password -->
+      <div class="pass-sec my-3 w-full ">
+        <label class="input bg-transparent w-full duration-500 hover:border-accent-content">
+          <svg class="h-[1em] w-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+              <path
+                d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z">
+              </path>
+              <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+            </g>
+          </svg>
+          <input formControlName="password" type="password" required placeholder="Password" minlength="8"
+            class="text-base placeholder:text-gray-500 placeholder:text-md ps-3 " accesskey="p" maxlength="30" />
+        </label>
+
+        @if(!passwordStatus&&passwordValue)
+        {
+        <span class="text-error mt-1 text-xs">
+          Must be more than 8 characters, including At least one number & one lowercase letter & one uppercase letter
+          & one special character
+        </span>
+
+        }
+      </div>
+
+      <!-- privacy section -->
+      <div class="privacy-sec flex items-center gap-2 my-2 place-self-start">
+        <input (click)="checkPrivacySstatus(checkpriv)" value="true" #checkpriv type="checkbox"
+          class="checkbox checkbox-sm checkbox-secondary" id="policy" accesskey="i" />
+        <label for="policy" class="text-sm cursor-pointer ">
+          I agree to the
+          <a routerLink='/privacy' class="text-accent cursor-pointer hover:opacity-70 duration-500">Privacy policy</a>
+        </label>
+      </div>
+      @if(!termsCheck)
+      {
+      <p class="text-xs text-error mt-1">
+        You have to accept privacy policy to proceed
+      </p>
+      }
+
+      <!-- register-sec  -->
+      <div class="my-4 ">
+        <button (click)="registerUser()"
+          class="text-shadow-lg btn btn-primary w-full bg-gradient-to-r from-primary to-accent/80 shadow-md hover:shadow-accent/80 duration-300 transition-shadow">
+          Sign Up
+        </button>
+      </div>
+
+      <!-- navigate to sign in  -->
+      <p class="text-sm text-center ">
+        Already have an account?
+        <a routerLink="/login" class="text-accent cursor-pointer hover:opacity-70 duration-500">Sign in!</a>
+      </p>
+    </form>
+
+    <div
+      class="shape w-full max-w-[440px] bg-primary-content shadow-2xl h-7 my-3 skew-x-[45deg] translate-y-1 translate-x-2 rounded-md text-white opacity-60">
+    </div>
+  </div>
+</div>
