@@ -22,7 +22,10 @@
     </div>
     <div class="actions hidden lg:flex gap-4">
       <!-- Search -->
-      <input type="search" placeholder="Search..." class="input input-primary" />
+      <label class="input input-primary bg-transparent">
+        <ng-icon name="ionSearch" />
+        <input type="search" placeholder="Search..." />
+      </label>
 
       <!-- Icons & Button -->
       <button (click)="toggleDarkMode()"
@@ -60,7 +63,10 @@
     </div>
     <ul class="p-4 space-y-4">
       <li>
-        <input type="search" placeholder="Search..." class="input input-primary bg-transparent" />
+        <label class="input input-primary bg-transparent w-full">
+          <ng-icon name="ionSearch" />
+          <input type="search" placeholder="Search..." />
+        </label>
       </li>
       <li><a href="#"
           class=" font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Home</a>
