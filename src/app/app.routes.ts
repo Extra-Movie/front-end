@@ -2,6 +2,9 @@ import { Routes } from '@angular/router';
 import { NavLayoutComponent } from './layouts/nav-layout/nav-layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { AboutComponent } from './pages/about/about.component';
+import { ContactUsComponent } from './pages/contact-us/contact-us.component';
+
 
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -11,7 +14,7 @@ export const routes: Routes = [
     path: '',
     component: NavLayoutComponent,
     children: [
-      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },  //change again ghada
       {
         path: 'home',
         component: HomeComponent,
@@ -19,7 +22,6 @@ export const routes: Routes = [
     ],
   },
   {
-
     path: 'register',
     component: RegisterComponent,
     title:"Register"
@@ -29,6 +31,12 @@ export const routes: Routes = [
     component: LoginComponent,
     title:"Login"
   },
+  {
+    path:'about',component:AboutComponent
+  },  //about
+  {
+    path:'contactUs',component:ContactUsComponent
+  },  //contact us
   {
     path: '**',
     component: NotFoundComponent,
