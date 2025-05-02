@@ -8,7 +8,7 @@ import { ToastService } from '../../services/toast.service';
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
-  constructor(private toast: ToastService) {}
+  constructor(private toast: ToastService, private theme: DarkModeService) {}
 
   showToast() {
     this.toast.success('this is a success toast', {
@@ -42,5 +42,9 @@ export class HomeComponent {
       cancelable: true,
       showIcon: true,
     });
+  }
+
+  toggleTheme() {
+    this.theme.toggleDarkMode();
   }
 }
