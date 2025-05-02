@@ -9,14 +9,19 @@
 
     <!-- Tabs (Large Screens) -->
     <div class="hidden lg:flex space-x-6 items-center">
-      <a href="#"
+      <a routerLink="/"
         class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1  font-medium">Home</a>
-      <a href="#"
+      <a routerLink="/about"
         class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium">About
         Us</a>
-      <a href="#"
+      <a routerLink="/contact-us"
+        class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium">contact
+        Us</a>
+      <a routerLink="/movies"
         class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium">Movies
-        & Series</a>
+      </a>
+      <a routerLink="/series"
+        class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium">Series</a>
 
 
     </div>
@@ -37,10 +42,10 @@
         class="text-2xl hover:text-primary transition-all cursor-pointer hover:text-shadow-[0px_0px_10px_var(--color-primary)]">
         <ng-icon name="faSolidCartShopping" />
       </button>
-      <button
+      <a routerLink="register"
         class="bg-primary btn btn-active hover:shadow-[0px_0px_5px_var(--color-primary)] transition-all">
-        Sign Up
-      </button>
+        Register
+      </a>
     </div>
 
     <!-- Burger Icon (Mobile) -->
@@ -56,7 +61,7 @@
     class="fixed top-0 left-0 h-full w-64 bg-base-200 text-base-content shadow-lg z-50 transform transition-all duration-500 "
     [class.-translate-x-full]="!menuOpen" [class.translate-x-0]="menuOpen">
     <div class="flex justify-between items-center p-4 border-b border-(--color-primary)">
-      <h2 class="text-xl font-bold">ExtraMovie</h2>
+      <h2 class="text-xl font-bold">BlockBuster</h2>
       <button (click)="toggleMenu()">
         <i class="fas fa-times text-2xl"></i>
       </button>
@@ -68,15 +73,21 @@
           <input type="search" placeholder="Search..." />
         </label>
       </li>
-      <li><a href="#"
+      <li><a routerLink="/"
           class=" font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Home</a>
       </li>
-      <li><a href="#"
+      <li><a routerLink="/about"
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">About
           Us</a></li>
-      <li><a href="#"
+      <li><a routerLink="/contact-us"
+          class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Contact
+          Us</a></li>
+      <li><a routerLink="/movies"
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Movies
-          & Series</a></li>
+        </a></li>
+      <li><a routerLink="/series"
+          class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Series</a>
+      </li>
       <li class="flex space-x-5 justify-between">
         <button (click)="toggleDarkMode()"
           class="text-2xl cursor-pointer hover:text-primary transition-all hover:text-shadow-[0px_0px_10px_var(--color-primary)] ">
@@ -89,9 +100,10 @@
         </button>
       </li>
       <li class="flex justify-center">
-        <button class="w-full bg-primary btn btn-active hover:shadow-[0px_0px_5px_var(--color-primary)] transition-all">
-          Sign Up
-        </button>
+        <a routerLink="register"
+          class="w-full bg-primary btn btn-active hover:shadow-[0px_0px_5px_var(--color-primary)] transition-all">
+          Register
+        </a>
       </li>
     </ul>
   </div>
