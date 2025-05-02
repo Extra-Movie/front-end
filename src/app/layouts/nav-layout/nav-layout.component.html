@@ -1,4 +1,7 @@
-<app-header></app-header>
-<!-- <app-footer></app-footer> -->
-<router-outlet/>
-<app-footer></app-footer>
+<div class="min-h-dvh flex flex-col relative">
+  <app-header class="sticky top-0 z-50"></app-header>
+  <div class="flex-1">
+    <router-outlet />
+  </div>
+  <app-footer />
+</div>

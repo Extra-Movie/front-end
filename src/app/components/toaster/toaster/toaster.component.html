@@ -1,5 +1,5 @@
 <div role="alert"
-  class="flex items-center gap-3 rounded-box p-2 min-w-full md:w-fit sm:mx-auto md:min-w-96 md:max-w-3/4 lg:max-w-1/2"
+  class="flex items-center gap-3 rounded-box p-2 min-w-full md:w-fit sm:mx-auto md:min-w-96 md:max-w-3/4 lg:max-w-1/2 shadow-sm"
   [ngClass]="toastType">
   <ng-icon *ngIf="toast?.showIcon" [name]="toastIcon" size="24" />
   <div class="text-shadow-xs flex-1" [ngClass]="`text-shadow-${toast.type}-content`">
