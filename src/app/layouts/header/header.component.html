@@ -25,13 +25,10 @@
       <input type="search" placeholder="Search..." class="input input-primary" />
 
       <!-- Icons & Button -->
-      <button (click)="toggleDarkMode()" *ngIf="!darkMode"
+      <button (click)="toggleDarkMode()"
         class="text-2xl cursor-pointer hover:text-primary transition-all hover:text-shadow-[0px_0px_10px_var(--color-primary)] ">
-        <ng-icon name="solarMoonStarsBold" />
-      </button>
-      <button (click)="toggleDarkMode()" *ngIf="darkMode"
-        class="text-2xl cursor-pointer hover:text-primary transition-all hover:text-shadow-[0px_0px_10px_var(--color-primary)] ">
-        <ng-icon name="solarSun2Bold" />
+        <ng-icon name="solarMoonStarsBold" *ngIf="!darkMode" />
+        <ng-icon name="solarSun2Bold" *ngIf="darkMode" />
       </button>
       <button
         class="text-2xl hover:text-primary transition-all cursor-pointer hover:text-shadow-[0px_0px_10px_var(--color-primary)]">
