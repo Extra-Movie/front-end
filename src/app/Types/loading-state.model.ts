@@ -17,5 +17,5 @@ export interface Errored{
   state:'error',
   error:'Error'
 }
-export type LoadingState <T=unknown> = Loading | Loaded<T> | Errored
+export type LoadingState <T> = Loading | Loaded<T> | Errored
 // export as one of these interfaces
