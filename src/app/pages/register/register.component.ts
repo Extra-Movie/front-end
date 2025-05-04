@@ -34,9 +34,6 @@ export class RegisterComponent {
     this.state = this.auth.registerState.response;
   }
 
-  privacyCheck: boolean = false;
-  termsCheck: boolean = true;
-
   //form register
   registerForm = new FormGroup({
     name: new FormControl(null, [
