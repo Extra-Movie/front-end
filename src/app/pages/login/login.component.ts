@@ -28,14 +28,7 @@ export class LoginComponent {
   ) {
     this.state = this.auth.loginState.response;
   }
-  //value to check email status
-  rememberMeStatus: boolean = false;
-  loginValidStatus: boolean = true;
-  //change this to true to remove initial test of timer
-  passwordStatusFlag: boolean = false;
-  emailStatusFlag: boolean = true;
-  timerCounter: number = 3;
-
+  
   //form login
   loginForm = new FormGroup({
     email: new FormControl(null, {
@@ -82,13 +75,4 @@ export class LoginComponent {
     });
   }
 
-  //remember Function to check status of remember me
-  rememberFun(checkRem: any) {
-    console.log(checkRem);
-    if (checkRem.checked) {
-      this.rememberMeStatus = true;
-    } else {
-      this.rememberMeStatus = false;
-    }
-  }
 }
