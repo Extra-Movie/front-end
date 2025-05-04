@@ -1,105 +1,94 @@
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
-import { Router,RouterLink } from '@angular/router';
-import {loginUser} from './../../Types/Authentication.types';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { Component, OnInit, WritableSignal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { loginResponse, loginUser } from './../../Types/Authentication.types';
+import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
+import { RequestState } from '../../services/apiRequest.service';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule,RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './login.component.html',
-  styles: ``
+  styles: ``,
 })
-export class LoginComponent implements OnInit {
-  constructor(private  router:Router){}
-  ngOnInit(): void {
-    this.timerFunc();
-
+export class LoginComponent {
+  state: WritableSignal<RequestState<loginResponse>>;
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    private toast: ToastService
+  ) {
+    this.state = this.auth.loginState.response;
   }
-
   //value to check email status
-  remberMeStatus :boolean = false ;
-  loginValidStatus : boolean = true ;
-  //change this to true to remove inital test of timer 
-  passwordStatusFlag:boolean = false ;
-  emailStatusFlag:boolean = true ;
-  timerCounter : number = 3 ;
-
-
+  rememberMeStatus: boolean = false;
+  loginValidStatus: boolean = true;
+  //change this to true to remove initial test of timer
+  passwordStatusFlag: boolean = false;
+  emailStatusFlag: boolean = true;
+  timerCounter: number = 3;
 
   //form login
   loginForm = new FormGroup({
-    email: new FormControl(null, [Validators.required, Validators.pattern(/^[a-zA-Z][a-zA-Z0-9_.]{3,}@[a-zA-Z]{3,}.[a-zA-Z]{3,}$/)]),
-    password: new FormControl(null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/), Validators.minLength(8),Validators.maxLength(30)]),
+    email: new FormControl(null, {
+      validators: [Validators.required, Validators.email],
+      nonNullable: true,
+    }),
+    password: new FormControl(null, {
+      validators: [Validators.required],
+      nonNullable: true,
+    }),
+    rememberMe: new FormControl(false),
   });
 
-  //function to start counter for 5 seconds to displat issue to user
-  timerFunc()
-  {
-    let counter = 0 ;
-    let that = this ;
-    let timerRet = setInterval(function(){
-      counter++ ;
-      if(counter===that.timerCounter)
-      {
-        that.passwordStatusFlag = true ;
-        that.emailStatusFlag = true ;
-        that.loginValidStatus = true ;
-        clearInterval(timerRet);
-      }
-    },1000);
-  }
-
-
-
   //login function
-  loginFun()
-  {
-    this.timerFunc();
-    //first check form Validation
-    if(this.loginForm.valid)
-    {
-      this.loginValidStatus = true ;
-
-      //first check if the email is found in the DB
-
-          //if found in DB check if email password mathes
-
-              //user authenicated
-                  //determine type of user (admin / normal)
-
-                      //normal direct to home
-
-                      //admin direct to dashboard
-
-                  //also check for remember me flag to save email for future usage
-
-          //password not matching >> set flag to produce wrong password to UI
-
-
-      // not found >> set flag to produce email not exist to UI
-
-
+  loginFun() {
+    if (!this.loginForm.valid) {
+      this.toast.error('Please enter valid credentials', {
+        title: 'Invalid Credentials',
+        cancelable: true,
+        showIcon: true,
+      });
+      return;
     }
-    else
-    {
-      this.loginValidStatus = false ;
-    }
+    const loginData: loginUser = {
+      email: this.loginForm.value.email ?? '',
+      password: this.loginForm.value.password ?? '',
+      rememberMe: this.loginForm.value.rememberMe ?? false,
+    };
+    this.auth.login(loginData).subscribe((res) => {
+      if (this.state().success) {
+        this.router.navigate(['/home']);
+        this.toast.success('Login Successful', {
+          title: 'Success',
+          cancelable: true,
+          showIcon: true,
+        });
+      } else {
+        this.toast.error(this.state().error ?? '', {
+          title: 'Error',
+          cancelable: true,
+          showIcon: true,
+        });
+      }
+    });
   }
 
-  //remember Function to chack status of remember me
-  rememberFun(checkRem:any)
-  {
+  //remember Function to check status of remember me
+  rememberFun(checkRem: any) {
     console.log(checkRem);
-    if(checkRem.checked)
-    {
-      this.remberMeStatus = true ;
+    if (checkRem.checked) {
+      this.rememberMeStatus = true;
+    } else {
+      this.rememberMeStatus = false;
     }
-    else
-    {
-      this.remberMeStatus = false ;
-    }
-
   }
-
 }
