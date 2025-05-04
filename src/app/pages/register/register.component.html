@@ -7,7 +7,7 @@
       Welcome To The Club
     </h1>
     <!-- registration form  -->
-    <form [formGroup]="registerForm"
+    <form [formGroup]="registerForm" (submit)="registerUser()"
       class="py-6  px-6 md:px-12  bg-base-100 rounded-lg border-t-[3px] border-accent-content shadow-sm shadow-secondary max-w-[440px] w-full">
       <!-- logo -->
       <a routerLink='/home' class="block mb-5 text-center cursor-pointer w-full max-w-24 mx-auto">
@@ -16,7 +16,7 @@
 
       <!-- name  -->
       <div class="name-sec my-3 w-full ">
-        <label class="input bg-transparent duration-500 hover:border-accent-content rounded-sm w-full">
+        <label class="input bg-transparent duration-300 hover:border-accent-accent rounded-sm w-full">
           <svg class="h-[1em] w-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
@@ -27,7 +27,7 @@
             pattern="[A-Za-z][A-Za-z0-9\-]*" minlength="3" maxlength="30" title="Only letters, numbers or dash"
             class="text-base placeholder:text-gray-500 placeholder:text-md ps-3 " />
         </label>
-        @if(!nameStatus&&nameValue)
+        @if(nameStatus)
         {
         <p class="text-[12px] text-error mt-1">
           Must be 3 to 30 characters
@@ -39,7 +39,7 @@
 
       <!-- email  -->
       <div class="email-sec my-3 w-full ">
-        <label class="input bg-transparent duration-500 hover:border-accent-content rounded-sm w-full">
+        <label class="input bg-transparent duration-300 hover:border-accent-accent rounded-sm w-full">
           <svg class="h-[1em] opacity-50 w-[1em]" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
             viewBox="0 0 24 24" width="20" height="20">
             <path
@@ -48,7 +48,7 @@
           <input formControlName="email" type="email" required placeholder="Email"
             class="text-base placeholder:text-gray-500 placeholder:text-md ps-3 " accesskey="m" maxlength="30" />
         </label>
-        @if(!emailStatus&&emailValue)
+        @if(emailStatus)
         {
         <p class="text-xs text-error mt-1">
           Must follow this pattern<br /> example..&#64;domain .com/.org..
@@ -59,7 +59,7 @@
 
       <!-- password -->
       <div class="pass-sec my-3 w-full ">
-        <label class="input bg-transparent w-full duration-500 hover:border-accent-content">
+        <label class="input bg-transparent w-full duration-300 hover:border-accent-accent">
           <svg class="h-[1em] w-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
               <path
@@ -72,7 +72,7 @@
             class="text-base placeholder:text-gray-500 placeholder:text-md ps-3 " accesskey="p" maxlength="30" />
         </label>
 
-        @if(!passwordStatus&&passwordValue)
+        @if(passwordStatus)
         {
         <span class="text-error mt-1 text-xs">
           Must be more than 8 characters, including At least one number & one lowercase letter & one uppercase letter
@@ -84,14 +84,14 @@
 
       <!-- privacy section -->
       <div class="privacy-sec flex items-center gap-2 my-2 place-self-start">
-        <input (click)="checkPrivacySstatus(checkpriv)" value="true" #checkpriv type="checkbox"
-          class="checkbox checkbox-sm checkbox-secondary" id="policy" accesskey="i" />
+        <input formControlName="checkPrivacyStatus" type="checkbox" class="checkbox checkbox-sm checkbox-secondary"
+          id="policy" accesskey="i" />
         <label for="policy" class="text-sm cursor-pointer ">
           I agree to the
-          <a routerLink='/privacy' class="text-accent cursor-pointer hover:opacity-70 duration-500">Privacy policy</a>
+          <a routerLink='/privacy' class="text-accent cursor-pointer hover:opacity-70 duration-300">Privacy policy</a>
         </label>
       </div>
-      @if(!termsCheck)
+      @if(privacyStatus)
       {
       <p class="text-xs text-error mt-1">
         You have to accept privacy policy to proceed
@@ -100,7 +100,7 @@
 
       <!-- register-sec  -->
       <div class="my-4 ">
-        <button (click)="registerUser()"
+        <button type="submit"
           class="text-shadow-lg btn btn-primary w-full bg-gradient-to-r from-primary to-accent/80 shadow-md hover:shadow-accent/80 duration-300 transition-shadow">
           Sign Up
         </button>
@@ -109,7 +109,7 @@
       <!-- navigate to sign in  -->
       <p class="text-sm text-center ">
         Already have an account?
-        <a routerLink="/login" class="text-accent cursor-pointer hover:opacity-70 duration-500">Sign in!</a>
+        <a routerLink="/login" class="text-accent cursor-pointer hover:opacity-70 duration-300">Sign in!</a>
       </p>
     </form>
 
