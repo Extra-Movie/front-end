@@ -45,20 +45,13 @@
             maxlength="30" #pass />
         </label>
 
-        @if(!passwordStatusFlag||!emailStatusFlag)
-        {
-        <p class="text-error mt-1 text-sm  text-center">
-          wrong email or password !!
-        </p>
-        }
-
       </div>
 
       <!-- Remember Me section -->
       <div class="remember-sec  my-3">
         <div class="inner-container flex justify-start items-center gap-2 ">
-          <input #checkRem type="checkbox" class="checkbox checkbox-accent checkbox-sm" id="remember" accesskey="r"
-            (click)="rememberFun(checkRem)" />
+          <input type="checkbox" class="checkbox checkbox-accent checkbox-sm" id="remember" accesskey="r"
+            formGroupName="rememberMe" />
           <label for="remember" class="text-sm cursor-pointer text-base-content">
             Remember Me
           </label>
@@ -68,18 +61,12 @@
 
       <!-- login-sec  -->
       <div class="btn-sec my-4  w-full">
-        <button (click)="loginFun()"
+        <button (click)="loginFun()" [disabled]="state().loading"
           class="text-shadow-lg btn btn-primary w-full bg-gradient-to-r from-primary to-accent/80 shadow-md hover:shadow-accent/80 duration-300 transition-shadow">
-          Sign In
+          {{state().loading?'Loading...':'Login'}}
         </button>
       </div>
 
-      @if(!loginValidStatus )
-      {
-      <p class="text-error mb-1 text-xs">
-        Invalid Input Data
-      </p>
-      }
       <!-- navigate to sign in  -->
       <p class="text-sm text-base-content text-center">
         Don't have an account?
