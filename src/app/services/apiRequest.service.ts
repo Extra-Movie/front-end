@@ -18,10 +18,10 @@ export class RequestStateService<T> {
     data: null,
   };
 
-  response = signal<RequestState<T>>(this.initialState);
+  state = signal<RequestState<T>>(this.initialState);
 
   track(observable: Observable<T>): Observable<T | null> {
-    this.response.set({
+    this.state.set({
       loading: true,
       success: false,
       error: null,
@@ -30,11 +30,11 @@ export class RequestStateService<T> {
     return observable.pipe(
       tap(
         (data) =>
-          this.response.update((prev) => ({ ...prev, data, success: true })) // Update the data and success state
+          this.state.update((prev) => ({ ...prev, data, success: true })) // Update the data and success state
       ),
       catchError((error) => {
         console.error('Error occurred:', error); // Log the error to the console
-        this.response.update((prev) => ({
+        this.state.update((prev) => ({
           ...prev,
           error: error.error.message,
           success: false,
@@ -42,12 +42,12 @@ export class RequestStateService<T> {
         return of(null);
       }),
       finalize(
-        () => this.response.update((prev) => ({ ...prev, loading: false })) // Set loading to false after the observable completes
+        () => this.state.update((prev) => ({ ...prev, loading: false })) // Set loading to false after the observable completes
       )
     );
   }
 
   reset() {
-    this.response.set(this.initialState);
+    this.state.set(this.initialState);
   }
 }

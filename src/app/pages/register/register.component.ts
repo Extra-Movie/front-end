@@ -31,7 +31,7 @@ export class RegisterComponent {
     private auth: AuthService,
     private toast: ToastService
   ) {
-    this.state = this.auth.registerState.response;
+    this.state = this.auth.registerState.state;
   }
 
   //form register

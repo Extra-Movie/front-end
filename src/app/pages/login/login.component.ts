@@ -26,9 +26,9 @@ export class LoginComponent {
     private auth: AuthService,
     private toast: ToastService
   ) {
-    this.state = this.auth.loginState.response;
+    this.state = this.auth.loginState.state;
   }
-  
+
   //form login
   loginForm = new FormGroup({
     email: new FormControl(null, {
@@ -74,5 +74,4 @@ export class LoginComponent {
       }
     });
   }
-
 }
