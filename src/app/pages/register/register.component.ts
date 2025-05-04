@@ -6,9 +6,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, WritableSignal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { registeredUser } from './../../Types/Authentication.types';
+import {
+  registeredUser,
+  registerResponse,
+} from './../../Types/Authentication.types';
+import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
+import { RequestState } from '../../services/apiRequest.service';
 
 @Component({
   selector: 'app-register',
@@ -18,11 +24,18 @@ import { registeredUser } from './../../Types/Authentication.types';
   styles: ``,
 })
 export class RegisterComponent {
-  constructor(private router: Router) {}
+  state: WritableSignal<RequestState<registerResponse>>;
+
+  constructor(
+    private router: Router,
+    private auth: AuthService,
+    private toast: ToastService
+  ) {
+    this.state = this.auth.registerState.response;
+  }
 
   privacyCheck: boolean = false;
   termsCheck: boolean = true;
-  newUser!: registeredUser;
 
   //form register
   registerForm = new FormGroup({
@@ -99,18 +112,29 @@ export class RegisterComponent {
       }
       return;
     }
-    this.newUser = {
+    const newUser: registeredUser = {
       name: this.nameValue.trim(),
       email: this.emailValue.trim(),
       password: this.passwordValue.trim(),
     };
-
-    //add user to db if entered data valid
-
-    //reset form
-    this.registerForm.reset();
-
-    //routes to login
-    // this.router.navigate(['/login']);
+    this.auth.register(newUser).subscribe((res) => {
+      if (res?.success) {
+        this.router.navigate(['/login']);
+        this.toast.success(res.message, {
+          title: 'Registration successful!',
+          duration: 3000,
+          cancelable: true,
+          showIcon: true,
+        });
+        this.router.navigate(['/login']);
+        this.registerForm.reset();
+      } else {
+        this.toast.error(this.state().error ?? '', {
+          title: 'Error',
+          cancelable: true,
+          showIcon: true,
+        });
+      }
+    });
   }
 }
