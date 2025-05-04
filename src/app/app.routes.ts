@@ -17,15 +17,18 @@ export const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
+        title : 'Home'
       },
       {
         path: 'about',
         component: AboutComponent,
+        title : 'About'
       }, //about
       {
         path: 'contact-us',
         component: ContactUsComponent,
-      },
+        title : 'Contact Us'
+      },//contact us
     ],
   },
   {
@@ -37,7 +40,7 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Login',
-  }, //contact us
+  },
   {
     path: '**',
     component: NotFoundComponent,
