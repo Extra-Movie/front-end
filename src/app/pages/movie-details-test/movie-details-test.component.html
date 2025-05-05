@@ -1,0 +1,19 @@
+<div class="btn-sec w-1/2 mx-auto my-4">
+  <a routerLink='/test' class="btn btn-primary w-full">Back To ALl Movies</a>
+</div>
+<div class="p-4 container grid grid-cols-2 gap-1 bg-primary-content justify-center items-center">
+  <div class="left-part w-2/3">
+    <div class="movie-item bg-base-300 text-center p-4 rounded-2xl w-full">
+      <h1 class = "text-md text-primary my-2">{{movieDetails.title}}</h1>
+      <h2 class = "text-sm text-primary my-2">{{movieDetails.release_date}}</h2>
+      <img class="w-full mx-auto my-2" src={{movieDetails.poster_path}} alt="">
+    </div>
+  </div>
+  <div class="right-part bg-secondary-content flex flex-col justify-center w-full text-center p-5">
+    <p class = "text-md text-primary my-2">{{movieDetails.overview}}</p>
+    <h3 class = "text-xl text-primary my-2">Price : {{movieDetails.price}} $</h3>
+  </div>
+</div>
+
+
+
