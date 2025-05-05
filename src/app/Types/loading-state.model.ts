@@ -15,7 +15,10 @@ export interface Loaded<T>
 //case 3
 export interface Errored{
   state:'error',
-  error:'Error'
+  error:any
 }
-export type LoadingState <T> = Loading | Loaded<T> | Errored
+export type LoadingState<T> =
+  | { state: 'loading' }
+  | { state: 'loaded'; data: T }
+  | { state: 'error'; error: string };
 // export as one of these interfaces
