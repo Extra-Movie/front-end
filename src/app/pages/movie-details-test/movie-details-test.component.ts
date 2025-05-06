@@ -27,12 +27,13 @@ export class MovieDetailsTestComponent implements OnInit{
 
   constructor(private movieService:MovieService , private activeRoute :ActivatedRoute , private toast: ToastService ){
     this.movieID = this.activeRoute.snapshot.params['id'];
+
+
   }
 
   ngOnInit(): void {
     this.getMovieAllDetails(this.movieID) ;
   }
- ;
 
 
     //get Movie Details
