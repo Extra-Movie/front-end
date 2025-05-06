@@ -18,7 +18,7 @@
   <span class="bg-amber-100 p-4 mx-auto text-primary text-2xl font-bold my-5 text-center rounded-2xl">Series</span>
   <div class="mx-auto grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
     @for (seriesItem of series; track $index) {
-      <app-media [mediaItem]="{
+      <app-mediacard [mediaItem]="{
         id: seriesItem.id,
         title: seriesItem.title,
         poster_path: seriesItem.poster_path,
@@ -27,7 +27,7 @@
         release_date: seriesItem.release_date,
         price: seriesItem.price,
         type: 'series'
-      }"></app-media>
+      }"></app-mediacard>
     }
   </div>
 </div>

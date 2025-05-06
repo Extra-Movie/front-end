@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaComponent } from '../media/media.component';
+import { MediacardComponent } from '../mediacard/mediacard.component';
 
 interface Movie {
   id: number;
@@ -30,12 +31,11 @@ interface Series {
 @Component({
   selector: 'app-media-list',
   standalone: true,
-  imports: [CommonModule, MediaComponent],
+  imports: [CommonModule, MediaComponent, MediacardComponent],
   templateUrl: './media-list.component.html',
   styles: ``
 })
-export class MediaListComponent {
-  movies: Movie[] = [
+export class MediaListComponent {  movies: Movie[] = [
     {
       id: 1,
       title: 'Inception',
