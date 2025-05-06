@@ -78,3 +78,7 @@ a {
 .container {
   @apply mx-auto p-4 sm:px-6 lg:px-8;
 }
+
+.range{
+  --range-progress:var(--color-primary);
+}
