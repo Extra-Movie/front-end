@@ -4,8 +4,17 @@ export interface registeredUser {
   password: string;
 }
 
-
 export interface loginUser {
-  email: string,
-  password: string,
+  email: string;
+  password: string;
+  rememberMe?: boolean;
 }
+
+export type loginResponse = {
+  token: string;
+};
+
+export type registerResponse = {
+  success: boolean;
+  message: string;
+};
