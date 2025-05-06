@@ -1,0 +1,170 @@
+<!-- filteration section -->
+<div class="container filter-sec grid grid-rows-5">
+  <h1 class="text-primary text-3xl text-left">Filters</h1>
+  <!-- Name Filter status -->
+   <div class="container flex gap-3 justify-start items-center">
+    <input [(ngModel)]="filterMovieStatusObj.nameState"  #search id="search" type="checkbox"  class="checkbox checkbox-primary" />
+    <label for="search">Name</label>
+
+    @if(search.checked)
+   {
+      <div class="search-bar">
+        <label  class="input">
+          <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </g>
+          </svg>
+          <input #serachVal [(ngModel)]="filterMovieValuesObj.nameValue" type="search" class="grow placeholder:text-base-200" placeholder="Search" />
+        </label>
+
+      </div>
+   }
+   </div>
+
+
+
+  <!-- year Filter status -->
+   <div class="container flex gap-3 justify-start items-center">
+    <input [(ngModel)]="filterMovieStatusObj.yearState" #year id="year" type="checkbox"  class="checkbox checkbox-secondary" />
+    <label for="year">Year</label>
+
+    @if(year.checked)
+    {
+      <div class="bg-transparent rounded-xl ">
+
+        <select
+          id="year"
+          name="year"
+          [(ngModel)]="filterMovieValuesObj.yearValue"
+          class="w-full px-4 py-2 border border-secondary rounded-lg "
+          value = "2014"
+        >
+          <option class="text-primary" value="" disabled >-- Choose a Year --</option>
+          <option class="text-primary" *ngFor="let year of years" [value]="year">{{ year }}</option>
+        </select>
+      </div>
+    }
+
+  </div>
+
+  <!-- genre Filter status -->
+   <div class="container flex gap-3 justify-start items-center">
+    <input [(ngModel)]="filterMovieStatusObj.genreState" #genreHead id="genre" type="checkbox"  class="checkbox checkbox-accent" />
+    <label for="genre">Genre</label>
+    @if(genreHead.checked)
+    {
+      <div class="bg-transparent border-1 border-secondary rounded-xl p-2">
+        <input (input) = "fillGenreVal(genre)" #genre list="genres" id="genre" name="genre" placeholder="Type or select a genre"
+         />
+
+        <datalist id="genres" class="w-full" >
+          <option value="Action">
+          <option value="Adventure">
+          <option value="Animation">
+          <option value="Comedy">
+          <option value="Crime">
+          <option value="Documentary">
+          <option value="Drama">
+          <option value="Family">
+          <option value="Fantasy">
+          <option value="History">
+          <option value="Horror">
+          <option value="Music">
+          <option value="Mystery">
+          <option value="Romance">
+          <option value="Science Fiction">
+        </datalist>
+      </div>
+    }
+  </div>
+
+  <!-- vote Filter status -->
+   <div class="container flex gap-3 justify-start items-center">
+    <input [(ngModel)]="filterMovieStatusObj.voteState" #vote id="vote" type="checkbox"  class="checkbox checkbox-neutral" />
+    <label for="vote">Vote</label>
+    @if(vote.checked)
+    {
+      <fieldset class="fieldset">
+        <input [(ngModel)]="filterMovieValuesObj.voteValue" type="number" class="input placeholder:text-base-200" placeholder="vote value" />
+      </fieldset>
+    }
+  </div>
+
+  <!-- popularity Filter status -->
+   <div class="container flex gap-3 justify-start items-center">
+    <input [(ngModel)]="filterMovieStatusObj.popularityState" #popular id="popularity" type="checkbox"  class="checkbox checkbox-info" />
+    <label for="popularity">Popularity</label>
+    @if(popular.checked)
+    {
+      <fieldset class="fieldset">
+        <input [(ngModel)]="filterMovieValuesObj.popularityValue" type="number" class="input placeholder:text-base-200" placeholder="Popular value" />
+      </fieldset>
+    }
+  </div>
+</div>
+
+  <!-- button filter Execute  -->
+   @if(search.checked || year.checked || genreHead.checked || vote.checked || popular.checked )
+   {
+    <div class="btn-sec w-1/2 mx-auto my-5 flex gap-5">
+      <button (click)="executeFilter()" class="btn btn-primary w-1/2">execute filter</button>
+      <button (click)="cancelFilter()" class="btn btn-error w-1/2">Cancel filter</button>
+    </div>
+   }
+
+<div class="flex gap-8 w-1/2 mx-auto my-3">
+  <button (click)="previousPageContent()" class="btn btn-primary">prev Page</button>
+  @if(!filterFlag)
+  {
+    <h1 class = "text-md text-primary my-2"> CurrentPage : {{currentPage}} , total pages : {{totalPages}}</h1>
+  }
+  @else {
+    <h1 class = "text-sm text-primary my-2"> Current filter Page : {{currentFilteredPage}} , total filter pages : {{totalFilteredPages}}</h1>
+  }
+  <button (click)="nextPageContent()" class="btn btn-primary">next Page</button>
+
+</div>
+
+<div class="grid grid-cols-4 gap-4 my-4 container">
+  @if(!filterFlag)
+  {
+    @for (movie of pageMovies; track $index) {
+      <!-- Calling Movie Card here & pass Movie Object  -->
+      <div class="movie-item bg-base-300 text-center p-4 rounded-2xl">
+        <h1 class = "text-md text-primary my-2">{{movie.title}}</h1>
+        <h2 class = "text-sm text-primary my-2">{{movie.release_date}}</h2>
+        <img class="w-3/4 mx-auto my-2" src={{movie.poster_path}} alt="">
+        <a (click)="saveCurrentState()" [routerLink]="['/test', movie._id]" class="btn btn-primary">show Details</a>
+
+      </div>
+    }
+  }
+  @else {
+    <!-- Calling Movie Card here & pass Movie Object  -->
+    @for (movie of filteredPageMovies; track $index) {
+      <!-- Calling Movie Card here & pass Movie Object  -->
+      <div class="movie-item bg-base-300 text-center p-4 rounded-2xl">
+        <h1 class = "text-md text-primary my-2">{{movie.title}}</h1>
+        <h2 class = "text-sm text-primary my-2">{{movie.release_date}}</h2>
+        <img class="w-3/4 mx-auto my-2" src={{movie.poster_path}} alt="">
+        <a (click) ="saveCurrentState()" [routerLink]="['/test', movie._id]" class="btn btn-primary">show Details</a>
+
+      </div>
+    }
+
+  }
+
+</div>
+
+
+
+
+
