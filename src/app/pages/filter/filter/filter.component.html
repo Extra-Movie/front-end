@@ -2,14 +2,14 @@
     <div class="filter-box p-5 rounded-lg bg-base-200 sm:min-w-[300px] md:min-w-[280px] ">
       <div class="flex justify-between w-full pb-3 border-b borber-b-2 border-base-300">
         <div>
-         
+
           <span class="ml-2 font-bold text-xl md:text-xl">Filter</span>
         </div>
-        <button type="button" (click)="clearFilters()" class="btn  btn-outline btn-primary hover:bg-primary hover:text-base-200 transition-all shadow-md">
+        <button type="button" (click)="clearFilters()" class="btn btn-sm btn-outline btn-primary hover:bg-primary hover:text-base-200 transition-all shadow-md">
           Clear All Filters
         </button>
       </div>
-  
+
       <!-- Search -->
       <div class="w-full py-3">
         <label class="input w-full focus:outline-primary input-primary">
@@ -22,7 +22,7 @@
           <input type="search" placeholder="Search Here ..." class="w-full" formControlName="search" />
         </label>
       </div>
-  
+
       <!-- Rating -->
       <div class="pb-3 w-full border-b borber-b-2 border-base-300">
         <label for="vote" class="block text-md font-medium">Rating</label>
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-  
+
       <!-- Popularity -->
       <div class="py-3 w-full border-b borber-b-2 border-base-300 flex flex-col">
         <label class="text-md font-medium mb-2">Popularity</label>
@@ -47,7 +47,7 @@
           <input class="join-item btn text-xs px-3" type="radio" formControlName="popularity" value="Most Popular" aria-label="Most Popular" />
         </div>
       </div>
-  
+
       <!-- Genres -->
       <div class="w-full border-b borber-b-2 border-base-300 flex flex-col" >
         <div class="collapse collapse-arrow ps-0">
@@ -73,7 +73,7 @@
           </div>
         </div>
       </div>
-  
+
       <!-- Release Year -->
       <div class="w-full flex flex-col py-3">
         <label for="year" class="text-md font-medium mb-2">Release Year</label>
@@ -88,11 +88,9 @@
 
       <!-- Save Filters -->
       <button type="submit" class="btn btn-primary w-full mt-4">
-       
-        Save 
         <ng-icon name="faSolidFilter" size="15px" />
+        Filter
       </button>
     </div>
- 
+
   </form>
-  
