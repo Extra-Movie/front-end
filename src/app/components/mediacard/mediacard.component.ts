@@ -17,10 +17,10 @@ export class MediacardComponent {
     price: number;
     type: 'movie' | 'series';
   };
-  addtocart(){
+  addToCart(){
 
   }
-  addtowatchlist(){
+  addToWatchList(){
 
   }
 
