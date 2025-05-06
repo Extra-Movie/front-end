@@ -7,6 +7,8 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
+import { TestMovieComponent } from './pages/test-movie/test-movie.component';
+import { MovieDetailsTestComponent } from './pages/movie-details-test/movie-details-test.component';
 
 export const routes: Routes = [
   {
@@ -17,15 +19,18 @@ export const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
+        title : 'Home'
       },
       {
         path: 'about',
         component: AboutComponent,
+        title : 'About'
       }, //about
       {
         path: 'contact-us',
         component: ContactUsComponent,
-      },
+        title : 'Contact Us'
+      },//contact us
     ],
   },
   {
@@ -37,7 +42,17 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Login',
-  }, //contact us
+  },
+  {
+    path: 'test',
+    component: TestMovieComponent,
+    title: 'test Movie API',
+  },
+  {
+    path: 'test/:id',
+    component: MovieDetailsTestComponent,
+    title: 'Movie Details',
+  },
   {
     path: '**',
     component: NotFoundComponent,
