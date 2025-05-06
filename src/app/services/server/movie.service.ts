@@ -13,7 +13,7 @@ export class MovieService {
   private readonly baseURL: string =
     'https://back-end-production-e1e1.up.railway.app/api';
 
-    private filteredURL! :string ;
+    public filteredURL! :string ;
 
 
   //page number to preview its content
@@ -69,7 +69,7 @@ export class MovieService {
       }
       else
       {
-        this.filteredURL += `/movies?genre=${filterVals.yearValue}`;
+        this.filteredURL += `/movies?genre=${filterVals.genreValue}`;
         previousFlag = true ;
       }
 
@@ -111,9 +111,9 @@ export class MovieService {
   }
 
   //get custom Filtered Page >> can't be called before calling getMovieFilterAll
-  getCustomFilteredPage(pageNo:number)
+  getCustomFilteredPage(pageNo:number) :Observable<any>
   {
-    this.myClinet.get(`${this.filteredURL}&page=${pageNo}`) ;
+    return this.myClinet.get(`${this.filteredURL}&page=${pageNo}`) ;
   }
 
   //not tested yet
