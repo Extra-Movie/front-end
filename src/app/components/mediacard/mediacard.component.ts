@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-mediacard',
+  selector: 'app-mediaCard',
   imports: [],
-  templateUrl: './mediacard.component.html',
+  templateUrl: './mediaCard.component.html',
   styles: ``
 })
-export class MediacardComponent {
+export class MediaCardComponent {
   @Input({ required: true }) mediaItem!: {
     id: number;
     title: string;
