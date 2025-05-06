@@ -81,5 +81,4 @@ a {
 
 .range{
   --range-progress:var(--color-primary);
-  --range-thumb-size:20px;
 }
