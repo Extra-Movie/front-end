@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { DarkModeService } from '../../services/dark-mode.service';
 import { ToasterComponent } from '../../components/toaster/toaster/toaster.component';
 import { ToastService } from '../../services/toast.service';
-import { FilterComponent } from "../filter/filter/filter.component";
+import { FilterComponent } from './../../components/filter/filter/filter.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   imports: [FilterComponent],
 })
+
 export class HomeComponent {
   constructor(private toast: ToastService, private theme: DarkModeService) {}
 
