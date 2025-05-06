@@ -7,7 +7,6 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
-import { MediaListComponent } from './components/media-list/media-list.component';
 
 export const routes: Routes = [
   {
@@ -39,12 +38,6 @@ export const routes: Routes = [
     component: LoginComponent,
     title: 'Login',
   }, //contact us
-
-  {
-    path: 'media-list',
-    component: MediaListComponent,
-    title: 'media list',
-  }, //media list
   {
     path: '**',
     component: NotFoundComponent,
