@@ -26,6 +26,7 @@
     "@ng-icons/heroicons": "^31.3.0",
     "@ng-icons/ionicons": "^31.3.0",
     "@ng-icons/solar-icons": "^31.3.0",
+    "@stripe/stripe-js": "^7.3.0",
     "@tailwindcss/postcss": "^4.1.4",
     "daisyui": "^5.0.28",
     "postcss": "^8.5.3",
