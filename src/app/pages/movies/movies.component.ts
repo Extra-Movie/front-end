@@ -21,7 +21,6 @@ import { LoadingState } from '../../Types/loading-state.model';
   imports: [CommonModule,
     MediaCardComponent ,
     HttpClientModule,
-    RouterLink,
     ReactiveFormsModule,
     FormsModule, FilterComponent],
     providers: [MovieService],
