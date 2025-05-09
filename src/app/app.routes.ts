@@ -7,8 +7,8 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
-import { TestMovieComponent } from './pages/test-movie/test-movie.component';
-import { MovieDetailsTestComponent } from './pages/movie-details-test/movie-details-test.component';
+import { MoviesComponent } from './pages/movies/movies.component';
+import { SeriesComponent } from './pages/series/series.component';
 
 export const routes: Routes = [
   {
@@ -19,18 +19,28 @@ export const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent,
-        title : 'Home'
+        title: 'Home',
       },
       {
         path: 'about',
         component: AboutComponent,
-        title : 'About'
+        title: 'About',
       }, //about
       {
         path: 'contact-us',
         component: ContactUsComponent,
-        title : 'Contact Us'
-      },//contact us
+        title: 'Contact Us',
+      }, //contact us
+      {
+        path: 'movies',
+        component: MoviesComponent,
+        title: 'Movies',
+      }, //Movies
+      {
+        path: 'series',
+        component: SeriesComponent,
+        title: 'Series',
+      }, //Series
     ],
   },
   {
@@ -42,16 +52,6 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Login',
-  },
-  {
-    path: 'test',
-    component: TestMovieComponent,
-    title: 'test Movie API',
-  },
-  {
-    path: 'test/:id',
-    component: MovieDetailsTestComponent,
-    title: 'Movie Details',
   },
   {
     path: '**',
