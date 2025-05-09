@@ -3,11 +3,12 @@ import { DarkModeService } from '../../services/dark-mode.service';
 import { ToasterComponent } from '../../components/toaster/toaster/toaster.component';
 import { ToastService } from '../../services/toast.service';
 import { FilterComponent } from "../filter/filter/filter.component";
+import { FilterModalComponent } from '../filter/filter-modal/filter-modal.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  imports: [FilterComponent],
+  imports: [FilterComponent,FilterModalComponent],
 })
 export class HomeComponent {
   constructor(private toast: ToastService, private theme: DarkModeService) {}
