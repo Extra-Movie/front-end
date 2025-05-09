@@ -5,6 +5,11 @@ import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import {GenresService} from '../../../services/server/genres.service'
+import { LoadingState } from '../../../Types/loading-state.model';
+import { Genre } from '../../../Types/genres.types';
+
+
 @Component({
   selector: 'app-filter',
   imports: [NgIcon,FormsModule,CommonModule,ReactiveFormsModule],
@@ -15,12 +20,64 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class FilterComponent implements OnInit{
 
   filterForm!: FormGroup;
+  movieGenresState!: Genre[];
+  seriesGenresState!: Genre[];
+  currentPath :any;
+ 
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private genresService: GenresService
   ) {}
 
+
+  ngOnInit(): void {
+    this.filterForm = this.fb.group({
+      search: [''],
+      rating: [3],
+      popularity: ['Most Popular'],
+      genre: this.fb.group({
+        action: [false],
+        adventure: [false],
+        drama: [false],
+        comedy: [false]
+      }),
+      year: ['', [Validators.pattern(/^\d{4}$/)]]
+    });
+
+
+    //get movie genres
+    this.genresService.getMovieGenres().subscribe(state => {
+      if (state.state === 'loaded') {
+        this.movieGenresState = state.data;
+    
+        const genreGroup = this.fb.group({});
+        this.movieGenresState.forEach(g => {
+          genreGroup.addControl(g.id.toString(), this.fb.control(false));
+        });
+    
+        this.filterForm.setControl('genre', genreGroup);
+      }
+    });
+    
+
+    //get series genres
+    this.genresService.getSeriesGenres().subscribe(state => {
+      if (state.state === 'loaded') {
+        this.seriesGenresState = state.data;
+      }
+      else if (state.state ==='loading')
+        {}
+      else console.log(state.error);
+    });
+
+
+    this.currentPath = this.router.url.split('?');
+    console.log('Current path:', this.currentPath);
+
+    
+  }
 
   //!--------send all of the form data
   // onSubmit(): void {
@@ -58,13 +115,7 @@ export class FilterComponent implements OnInit{
       const defaultValues = {
         search: '',
         rating: 3,
-        popularity: 'Most Popular',
-        genre: {
-          action: false,
-          adventure: false,
-          drama: false,
-          comedy: false,
-        },
+        popularity: 'Most Popular', 
         year: '',
       };
   
@@ -77,11 +128,10 @@ export class FilterComponent implements OnInit{
       if (raw.year !== defaultValues.year) queryParams.year = raw.year;
   
       if (raw.genre) {
-        const selectedGenres = Object.keys(raw.genre).filter(
-          (key) => raw.genre[key]
-        );
-        if (selectedGenres.length > 0) {
-          queryParams.genres = selectedGenres.join(',');
+        const selectedGenreIds = Object.keys(raw.genre).filter(key => raw.genre[key]);
+
+        if (selectedGenreIds.length > 0) {
+          queryParams.genres = selectedGenreIds.join(',');
         }
       }
   
@@ -117,21 +167,6 @@ export class FilterComponent implements OnInit{
   
   
 
-  ngOnInit(): void {
-    this.filterForm = this.fb.group({
-      search: [''],
-      rating: [3],
-      popularity: ['Most Popular'],
-      genre: this.fb.group({
-        action: [false],
-        adventure: [false],
-        drama: [false],
-        comedy: [false]
-      }),
-      year: ['', [Validators.pattern(/^\d{4}$/)]]
-    });
-
-  
-  }
+ 
 
 }
