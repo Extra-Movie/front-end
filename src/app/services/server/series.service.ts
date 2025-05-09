@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { LoadingState } from '../../Types/loading-state.model';
-import { Series } from '../../Types/series.model';
+import { Series , SeriesResponseType,SeriesFilteredValuesType} from '../../Types/series.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,26 +13,31 @@ export class SeriesService {
 
   constructor(private http: HttpClient) { }
 
-    getAllSeries(page: number = 1, search: string = '',year:string='',popularity:number=0,vote_average:number=0): Observable<LoadingState<Series[]>>{
+    getAllSeries(page: number = 1, filterVal:SeriesFilteredValuesType): Observable<LoadingState<SeriesResponseType>>{
 
-    let params = new HttpParams().set('page', page.toString());
-    if (search){
-      params = params.set('search', search);
+    let params = new HttpParams().set('page', page);
+    //search
+    if (filterVal.nameValue){
+      params = params.set('search', filterVal.nameValue);
     }
     //  `${year}-04-28`
-    if (year){
-      params = params.set('year', year);
+    if (filterVal.yearValue){
+      params = params.set('year', filterVal.yearValue);
     }
-    if (popularity){
-      params = params.set('popularity', popularity.toString());
+    if (filterVal.popularityValue){
+      params = params.set('popularity', filterVal.popularityValue);
     }
-    if (vote_average){
-      params = params.set('vote_average', vote_average.toString());
+    if (filterVal.voteValue){
+      params = params.set('vote_average', filterVal.voteValue);
     }
+    if (filterVal.genreValue){
+      params = params.set('genre', filterVal.genreValue);
+    }
+
 
     return this.http.get<any>(this.URL, { params}).pipe(
       map(response => {
-        const data: Series[] = response.tvShows;
+        const data: SeriesResponseType = response;
         console.log('series loaded now:', data);
         return { state: 'loaded', data } as const;
       }),
