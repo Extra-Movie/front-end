@@ -1,0 +1,38 @@
+<section class="hero-section relative flex items-center w-full min-h-[500px] h-auto sm:h-[calc(100vh-4rem)] bg-gradient-to-br from-gray-50 to-gray-100 dark:from-black dark:to-gray-900 overflow-hidden py-8 sm:py-0">
+
+  <!-- Background pattern -->
+  <div class="absolute inset-0 opacity-10 dark:opacity-20">
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 bg-primary/20 rounded-full blur-3xl"></div>
+  </div>
+  <div class="container mx-auto px-4 md:px-8 z-10">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-12">
+
+      <!-- Text content -->
+      <div class="w-full md:w-1/2 space-y-4 sm:space-y-6 text-center md:text-left">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white leading-tight">
+          Discover Your Next <span class="text-primary">Favorite</span> Entertainment
+        </h1>
+        <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-xl">
+          Explore thousands of movies and serieses all in one place. Find what to watch next with our curated collections and personalized recommendations.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start">
+          <button class="btn btn-primary btn-lg" (click)="explorenow()">Explore Now</button>
+          <button class="btn btn-outline btn-lg" (click)="learnmore()">Learn More</button>
+        </div>
+      </div>
+
+      <!-- Image/Visual element -->
+      <div class="w-full md:w-1/2 relative mt-6 md:mt-0">
+        <div class="relative aspect-[4/3] sm:aspect-video md:aspect-square max-w-lg mx-auto">
+          <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-2xl -rotate-6 transform-gpu"></div>
+          <div class="absolute inset-0 bg-gray-300 dark:bg-gray-800 rounded-2xl rotate-4 transform-gpu shadow-xl"></div>
+          <div class="relative h-full w-full rounded-xl overflow-hidden shadow-2xl">
+            <img src="/images/Hero-Section.avif" class="object-cover h-full w-full"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
