@@ -17,3 +17,22 @@ overview:	string;
 price:	number;
 number_of_purchases:number;
 }
+
+export interface SeriesResponseType
+{
+  tvShows : Series[] ,
+  page : number ,
+  totalPages : number ,
+  totalSeries : number
+}
+
+export type SeriesFilteredValuesType = {
+
+  //Values To Apply Filteration
+  nameValue : string ,
+  yearValue : string ,
+  genreValue : number ,
+  voteValue : number ,
+  popularityValue : number
+}
+
