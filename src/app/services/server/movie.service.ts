@@ -1,7 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { MovieGenreType , MovieFilteredValuesType,MovieType,MovieFilterStatusType } from '../../Types/Movie.types';
+import { MovieGenreType , MovieFilteredValuesType,MovieType,MovieResponseType } from '../../Types/Movie.types';
+import {LoadingState} from '../../Types/loading-state.model';
+import { catchError, map, startWith } from 'rxjs/operators';
 
 
 @Injectable({
@@ -11,110 +13,152 @@ export class MovieService {
   constructor(private myClinet: HttpClient) {}
 
   private readonly baseURL: string =
-    'https://back-end-production-e1e1.up.railway.app/api';
+    'https://back-end-production-e1e1.up.railway.app/api/movies';
 
     public filteredURL! :string ;
 
 
   //page number to preview its content
-  getMoviesCustomPage(pagenumber: number = 1) :Observable<any> {
-    return this.myClinet.get(`${this.baseURL}/movies?page=${pagenumber}`);
+  getAllMovies(pageNumber: number = 1 ,
+    filterVals:MovieFilteredValuesType={nameValue:'',yearValue:'',genreValue:0,voteValue:0,popularityValue:0} ) :Observable<LoadingState<MovieResponseType>> {
+
+      //page no
+      let params = new HttpParams().set('page',pageNumber) ;
+      //search
+      if(filterVals.nameValue)
+      {
+        params = params.set('search',filterVals.nameValue) ;
+      }
+      //year
+      if(filterVals.yearValue)
+      {
+        params = params.set('year',filterVals.yearValue) ;
+      }
+      //genre
+      if(filterVals.genreValue)
+      {
+        params = params.set('genre',filterVals.genreValue) ;
+      }
+      //vote_average
+      if(filterVals.voteValue)
+      {
+        params = params.set('vote_average',filterVals.voteValue) ;
+      }
+      //popularity
+      if(filterVals.popularityValue)
+      {
+        params = params.set('popularity',filterVals.popularityValue) ;
+      }
+
+
+    return this.myClinet.get<any>(this.baseURL,{params}).pipe(
+      map( response => {
+        const data: MovieResponseType = response;
+        console.log('Movies loaded now:', data);
+        return { state: 'loaded', data } as const;
+      }),
+      catchError(error => {
+      console.error('error loading Movies:', error);
+      return of({ state: 'error', error } as const);
+      }),
+      startWith({ state: 'loading' } as const)
+    );
   }
 
   getMovieGeners() :Observable<any> {
-    return  this.myClinet.get(`${this.baseURL}/genres/movie`);
+    return  this.myClinet.get(`https://back-end-production-e1e1.up.railway.app/api/genres/movie`);
   }
 
   //need _id to be Passed >> string
   getMovieDetails(movie_id :string ) :Observable<any> {
-    return  this.myClinet.get(`${this.baseURL}/movies/${movie_id}`);
+    return  this.myClinet.get(`${this.baseURL}/${movie_id}`);
   }
 
   // {object contains status} , {object contain values}
-  // getMovieFilterAll(filterStatus:MovieFilterStatusType ,filterVals : MovieFilteredValuesType ):void {
 
-  getMovieFilterAll(filterStatus:MovieFilterStatusType ,filterVals : MovieFilteredValuesType ):Observable<any> {
 
-    this.filteredURL = this.baseURL ;
-    let previousFlag = false ;
+  // getMovieFilterAll(filterStatus:MovieFilterStatusType ,filterVals : MovieFilteredValuesType ):Observable<any> {
 
-    //check search first
-    if(filterStatus.nameState)
-    {
-      this.filteredURL += `/movies?search=${filterVals.nameValue}`;
-      previousFlag = true ;
-    }
+  //   this.filteredURL = this.baseURL ;
+  //   let previousFlag = false ;
 
-    //year filter
-    if(filterStatus.yearState)
-    {
-      if(previousFlag===true)
-      {
-        this.filteredURL += `&year=${filterVals.yearValue}`;
-      }
-      else
-      {
-        this.filteredURL += `/movies?year=${filterVals.yearValue}`;
-        previousFlag = true ;
-      }
+  //   //check search first
+  //   if(filterStatus.nameState)
+  //   {
+  //     this.filteredURL += `?search=${filterVals.nameValue}`;
+  //     previousFlag = true ;
+  //   }
 
-    }
+  //   //year filter
+  //   if(filterStatus.yearState)
+  //   {
+  //     if(previousFlag===true)
+  //     {
+  //       this.filteredURL += `&year=${filterVals.yearValue}`;
+  //     }
+  //     else
+  //     {
+  //       this.filteredURL += `?year=${filterVals.yearValue}`;
+  //       previousFlag = true ;
+  //     }
 
-    //genre filter
-    if(filterStatus.genreState)
-    {
-      if(previousFlag===true)
-      {
-        this.filteredURL += `&genre=${filterVals.genreValue}`;
-      }
-      else
-      {
-        this.filteredURL += `/movies?genre=${filterVals.genreValue}`;
-        previousFlag = true ;
-      }
+  //   }
 
-    }
+  //   //genre filter
+  //   if(filterStatus.genreState)
+  //   {
+  //     if(previousFlag===true)
+  //     {
+  //       this.filteredURL += `&genre=${filterVals.genreValue}`;
+  //     }
+  //     else
+  //     {
+  //       this.filteredURL += `?genre=${filterVals.genreValue}`;
+  //       previousFlag = true ;
+  //     }
 
-    //vote_average filter
-    if(filterStatus.voteState)
-    {
-      if(previousFlag===true)
-      {
-        this.filteredURL += `&vote_average=${filterVals.voteValue}`;
-      }
-      else
-      {
-        this.filteredURL += `/movies?vote_average=${filterVals.voteValue}`;
-        previousFlag = true ;
-      }
+  //   }
 
-    }
+  //   //vote_average filter
+  //   if(filterStatus.voteState)
+  //   {
+  //     if(previousFlag===true)
+  //     {
+  //       this.filteredURL += `&vote_average=${filterVals.voteValue}`;
+  //     }
+  //     else
+  //     {
+  //       this.filteredURL += `/movies?vote_average=${filterVals.voteValue}`;
+  //       previousFlag = true ;
+  //     }
 
-    //popularity filter
-    if(filterStatus.popularityState)
-    {
-      if(previousFlag===true)
-      {
-        this.filteredURL += `&popularity=${filterVals.popularityValue}`;
-      }
-      else
-      {
-        this.filteredURL += `/movies?popularity=${filterVals.popularityValue}`;
-        previousFlag = true ;
-      }
+  //   }
 
-    }
+  //   //popularity filter
+  //   if(filterStatus.popularityState)
+  //   {
+  //     if(previousFlag===true)
+  //     {
+  //       this.filteredURL += `&popularity=${filterVals.popularityValue}`;
+  //     }
+  //     else
+  //     {
+  //       this.filteredURL += `/movies?popularity=${filterVals.popularityValue}`;
+  //       previousFlag = true ;
+  //     }
 
-    console.log(this.filteredURL);
+  //   }
 
-    return this.myClinet.get(this.filteredURL);
-  }
+  //   console.log(this.filteredURL);
 
-  //get custom Filtered Page >> can't be called before calling getMovieFilterAll
-  getCustomFilteredPage(pageNo:number) :Observable<any>
-  {
-    return this.myClinet.get(`${this.filteredURL}&page=${pageNo}`) ;
-  }
+  //   return this.myClinet.get(this.filteredURL);
+  // }
+
+  // //get custom Filtered Page >> can't be called before calling getMovieFilterAll
+  // getCustomFilteredPage(pageNo:number) :Observable<any>
+  // {
+  //   return this.myClinet.get(`${this.filteredURL}&page=${pageNo}`) ;
+  // }
 
   //not tested yet
   //add new movie when user admin

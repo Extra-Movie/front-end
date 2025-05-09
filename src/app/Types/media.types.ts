@@ -1,10 +1,10 @@
 export interface Mediaitems {
-  id: number;
+  id: string;
   title: string;
   overview: string;
   poster_path: string;
   popularity: number;
-  release_date: number;
+  release_date: string;
   price: number;
 
 }

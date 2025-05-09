@@ -32,14 +32,8 @@ export type MovieGenreType = {
   name :	string
 }
 
-export type MovieFilterStatusType = {
-
-  //true => will Apply filter with it
-  nameState : boolean ,
-  yearState : boolean ,
-  genreState : boolean ,
-  voteState : boolean ,
-  popularityState : boolean
+export interface MovieGenreMatchType {
+  [key: string]: number;
 }
 
 export type MovieFilteredValuesType = {
