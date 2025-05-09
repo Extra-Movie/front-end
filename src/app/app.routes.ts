@@ -10,6 +10,11 @@ import { LoginComponent } from './pages/login/login.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { SeriesComponent } from './pages/series/series.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { AdminMoviesComponent } from './pages/admin-movies/admin-movies.component';
+import { AdminSeriesComponent } from './pages/admin-series/admin-series.component';
+import { AdminUsersComponent } from './pages/admin-users/admin-users.component';
+import { AdminMainComponent } from './pages/admin-main/admin-main.component';
 
 export const routes: Routes = [
   {
@@ -58,6 +63,34 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     title: 'Login',
+  },
+  {
+    path: 'dashboard',
+    title: 'Dashboard',
+    component: DashboardComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'main',
+        pathMatch: 'full',
+      },
+      {
+        path: 'main',
+        component: AdminMainComponent,
+      },
+      {
+        path: 'movies',
+        component: AdminMoviesComponent,
+      },
+      {
+        path: 'series',
+        component: AdminSeriesComponent,
+      },
+      {
+        path: 'users',
+        component: AdminUsersComponent,
+      },
+    ],
   },
   {
     path: '**',
