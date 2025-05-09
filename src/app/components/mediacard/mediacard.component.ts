@@ -7,7 +7,7 @@ import {Series} from '../../Types/series.model' ;
 @Component({
   selector: 'app-mediaCard',
   imports: [],
-  templateUrl: './mediaCard.component.html',
+  templateUrl: './mediacard.component.html',
   styles: ``
 })
 export class MediaCardComponent {
