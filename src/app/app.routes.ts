@@ -7,6 +7,7 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { MoviesComponent } from './pages/movies/movies.component';
 import { SeriesComponent } from './pages/series/series.component';
 
@@ -30,6 +31,11 @@ export const routes: Routes = [
         path: 'contact-us',
         component: ContactUsComponent,
         title: 'Contact Us',
+      }, //contact us
+      {
+        path: 'checkout',
+        component: CheckoutComponent,
+        title: 'Checkout',
       }, //contact us
       {
         path: 'movies',

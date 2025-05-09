@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { loginResponse, loginUser, registeredUser, registerResponse } from '../Types/Authentication.types';
+import {
+  loginResponse,
+  loginUser,
+  registeredUser,
+  registerResponse,
+} from '../Types/Authentication.types';
 import { RequestStateService } from './apiRequest.service';
 import { tap } from 'rxjs';
 
@@ -11,7 +16,9 @@ import { tap } from 'rxjs';
 export class AuthService {
   private http = inject(HttpClient);
   private authUrl = environment.apiUrl + '/auth'; // URL to web api
-  private _token = signal<string | null>(localStorage.getItem('token'));
+  private _token = signal<string | null>(
+    localStorage.getItem('token') || sessionStorage.getItem('token') || null
+  );
   readonly token = this._token.asReadonly();
 
   isLoggedIn = computed(() => !this.token());
@@ -23,10 +30,12 @@ export class AuthService {
 
   //#region Token Management
   private setToken(token: string, rememberMe: boolean) {
+    this._token.set(token);
     if (rememberMe) localStorage.setItem('token', token);
     else sessionStorage.setItem('token', token);
   }
   private removeToken() {
+    this._token.set(null);
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
   }
@@ -74,4 +83,3 @@ export class AuthService {
     this.registerState.reset();
   }
 }
-
