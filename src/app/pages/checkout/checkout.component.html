@@ -1,0 +1,51 @@
+<main class="container mx-auto my-10">
+  <h1 class="text-5xl font-extrabold text-accent mb-6">Checkout</h1>
+  <main class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <!-- Loading till getting the form -->
+    @if (!payment.paymentElementReady()) {
+    <span class="loading loading-spinner loading-xl text-accent block place-self-center"></span>
+    }
+    <!-- The Payment Form -->
+    <form (submit)="handlePaymentSubmit($event)" id="payment-form" action="" [ngClass]="{'block': payment.paymentElementReady(),
+        'hidden': !payment.paymentElementReady() }" class="space-y-4">
+      <div class="space-y-3">
+        <div id="payment-element" class="w-full"></div>
+      </div>
+      <button type="submit" [disabled]="isSubmitting()" class="btn btn-primary w-full">
+        <ng-container *ngIf="!isSubmitting()">
+          <ng-icon name="faSolidCreditCard" size="16"></ng-icon>
+          <span>Pay {{ currencyFormatter(cartService.cartTotalPrice()) }}</span>
+        </ng-container>
+        <span *ngIf="isSubmitting()">
+          <span class="loading loading-spinner loading-sm"></span>
+          <span>Processing...</span>
+        </span>
+      </button>
+    </form>
+    <!-- The Cart Items -->
+    <aside class="bg-base-200 p-4 rounded-2xl flex gap-2 flex-col">
+      <h2 class="text-3xl text-primary font-bold ">Summary</h2>
+      <div class="flex-1">
+        @for (media of cartService.cart(); track media._id) {
+        <div class="flex items-center py-2 border-b border-b-neutral/10 last:border-b-0">
+          <div class="flex-1">
+            <h3 class="font-semibold">{{media.title }}</h3>
+            <span class="text-gray-600 dark:text-gray-400 font-semibold text-sm">{{ currencyFormatter( media.price)
+              }}</span>
+          </div>
+          <img [src]="media.poster_path" alt="{{ media?.title }}"
+            class="w-16 h-16 object-cover object-center rounded-lg mr-4">
+          <button class="btn btn-secondary btn-sm btn-circle" (click)="cartService.removeFromCart(media)">
+            <ng-icon name="faSolidXmark" size="16" strokeWidth=".5"></ng-icon>
+          </button>
+        </div>
+        }
+      </div>
+      <div class="flex items-center justify-between mt-4 border-t pt-4">
+        <span class="text-lg font-semibold">Total:</span>
+        <span class="text-2xl font-bold text-accent text-shadow-xs text-shadow-neutral/50">{{currencyFormatter(
+          cartService.cartTotalPrice()) }}</span>
+      </div>
+    </aside>
+  </main>
+</main>
