@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DarkModeService } from '../../services/dark-mode.service';
 import { ToasterComponent } from '../../components/toaster/toaster/toaster.component';
 import { ToastService } from '../../services/toast.service';
+
 import { FilterComponent } from './../../components/filter/filter/filter.component';
 import { MovieService } from '../../services/server/movie.service';
 
@@ -9,10 +10,14 @@ import{MovieGenreType,MovieGenreMatchType} from '../../Types/Movie.types' ;
 import { HttpClientModule } from '@angular/common/http';
 
 
+import { CommonModule } from '@angular/common';
+import { HeroComponent } from '../../components/hero/hero.component';
+
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  imports: [FilterComponent,HttpClientModule],
+  imports: [FilterComponent,HttpClientModule, CommonModule,HeroComponent],
 })
 
 export class HomeComponent implements OnInit {
