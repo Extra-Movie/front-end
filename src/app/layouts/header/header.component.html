@@ -25,24 +25,14 @@
 
 
     </div>
-    <div class="actions hidden lg:flex gap-4">
+    <div class="actions hidden lg:flex gap-4 items-center">
       <!-- Search -->
       <label class="input input-primary bg-transparent">
         <ng-icon name="ionSearch" />
         <input type="search" placeholder="Search..." />
       </label>
-
       <!-- Icons & Button -->
-      <label
-        class="swap text-2xl hover:text-primary transition-all cursor-pointer hover:text-shadow-[0px_0px_10px_var(--color-primary)] swap-rotate">
-        <!-- this hidden checkbox controls the state -->
-        <input type="checkbox" [checked]="darkMode" (input)="toggleDarkMode()" />
-        <!-- sun icon -->
-        <ng-icon class="swap-off" name="solarMoonStarsBold" />
-        <!-- moon icon -->
-        <ng-icon class="swap-on" name="solarSun2Bold" />
-
-      </label>
+      <app-theme-button />
       <button
         class="text-2xl hover:text-primary transition-all cursor-pointer hover:text-shadow-[0px_0px_10px_var(--color-primary)]">
         <ng-icon name="faSolidCartShopping" />
@@ -94,15 +84,7 @@
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Series</a>
       </li>
       <li class="flex space-x-5 justify-between">
-        <label
-          class="swap text-2xl hover:text-primary transition-all cursor-pointer hover:text-shadow-[0px_0px_10px_var(--color-primary)] swap-rotate">
-          <!-- this hidden checkbox controls the state -->
-          <input type="checkbox" [checked]="darkMode" (input)="toggleDarkMode()" />
-          <!-- sun icon -->
-          <ng-icon class="swap-off" name="solarMoonStarsBold" />
-          <!-- moon icon -->
-          <ng-icon class="swap-on" name="solarSun2Bold" />
-        </label>
+        <app-theme-button />
         <button
           class="text-2xl hover:text-primary transition-all cursor-pointer hover:text-shadow-[0px_0px_10px_var(--color-primary)]">
           <ng-icon name="faSolidCartShopping" />

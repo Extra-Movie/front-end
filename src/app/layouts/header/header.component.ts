@@ -6,9 +6,10 @@ import { solarMoonStarsBold, solarSun2Bold } from '@ng-icons/solar-icons/bold';
 import { ionSearch } from '@ng-icons/ionicons';
 import { DarkModeService } from '../../services/dark-mode.service';
 import { RouterLink } from '@angular/router';
+import { ThemeButtonComponent } from "../../components/theme-button/theme-button.component";
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, NgIcon, RouterLink],
+  imports: [CommonModule, NgIcon, RouterLink, ThemeButtonComponent],
   templateUrl: './header.component.html',
   styles: ``,
   viewProviders: [
@@ -22,18 +23,9 @@ import { RouterLink } from '@angular/router';
 })
 export class HeaderComponent {
   menuOpen = false;
-  darkMode = false;
-  constructor(private theme: DarkModeService) {
-    theme.darkMode$.subscribe((mode) => {
-      this.darkMode = mode === 'dark';
-    });
-  }
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
-  toggleDarkMode() {
-    this.theme.toggleDarkMode();
-  }
 }
