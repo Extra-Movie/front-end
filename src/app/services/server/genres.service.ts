@@ -20,7 +20,7 @@ export class GenresService {
   seriesGenres: Genre[] = [];
   
   private URLMovies = 'https://back-end-production-e1e1.up.railway.app/api/genres/movie';
-  private URLSeries = 'https://back-end-production-e1e1.up.railway.app/api/genres/tvshow';
+  private URLSeries = 'https://back-end-production-e1e1.up.railway.app/api/genres/tv';
 
   constructor(private http: HttpClient) {}
 
