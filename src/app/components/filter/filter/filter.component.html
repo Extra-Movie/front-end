@@ -29,7 +29,7 @@
         <div class="w-full max-w-xs">
           <input type="range" min="0" max="5" step="1" class="range range-xs" formControlName="rating" />
           <div class="flex justify-between px-2.5 mt-2 text-xs">
-            <span>1</span>
+            <span>0</span>
             <span class="invisible">2</span>
             <span class="invisible">3</span>
             <span class="invisible">4</span>
@@ -53,40 +53,17 @@
         <div class="collapse collapse-arrow ps-0">
           <input type="checkbox" class="ps-0" />
           <div class="collapse-title text-md font-medium ps-0">Genres</div>
-          <div formGroupName="genre" *ngIf="movieGenresState" class="collapse-content text-sm">
-            @for (genre of movieGenresState; track $index) {
+          <div  *ngIf="genresState" class="collapse-content text-sm">
+            @for (genre of genresState; track $index) {
               <div class="flex items-center gap-2 my-2 place-self-start">
-                <input type="checkbox" id="{{ genre.name}}" class="checkbox checkbox-sm checkbox-secondary" [formControlName]="genre.id.toString()"/>
-                <label for="{{ genre.name}}" class="text-sm cursor-pointer">{{ genre.name}}</label>
+                <input type="radio" id="{{ genre.name}}" class="radio radio-xs radio-secondary hidden" value="{{genre.id}}"  formControlName="genre"/>
+                <label for="{{ genre.name}}" class="text-sm cursor-pointer"  [ngClass]="{
+        'text-primary font-bold': filterForm.get('genre')?.value == genre.id,
+        'text-base-content': filterForm.get('genre')?.value != genre.id}">{{ genre.name}}</label>
               </div>
             }
           
-          </div>
-          <!-- @if (currentPath[0] === '/home') {
-            <div formGroupName="genre" *ngIf="movieGenresState" class="collapse-content text-sm">
-              @for (genre of movieGenresState; track $index) {
-                <div class="flex items-center gap-2 my-2 place-self-start">
-                  <input type="checkbox" id="{{ genre.name}}" class="checkbox checkbox-sm checkbox-secondary" [formControlName]="genre.id.toString()"/>
-                  <label for="{{ genre.name}}" class="text-sm cursor-pointer">{{ genre.name}}</label>
-                </div>
-              }
-            
-            </div>
-          }
-            @if (currentPath === '/series') {
-              <div formGroupName="genre" *ngIf="seriesGenresState" class="collapse-content text-sm">
-                @for (genre of movieGenresState; track $index) {
-                  <div class="flex items-center gap-2 my-2 place-self-start">
-                    <input type="checkbox" id="{{ genre.name}}" class="checkbox checkbox-sm checkbox-secondary" [formControlName]="genre.id.toString()"/>
-                    <label for="{{ genre.name}}" class="text-sm cursor-pointer">{{ genre.name}}</label>
-                  </div>
-                }
-              
-              </div>
-            }
-             -->
-        
-          
+          </div>         
         </div>
       </div>
 
