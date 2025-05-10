@@ -69,96 +69,23 @@ export class MovieService {
     return  this.myClinet.get(`https://back-end-production-e1e1.up.railway.app/api/genres/movie`);
   }
 
+  // return  this.myClinet.get(`${this.baseURL}/${movie_id}`);
+
   //need _id to be Passed >> string
-  getMovieDetails(movie_id :string ) :Observable<any> {
-    return  this.myClinet.get(`${this.baseURL}/${movie_id}`);
+  getMovieDetails(movie_id :string ) :Observable<LoadingState<any>> {
+    return this.myClinet.get(`${this.baseURL}/${movie_id}`).pipe(
+      map( response => {
+        const data:any = response;
+        console.log('One Movie loaded now:', data);
+        return { state: 'loaded', data } as const;
+      }),
+      catchError(error => {
+      console.error('error loading Movie', error);
+      return of({ state: 'error', error } as const);
+      }),
+      startWith({ state: 'loading' } as const)
+    );
   }
-
-  // {object contains status} , {object contain values}
-
-
-  // getMovieFilterAll(filterStatus:MovieFilterStatusType ,filterVals : MovieFilteredValuesType ):Observable<any> {
-
-  //   this.filteredURL = this.baseURL ;
-  //   let previousFlag = false ;
-
-  //   //check search first
-  //   if(filterStatus.nameState)
-  //   {
-  //     this.filteredURL += `?search=${filterVals.nameValue}`;
-  //     previousFlag = true ;
-  //   }
-
-  //   //year filter
-  //   if(filterStatus.yearState)
-  //   {
-  //     if(previousFlag===true)
-  //     {
-  //       this.filteredURL += `&year=${filterVals.yearValue}`;
-  //     }
-  //     else
-  //     {
-  //       this.filteredURL += `?year=${filterVals.yearValue}`;
-  //       previousFlag = true ;
-  //     }
-
-  //   }
-
-  //   //genre filter
-  //   if(filterStatus.genreState)
-  //   {
-  //     if(previousFlag===true)
-  //     {
-  //       this.filteredURL += `&genre=${filterVals.genreValue}`;
-  //     }
-  //     else
-  //     {
-  //       this.filteredURL += `?genre=${filterVals.genreValue}`;
-  //       previousFlag = true ;
-  //     }
-
-  //   }
-
-  //   //vote_average filter
-  //   if(filterStatus.voteState)
-  //   {
-  //     if(previousFlag===true)
-  //     {
-  //       this.filteredURL += `&vote_average=${filterVals.voteValue}`;
-  //     }
-  //     else
-  //     {
-  //       this.filteredURL += `/movies?vote_average=${filterVals.voteValue}`;
-  //       previousFlag = true ;
-  //     }
-
-  //   }
-
-  //   //popularity filter
-  //   if(filterStatus.popularityState)
-  //   {
-  //     if(previousFlag===true)
-  //     {
-  //       this.filteredURL += `&popularity=${filterVals.popularityValue}`;
-  //     }
-  //     else
-  //     {
-  //       this.filteredURL += `/movies?popularity=${filterVals.popularityValue}`;
-  //       previousFlag = true ;
-  //     }
-
-  //   }
-
-  //   console.log(this.filteredURL);
-
-  //   return this.myClinet.get(this.filteredURL);
-  // }
-
-  // //get custom Filtered Page >> can't be called before calling getMovieFilterAll
-  // getCustomFilteredPage(pageNo:number) :Observable<any>
-  // {
-  //   return this.myClinet.get(`${this.filteredURL}&page=${pageNo}`) ;
-  // }
 
   //not tested yet
   //add new movie when user admin
