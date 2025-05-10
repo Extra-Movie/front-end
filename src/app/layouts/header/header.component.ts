@@ -4,12 +4,12 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidCartShopping } from '@ng-icons/font-awesome/solid';
 import { solarMoonStarsBold, solarSun2Bold } from '@ng-icons/solar-icons/bold';
 import { ionSearch } from '@ng-icons/ionicons';
-import { DarkModeService } from '../../services/dark-mode.service';
 import { RouterLink } from '@angular/router';
 import { ThemeButtonComponent } from "../../components/theme-button/theme-button.component";
+import { CartComponent } from "../../components/cart/cart.component";
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, NgIcon, RouterLink, ThemeButtonComponent],
+  imports: [CommonModule, NgIcon, RouterLink, ThemeButtonComponent, CartComponent],
   templateUrl: './header.component.html',
   styles: ``,
   viewProviders: [
