@@ -17,6 +17,7 @@ import { MovieGenreMatchType } from '../../Types/Movie.types';
     CommonModule,
     MediaCardComponent,
     HttpClientModule,
+    RouterLink,
     ReactiveFormsModule,
     FormsModule,
     FilterComponent,

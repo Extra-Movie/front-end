@@ -1,12 +1,14 @@
 import { Component, Input } from '@angular/core';
 import {MovieType} from '../../Types/Movie.types' ;
 import {Series} from '../../Types/series.model' ;
+import { RouterLink } from '@angular/router';
 
+RouterLink
 
 
 @Component({
   selector: 'app-mediaCard',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './mediacard.component.html',
   styles: ``
 })
@@ -34,6 +36,15 @@ export class MediaCardComponent {
       return this.mediaItem.original_name;
     }
     return 'Unknown Title';
+  }
+
+  //direct To path
+
+  directToPath(): string {
+    if ('title' in this.mediaItem) {
+      return `/movies/${this.mediaItem._id}`;
+    }
+    return `/series/${this.mediaItem._id}`;
   }
 
   addToCart(){
