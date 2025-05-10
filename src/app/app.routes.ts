@@ -15,6 +15,10 @@ import { AdminMoviesComponent } from './pages/admin-movies/admin-movies.componen
 import { AdminSeriesComponent } from './pages/admin-series/admin-series.component';
 import { AdminUsersComponent } from './pages/admin-users/admin-users.component';
 import { AdminMainComponent } from './pages/admin-main/admin-main.component';
+import { MoviesTableComponent } from './pages/movies-table/movies-table.component';
+import { SeriesTableComponent } from './pages/series-table/series-table.component';
+import { AddMovieComponent } from './pages/add-movie/add-movie.component';
+import { AddSeriesComponent } from './pages/add-series/add-series.component';
 
 export const routes: Routes = [
   {
@@ -80,16 +84,23 @@ export const routes: Routes = [
       },
       {
         path: 'movies',
-        component: AdminMoviesComponent,
+        component: AdminMoviesComponent,children:[
+           { path: 'movies-table', component: MoviesTableComponent },
+           { path: 'add-movie', component: AddMovieComponent },
+        ]
       },
       {
         path: 'series',
-        component: AdminSeriesComponent,
+        component: AdminSeriesComponent,children:[
+          { path: 'series-table', component: SeriesTableComponent },
+          { path: 'add-series', component: AddSeriesComponent },
+        ]
       },
       {
         path: 'users',
         component: AdminUsersComponent,
       },
+
     ],
   },
   {

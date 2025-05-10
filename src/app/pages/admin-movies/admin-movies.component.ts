@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-
+import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-admin-movies',
-  imports: [],
+  imports: [RouterModule
+
+  ],
   templateUrl: './admin-movies.component.html',
   styles: ``
 })
