@@ -15,6 +15,8 @@ import { AdminMoviesComponent } from './pages/admin-movies/admin-movies.componen
 import { AdminSeriesComponent } from './pages/admin-series/admin-series.component';
 import { AdminUsersComponent } from './pages/admin-users/admin-users.component';
 import { AdminMainComponent } from './pages/admin-main/admin-main.component';
+import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
+import { SeriesDetailsComponent } from './pages/series-details/series-details.component';
 
 export const routes: Routes = [
   {
@@ -48,10 +50,20 @@ export const routes: Routes = [
         title: 'Movies',
       }, //Movies
       {
+        path: 'movies/:id',
+        component: MovieDetailsComponent,
+        title: 'Movie Details',
+      }, //Movies Details
+      {
         path: 'series',
         component: SeriesComponent,
         title: 'Series',
       }, //Series
+      {
+        path: 'series/:id',
+        component: SeriesDetailsComponent,
+        title: 'Series Details',
+      }, //Series Details
     ],
   },
   {
