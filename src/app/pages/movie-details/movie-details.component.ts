@@ -32,7 +32,7 @@ export class MovieDetailsComponent implements OnInit {
   relatedMovies!: MovieType[];
   displayedRelatedMovies: MovieType[] = [];
   movieResponse!: MovieResponseType;
-  totalRelatedMovies: number = 6;
+  totalRelatedMovies: number = 4;
   formatCurrency = currencyFormatter;
 
   filterMovieValuesObj: MovieFilteredValuesType = {

@@ -4,22 +4,28 @@ import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { LoadingState } from '../../Types/loading-state.model';
-import { Genre } from "../../Types/genres.types";
-import { Series, SeriesFilteredValuesType, SeriesResponseType } from "../../Types/series.model";
+import { Genre } from '../../Types/genres.types';
+import {
+  Series,
+  SeriesFilteredValuesType,
+  SeriesResponseType,
+} from '../../Types/series.model';
 import { GenresService } from '../../services/server/genres.service';
 import { MediaCardComponent } from '../../components/mediacard/mediacard.component';
 import { SeriesService } from '../../services/server/series.service';
-
+import { currencyFormatter } from '../../utils/formatters';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { solarStarBold } from '@ng-icons/solar-icons/bold';
 
 @Component({
   selector: 'app-series-details',
-  imports: [MediaCardComponent, CommonModule, HttpClientModule, RouterLink],
-  providers: [SeriesService, ToastService],
+  imports: [MediaCardComponent, CommonModule, HttpClientModule, NgIcon],
+  providers: [SeriesService, ToastService, provideIcons({ solarStarBold })],
   templateUrl: './series-details.component.html',
-  styles: ``
+  styles: ``,
 })
 export class SeriesDetailsComponent implements OnInit {
-
+  formatCurrency = currencyFormatter;
   seriesDetails!: Series;
   loading: boolean = false;
   seriesGenresState!: Genre[];
@@ -28,48 +34,50 @@ export class SeriesDetailsComponent implements OnInit {
   relatedSeries!: Series[];
   displayedRelatedseries: Series[] = [];
   seriesResponse!: SeriesResponseType;
-  totalRelatedSeries: number = 6;
+  totalRelatedSeries: number = 4;
 
   filterSeriesValuesObj: SeriesFilteredValuesType = {
-  nameValue: "",
-  yearValue: "",
-  genreValue: 0,
-  voteValue: 0,
-  popularityValue: 0
-  }
+    nameValue: '',
+    yearValue: '',
+    genreValue: 0,
+    voteValue: 0,
+    popularityValue: 0,
+  };
 
-  series_ID! : string ;
+  series_ID!: string;
 
-  constructor(private seriesService: SeriesService, private activeRoute: ActivatedRoute,
-      private toast: ToastService, private genresService: GenresService) {
-  }
+  constructor(
+    private seriesService: SeriesService,
+    private activeRoute: ActivatedRoute,
+    private toast: ToastService,
+    private genresService: GenresService
+  ) {}
 
   ngOnInit(): void {
-    this.activeRoute.params.subscribe(params => {
+    this.activeRoute.params.subscribe((params) => {
       this.series_ID = params['id'];
       this.getSeriesAllDetails(this.series_ID);
       this.getSeriesGenres();
     });
   }
 
-
   fillDisplayedRelatedSeries() {
     this.displayedRelatedseries = [];
-    let count = 0 ;
-    let i = 0 ;
-    while (count<this.relatedSeries.length&& count < this.totalRelatedSeries)
-    {
+    let count = 0;
+    let i = 0;
+    while (
+      count < this.relatedSeries.length &&
+      count < this.totalRelatedSeries
+    ) {
       //to avoid pushing same series to display UI
-      if(this.seriesDetails._id!=this.relatedSeries[i]._id)
-      {
-        count++ ;
+      if (this.seriesDetails._id != this.relatedSeries[i]._id) {
+        count++;
         this.displayedRelatedseries.push(this.relatedSeries[i]);
       }
 
-      i++ ;
+      i++;
     }
-
-}
+  }
 
   loadRelatedSeries(pageNo: number, filterVal: SeriesFilteredValuesType): void {
     this.seriesService.getAllSeries(pageNo, filterVal).subscribe({
@@ -77,35 +85,39 @@ export class SeriesDetailsComponent implements OnInit {
         this.loading = state.state === 'loading';
         if (state.state === 'loaded') {
           this.seriesResponse = state.data;
-          console.log("Normal");
+          console.log('Normal');
           this.relatedSeries = this.seriesResponse.tvShows;
-          console.log("related movies", this.relatedSeries);
+          console.log('related movies', this.relatedSeries);
           this.fillDisplayedRelatedSeries();
-          console.log("UI", this.displayedRelatedseries);
+          console.log('UI', this.displayedRelatedseries);
         } else if (state.state === 'error') {
           console.log('Error Loading Movies', state.error);
         }
       },
       error: (error) => {
-        console.log("Error", error);
+        console.log('Error', error);
         this.showErrorToast();
-      }
+      },
     });
   }
 
   getSeriesAllDetails(id: string) {
     this.seriesService.getSeriesById(id).subscribe({
       next: (state: LoadingState<any>) => {
-        this.loading = state.state === "loading";
-        if (state.state === "loaded") {
-          console.log("series data",state.data);
+        this.loading = state.state === 'loading';
+        if (state.state === 'loaded') {
+          console.log('series data', state.data);
           this.seriesDetails = state.data.tvShow;
           this.trailerLink = `https://www.youtube.com/results?search_query=${this.seriesDetails.original_name} ${this.seriesDetails.first_air_date}+trailer`;
           console.log(this.seriesDetails);
-          let randomGenreValue = Math.floor((Math.random()*100)%this.seriesDetails.genre_ids.length) ;
-          console.log("randomGenreValue",randomGenreValue);
-          this.filterSeriesValuesObj.genreValue = this.seriesDetails.genre_ids[randomGenreValue];
-          this.filterSeriesValuesObj.yearValue = this.seriesDetails.first_air_date;
+          let randomGenreValue = Math.floor(
+            (Math.random() * 100) % this.seriesDetails.genre_ids.length
+          );
+          console.log('randomGenreValue', randomGenreValue);
+          this.filterSeriesValuesObj.genreValue =
+            this.seriesDetails.genre_ids[randomGenreValue];
+          this.filterSeriesValuesObj.yearValue =
+            this.seriesDetails.first_air_date;
           this.loadRelatedSeries(1, this.filterSeriesValuesObj);
         } else if (state.state === 'error') {
           console.log('Error Loading Movies', state.error);
@@ -130,7 +142,7 @@ export class SeriesDetailsComponent implements OnInit {
   }
 
   extractSeriesGenres() {
-    this.seriesCats=[];
+    this.seriesCats = [];
     this.seriesDetails.genre_ids.forEach((gID) => {
       let matchItem = this.seriesGenresState.filter((item) => {
         return gID === item.id ? item : null;
@@ -144,13 +156,16 @@ export class SeriesDetailsComponent implements OnInit {
       }
     });
 
-    console.log("matched cats", this.seriesCats);
+    console.log('matched cats', this.seriesCats);
   }
 
   getImageSrc() {
-    return this.seriesDetails.poster_path || this.seriesDetails.backdrop_path || '/images/defaultSeries.webp';
+    return (
+      this.seriesDetails.poster_path ||
+      this.seriesDetails.backdrop_path ||
+      '/images/defaultSeries.webp'
+    );
   }
-
 
   showErrorToast() {
     this.toast.error('Wrong API Response', {
@@ -161,12 +176,7 @@ export class SeriesDetailsComponent implements OnInit {
     });
   }
 
-  addToCart() {
+  addToCart() {}
 
-  }
-
-  addToWatchlist() {
-
-  }
-
+  addToWatchlist() {}
 }

@@ -1,15 +1,15 @@
-<div class="min-h-screen my-4 container">
+<div class="min-h-screen">
   @if(loading)
   {
-  <div
-    class="min-h-screen flex justify-center items-center w-full bg-[url('/images/hateful_eight.webp')] bg-cover bg-center bg-no-repeat bg-black/80 dark:bg-black/85 bg-blend-color">
+  <div class="min-h-screen flex justify-center items-center w-full bg-black/80 dark:bg-black/85 bg-blend-color">
     <span class="loading loading-spinner text-secondary"></span>
   </div>
   }
   @else {
 
-  <div class="flex md:flex-row flex-col-reverse gap-3">
-    <div class="info flex flex-col gap-3 md:w-3/5 p-4  bg-gradient-to-r from-base-200 to-base-300 rounded-2xl">
+  <div class="container flex md:flex-row flex-col-reverse gap-3">
+    <div
+      class="info flex flex-col self-stretch gap-3 md:w-4/6 p-4  bg-gradient-to-r from-base-200 to-base-300 rounded-2xl">
       <h2 class=" text-2xl font-bold">{{movieDetails.original_title}}</h2>
       <div class="flex items-center gap-2 justify-between">
         <div class="rate flex items-center text-warning text-shadow-xs">
@@ -56,10 +56,11 @@
       </div>
 
     </div>
-    <img class="md:w-2/5 w-full rounded-2xl aspect-square " src={{getImageSrc()}} alt='{{movieDetails.poster_path}}' />
+    <img class="md:w-2/6 w-full rounded-2xl aspect-[3/4] object-cover" src={{getImageSrc()}}
+      alt='{{movieDetails.poster_path}}' />
   </div>
 
-  <div class="movies-sec my-3">
+  <div class="container movies-sec my-3">
     <h2 class="relative text-lg font-bold pb-2 border-b-4 border-secondary">
       Related Movies</h2>
     <div class="related-movies flex gap-3 my-4">
