@@ -35,7 +35,6 @@ export class CheckoutComponent implements OnInit {
       }
       const errorHandlerFunction = this.errorHandler.bind(this);
       this.payment.updatePaymentIntent({
-        cartAmount: this.cartService.cartTotalPrice() || 0,
         errorHandler: errorHandlerFunction,
       });
     });
