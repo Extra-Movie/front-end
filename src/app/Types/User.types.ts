@@ -29,6 +29,9 @@ export type CartResponse = {
 export type WatchListResponse = {
   watchlist: CartItem[];
 };
+export type OwnedResponse = {
+  owned: CartItem[];
+};
 
 export type CartItem =
   | {

@@ -6,6 +6,7 @@ import { tap } from 'rxjs';
 import { registeredUser } from '../Types/Authentication.types';
 import {
   CartResponse,
+  OwnedResponse,
   WatchListResponse,
   userData,
   userLists,
@@ -31,6 +32,7 @@ export class UserService {
   userListState = new RequestStateService<userListsResponse>();
   cartState = new RequestStateService<CartResponse>();
   watchListState = new RequestStateService<WatchListResponse>();
+  ownedState = new RequestStateService<OwnedResponse>();
 
   getUser(id: string) {
     const req$ = this.http.get<userData>(`${this.authUrl}/${id}`);
@@ -97,8 +99,8 @@ export class UserService {
   }
 
   getOwned() {
-    const req$ = this.http.get<userListsResponse>(`${this.authUrl}/getOwned`);
-    return this.userListState.track(req$);
+    const req$ = this.http.get<OwnedResponse>(`${this.authUrl}/getOwned`);
+    return this.ownedState.track(req$);
   }
   getWatchlist() {
     const req$ = this.http.get<WatchListResponse>(
