@@ -1,7 +1,8 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { UserService } from './user.service';
 import { CartItem } from '../Types/User.types';
 import { ToastService } from './toast.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ import { ToastService } from './toast.service';
 export class CartService {
   user = inject(UserService);
   toast = inject(ToastService);
+  auth = inject(AuthService);
   cart = signal<CartItem[] | undefined>(undefined);
   cartState = this.user.cartState.state();
   cartCount = computed(() => this.cart()?.length);
@@ -19,9 +21,15 @@ export class CartService {
   });
 
   constructor() {
-    this.user.getCart().subscribe((res) => {
-      if (res) {
-        this.cart.set(res.cart.filter((item) => item.item));
+    effect(() => {
+      if (!this.auth.isLoggedIn()) {
+        this.cart.set(undefined);
+      } else {
+        this.user.getCart().subscribe((res) => {
+          if (res) {
+            this.cart.set(res.cart.filter((item) => item.item));
+          }
+        });
       }
     });
   }
