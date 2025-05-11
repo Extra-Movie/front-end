@@ -32,7 +32,7 @@
     <div *ngIf="!loading" class="relative overflow-hidden justify-between flex-nowrap">
       <div
         #carouselContainer
-        class="flex transition-all duration-300 gap-3 sm:gap-4 md:gap-5 overflow-x-hidden">
+        class="flex transition-all duration-300 gap-3 sm:gap-4 md:gap-5 overflow-x-auto md:overflow-x-hidden hide-scrollbar">
         <div
           *ngFor="let movie of popularMovies"
           class="flex-none"
