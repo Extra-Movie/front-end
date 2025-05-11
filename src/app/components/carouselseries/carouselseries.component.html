@@ -1,0 +1,46 @@
+
+<section class="py-4 w-full bg-gradient-to-br from-gray-50 to-gray-100 dark:from-black dark:to-gray-900 overflow-hidden">
+  <div class="container mx-auto px-2 sm:px-4">
+    <!-- Header -->
+    <div class="flex flex-wrap justify-between items-center mb-4 gap-2">
+      <h1 class="text-base  text-gray-800 dark:text-white sm:text-lg md:text-2xl font-bold">Primetime Series For You</h1>
+      <div class="flex gap-1 sm:gap-2">
+        <button
+          (click)="prev()"
+          class="btn btn-xs sm:btn-sm btn-circle btn-outline"
+          [disabled]="currentIndex === 0">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          (click)="next()"
+          class="btn btn-xs sm:btn-sm btn-circle btn-outline"
+          [disabled]="currentIndex >= popularSeries.length - visibleItems">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="flex justify-center items-center h-40">
+      <div class="loading loading-spinner loading-md text-[#bd9451]"></div>
+    </div>
+
+    <!-- Carousel -->
+    <div *ngIf="!loading" class="relative overflow-hidden justify-between flex-nowrap">
+      <div
+        #carouselContainer
+        class="flex transition-all duration-300 gap-3 sm:gap-4 md:gap-5 overflow-x-hidden">
+        <div
+          *ngFor="let serieses of popularSeries"
+          class="flex-none"
+          [style.width]="getItemWidth()">
+          <app-mediaCard [mediaItem]="serieses"></app-mediaCard>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

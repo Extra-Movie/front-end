@@ -10,11 +10,13 @@ import { MovieGenreType, MovieGenreMatchType } from '../../Types/Movie.types';
 
 import { CommonModule } from '@angular/common';
 import { HeroComponent } from '../../components/hero/hero.component';
+import { CarouselComponent } from '../../components/carousel/carousel.component';
+import { CarouselSeriesComponent } from "../../components/carouselseries/carouselseries.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  imports: [FilterModalComponent, CommonModule, HeroComponent],
+  imports: [FilterModalComponent, CommonModule, HeroComponent, CarouselComponent, CarouselSeriesComponent],
 })
 export class HomeComponent implements OnInit {
   constructor(
