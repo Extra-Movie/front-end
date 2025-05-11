@@ -1,31 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { faSolidCartShopping } from '@ng-icons/font-awesome/solid';
-import { solarMoonStarsBold, solarSun2Bold } from '@ng-icons/solar-icons/bold';
-import { ionSearch } from '@ng-icons/ionicons';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ThemeButtonComponent } from "../../components/theme-button/theme-button.component";
-import { CartComponent } from "../../components/cart/cart.component";
+import { ThemeButtonComponent } from '../../components/theme-button/theme-button.component';
+import { CartComponent } from '../../components/cart/cart.component';
+import { AuthService } from '../../services/auth.service';
+import { UserAvatarComponent } from '../../components/user-avatar/user-avatar.component';
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, NgIcon, RouterLink, ThemeButtonComponent, CartComponent],
-  templateUrl: './header.component.html',
-  styles: ``,
-  viewProviders: [
-    provideIcons({
-      faSolidCartShopping,
-      solarMoonStarsBold,
-      solarSun2Bold,
-      ionSearch,
-    }),
+  imports: [
+    CommonModule,
+    RouterLink,
+    ThemeButtonComponent,
+    CartComponent,
+    UserAvatarComponent,
   ],
+  templateUrl: './header.component.html',
 })
 export class HeaderComponent {
+  authService = inject(AuthService);
   menuOpen = false;
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
   }
-
 }
