@@ -1,69 +1,85 @@
-import { computed, Injectable, signal } from '@angular/core';
-import { MovieType } from '../Types/Movie.types';
-import { Series } from '../Types/series.model';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { UserService } from './user.service';
+import { CartItem } from '../Types/User.types';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  cart = signal<(CartItem & { type: 'movie' | 'series' })[]>([
-    {
-      _id: '68111e2024b782956e9838ee',
-      id: 911916,
-      popularity: 7.5816,
-      poster_path:
-        'https://image.tmdb.org/t/p/original/rZ4arzyaDyI8l9Y7VIPPsDGARwh.jpg',
-      title: 'Spider-Man: Beyond the Spider-Verse',
-      price: 88,
-      type: 'movie',
-    },
-    {
-      _id: '68111d5e24b782956e982e49',
-      id: 1003598,
-      popularity: 8.5937,
-      poster_path:
-        'https://image.tmdb.org/t/p/original/f0YBuh4hyiAheXhh4JnJWoKi9g5.jpg',
-      title: 'Avengers: Secret Wars',
-      price: 110,
-      type: 'movie',
-    },
-    {
-      _id: '68111e9a24b782956e983f94',
-      id: 1368337,
-      popularity: 6.9063,
-      poster_path:
-        'https://image.tmdb.org/t/p/original/z5DhnCi8vSltpVqVZMSod4nFyYw.jpg',
-      title: 'The Odyssey',
-      price: 122,
-      type: 'movie',
-    },
-  ]);
-  cartCount = computed(() => this.cart().length);
+  user = inject(UserService);
+  toast = inject(ToastService);
+  cart = signal<CartItem[] | undefined>(undefined);
+  cartState = this.user.cartState.state();
+  cartCount = computed(() => this.cart()?.length);
   cartTotalPrice = computed(() => {
-    return this.cart().reduce((total, movie) => {
-      return total + movie.price;
+    return this.cart()?.reduce((total, movie) => {
+      return total + movie.item.price;
     }, 0);
   });
 
-  // ! use only the movie id to add to the cart and to make the api call to fetch the movie details
-  addToCart(media: CartItem, type: 'movie' | 'series') {
-    const mediaIndex = this.cart().findIndex((m) => m._id === media._id);
+  constructor() {
+    this.user.getCart().subscribe((res) => {
+      if (res) {
+        this.cart.set(res.cart.filter((item) => item.item));
+      }
+    });
+  }
+
+  addToCart(mediaItem: CartItem) {
+    const mediaIndex = this.cart()?.findIndex(
+      (m) => m.item._id === mediaItem.item._id
+    );
     if (mediaIndex === -1) {
-      this.cart.update((prev) => [...prev, { ...media, type }]);
+      this.user
+        .addToCart({ item: mediaItem.item._id, kind: mediaItem.kind })
+        .subscribe((res) => {
+          if (res) {
+            this.cart.update((prev) => {
+              if (!prev) return [mediaItem];
+              return [...prev, mediaItem];
+            });
+          }
+          if (mediaItem.kind === 'movies') {
+            this.toast.success(`${mediaItem.item.title} added to cart`, {
+              title: 'Added successfully',
+              showIcon: true,
+              duration: 2000,
+            });
+          }
+          if (mediaItem.kind === 'tvShows') {
+            this.toast.success(`${mediaItem.item.name} added to cart`, {
+              title: 'Added successfully',
+              showIcon: true,
+              duration: 2000,
+            });
+          }
+        });
+    }
+    if (mediaIndex !== -1) {
+      this.removeFromCart(mediaItem._id);
     }
   }
 
-  // ! use only the media id to remove from the cart and to make the api call
-  removeFromCart(media: CartItem) {
-    this.cart.update((prev) => prev.filter((m) => m._id !== media._id));
+  removeFromCart(mediaId: CartItem['_id']) {
+    const kind = this.cart()?.find((m) => m.item._id === mediaId)?.kind;
+    if (!kind) {
+      this.toast.error('Item not found in cart', {
+        title: 'Error',
+        showIcon: true,
+        duration: 2000,
+      });
+      return;
+    }
+    this.user.removeFromCart({ item: mediaId, kind }).subscribe((res) => {
+      if (res) {
+        this.cart.update((prev) => prev?.filter((m) => m.item._id !== mediaId));
+        this.toast.success('Item removed from cart', {
+          title: 'Removed successfully',
+          showIcon: true,
+          duration: 2000,
+        });
+      }
+    });
   }
 }
-
-export type CartItem = {
-  _id: string;
-  id: number;
-  popularity: number;
-  poster_path: string;
-  title: string;
-  price: number;
-};
