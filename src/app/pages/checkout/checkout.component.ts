@@ -24,22 +24,47 @@ export class CheckoutComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      this.payment.updatePaymentIntent(this.cartService.cartTotalPrice());
+      if (this.cartService.cart()?.length === 0) {
+        this.router.navigate(['/']);
+        this.toast.error('Your cart is empty', {
+          title: 'Error',
+          showIcon: true,
+          cancelable: true,
+        });
+        return;
+      }
+      const errorHandlerFunction = this.errorHandler.bind(this);
+      this.payment.updatePaymentIntent({
+        cartAmount: this.cartService.cartTotalPrice() || 0,
+        errorHandler: errorHandlerFunction,
+      });
     });
   }
 
   async ngOnInit() {
-    const toastInstance = this.toast;
+    if (this.cartService.cart()?.length === 0) {
+      this.router.navigate(['/']);
+      this.toast.error('Your cart is empty now', {
+        title: 'Sorry',
+        showIcon: true,
+        cancelable: true,
+      });
+    }
+    const errorHandlerFunction = this.errorHandler.bind(this);
     await this.payment.initializeStripe({
       paymentElementContainerId: '#payment-element',
-      errorHandler(error) {
-        toastInstance.error(error.message, {
-          title: 'Payment Error',
-          showIcon: true,
-          cancelable: true,
-        });
-      },
+      errorHandler: errorHandlerFunction,
     });
+  }
+
+  errorHandler(error: Error) {
+    console.error('Error:', error);
+    this.toast.error(error.message, {
+      title: 'Payment Error',
+      showIcon: true,
+      cancelable: true,
+    });
+    // this.router.navigate(['/']);
   }
 
   async handlePaymentSubmit(e: Event) {
