@@ -26,6 +26,9 @@ export type userData = {
 export type CartResponse = {
   cart: CartItem[];
 };
+export type WatchListResponse = {
+  watchlist: CartItem[];
+};
 
 export type CartItem =
   | {
