@@ -1,0 +1,17 @@
+<div class="dropdown dropdown-end w-full">
+  <div tabindex="0" role="button" class="btn w-full md:btn-circle btn-secondary">
+    <ng-icon name="faSolidUser" size="22" />
+    <span class="md:hidden">Profile</span>
+  </div>
+  <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-1 w-54 p-2 shadow-md space-y-1">
+    <li class="border-b border-neutral/20 pb-2 "><a routerLink="/user/owned">Owned Media</a></li>
+    <li class="border-b border-neutral/20 pb-2 "><a routerLink="/user/watchList">WatchList</a></li>
+    <li class="border-b border-neutral/20 pb-2 "><a routerLink="/dashboard">Dashboard</a></li>
+    <li>
+      <button class="btn btn-sm btn-accent items-center" (click)="logout()">
+        <ng-icon name="ionLogOutOutline" size="18" />
+        Logout
+      </button>
+    </li>
+  </ul>
+</div>

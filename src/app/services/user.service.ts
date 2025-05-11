@@ -5,6 +5,9 @@ import { RequestStateService } from './apiRequest.service';
 import { tap } from 'rxjs';
 import { registeredUser } from '../Types/Authentication.types';
 import {
+  CartResponse,
+  OwnedResponse,
+  WatchListResponse,
   userData,
   userLists,
   userListsResponse,
@@ -16,7 +19,7 @@ import {
 })
 export class UserService {
   private http = inject(HttpClient);
-  private authUrl = environment.apiUrl + '/user';
+  private authUrl = environment.apiUrl + '/users';
   private _token = signal<string | null>(
     localStorage.getItem('token') || sessionStorage.getItem('token') || null
   );
@@ -27,6 +30,9 @@ export class UserService {
   userState = new RequestStateService<userData>();
   usersState = new RequestStateService<userData[]>();
   userListState = new RequestStateService<userListsResponse>();
+  cartState = new RequestStateService<CartResponse>();
+  watchListState = new RequestStateService<WatchListResponse>();
+  ownedState = new RequestStateService<OwnedResponse>();
 
   getUser(id: string) {
     const req$ = this.http.get<userData>(`${this.authUrl}/${id}`);
@@ -93,17 +99,17 @@ export class UserService {
   }
 
   getOwned() {
-    const req$ = this.http.get<userListsResponse>(`${this.authUrl}/getOwned`);
-    return this.userListState.track(req$);
+    const req$ = this.http.get<OwnedResponse>(`${this.authUrl}/getOwned`);
+    return this.ownedState.track(req$);
   }
   getWatchlist() {
-    const req$ = this.http.get<userListsResponse>(
+    const req$ = this.http.get<WatchListResponse>(
       `${this.authUrl}/getWatchlist`
     );
-    return this.userListState.track(req$);
+    return this.watchListState.track(req$);
   }
   getCart() {
-    const req$ = this.http.get<userListsResponse>(`${this.authUrl}/getCart`);
-    return this.userListState.track(req$);
+    const req$ = this.http.get<CartResponse>(`${this.authUrl}/getCart`);
+    return this.cartState.track(req$);
   }
 }

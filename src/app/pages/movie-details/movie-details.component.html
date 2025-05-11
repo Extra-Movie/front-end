@@ -37,21 +37,19 @@
       <h3 class="text-3xl text-end font-bold text-primary text-shadow-xs">{{formatCurrency(movieDetails.price)}}</h3>
       <div class="flex-1"></div>
       <!-- Buttons - positioned at the bottom with -->
-      <div class="flex gap-4 my-3">
-        <button class="btn btn-secondary md:w-1/3 w-2/5 p-1 " (click)="addToWatchlist()">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-              d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-          </svg>
-          Watch List
+      <div class="flex flex-col sm:flex-row gap-4 my-3">
+        <button class="btn btn-secondary " (click)="addToWatchList()">
+          @if (isInWatchList()) {
+          <ng-icon name="faSolidBookmark" />
+          Remove from WatchList
+          }@else {
+          <ng-icon name="faBookmark" />
+          Add to WatchList
+          }
         </button>
-        <button class="btn flex-1 btn-primary" (click)="addToCart()">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-          Add to Cart
+        <button class="btn sm:flex-1 btn-primary" (click)="addToCart()">
+          <ng-icon name="faSolidCartShopping" class="text-white" />
+          {{ isInCart() ? 'Remove from Cart' : 'Add to Cart' }}
         </button>
       </div>
 
@@ -63,7 +61,7 @@
   <div class="container movies-sec my-3">
     <h2 class="relative text-lg font-bold pb-2 border-b-4 border-secondary">
       Related Movies</h2>
-    <div class="related-movies flex gap-3 my-4">
+    <div class="related-movies grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 my-4">
       <div class="item max-w-50" *ngFor="let movie of displayedRelatedMovies ; let i =index">
         <app-mediaCard [mediaItem]="movie"></app-mediaCard>
       </div>

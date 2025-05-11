@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -16,15 +16,40 @@ import { SeriesService } from '../../services/server/series.service';
 import { currencyFormatter } from '../../utils/formatters';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { solarStarBold } from '@ng-icons/solar-icons/bold';
-
+import { CartService } from '../../services/cart.service';
+import { WatchListService } from '../../services/watch-list.service';
+import { faBookmark } from '@ng-icons/font-awesome/regular';
+import {
+  faSolidBookmark,
+  faSolidCartShopping,
+} from '@ng-icons/font-awesome/solid';
 @Component({
   selector: 'app-series-details',
   imports: [MediaCardComponent, CommonModule, HttpClientModule, NgIcon],
-  providers: [SeriesService, ToastService, provideIcons({ solarStarBold })],
+  providers: [
+    SeriesService,
+    ToastService,
+    provideIcons({
+      solarStarBold,
+      faBookmark,
+      faSolidBookmark,
+      faSolidCartShopping,
+    }),
+  ],
   templateUrl: './series-details.component.html',
   styles: ``,
 })
 export class SeriesDetailsComponent implements OnInit {
+  cart = inject(CartService);
+  watchList = inject(WatchListService);
+  isInWatchList = computed(() => {
+    return this.watchList
+      .watchList()
+      ?.some((item) => item.item._id === this.series_ID);
+  });
+  isInCart = computed(() => {
+    return this.cart.cart()?.some((item) => item.item._id === this.series_ID);
+  });
   formatCurrency = currencyFormatter;
   seriesDetails!: Series;
   loading: boolean = false;
@@ -176,7 +201,18 @@ export class SeriesDetailsComponent implements OnInit {
     });
   }
 
-  addToCart() {}
-
-  addToWatchlist() {}
+  addToCart() {
+    this.cart.addToCart({
+      kind: 'tvShows',
+      item: this.seriesDetails,
+      _id: this.series_ID,
+    });
+  }
+  addToWatchList() {
+    this.watchList.addToWatchList({
+      kind: 'tvShows',
+      item: this.seriesDetails,
+      _id: this.series_ID,
+    });
+  }
 }
