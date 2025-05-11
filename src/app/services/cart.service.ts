@@ -35,6 +35,14 @@ export class CartService {
   }
 
   addToCart(mediaItem: CartItem) {
+    if (!this.auth.isLoggedIn()) {
+      this.toast.error('Please login to add items to cart', {
+        title: 'Login required',
+        showIcon: true,
+        duration: 2000,
+      });
+      return;
+    }
     const mediaIndex = this.cart()?.findIndex(
       (m) => m.item._id === mediaItem.item._id
     );
@@ -70,6 +78,14 @@ export class CartService {
   }
 
   removeFromCart(mediaId: CartItem['_id']) {
+    if (!this.auth.isLoggedIn()) {
+      this.toast.error('Please login to remove items from cart', {
+        title: 'Login required',
+        showIcon: true,
+        duration: 2000,
+      });
+      return;
+    }
     const kind = this.cart()?.find((m) => m.item._id === mediaId)?.kind;
     if (!kind) {
       this.toast.error('Item not found in cart', {
