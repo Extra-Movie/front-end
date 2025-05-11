@@ -40,13 +40,6 @@
       </button>
       <button class="btn btn-sm flex-1 btn-primary " (click)="addToCart()">
         <ng-icon name="faSolidCartShopping" class="text-white" />
-        <!-- @if (!isInCart()) {
-        <span class="text-[10px] @min-[220px]:text-xs">Add</span>
-        <span class="-m-0.5 text-[10px] @min-[220px]:text-xs hidden @min-[230px]:inline">to Cart</span>
-        }@else {
-        <span class="text-[10px] @min-[220px]:text-xs">Remove </span>
-        <span class="-m-0.5 text-[10px] @min-[220px]:text-xs hidden @min-[230px]:inline">from Cart</span>
-        } -->
         {{ isInCart() ? 'Remove from Cart' : 'Add to Cart' }}
       </button>
     </div>

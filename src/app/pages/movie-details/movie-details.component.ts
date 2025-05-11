@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { MovieService } from './../../services/server/movie.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -16,13 +16,39 @@ import { MediaCardComponent } from '../../components/mediacard/mediacard.compone
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { solarStarBold } from '@ng-icons/solar-icons/bold';
 import { currencyFormatter } from '../../utils/formatters';
+import { WatchListService } from '../../services/watch-list.service';
+import { CartService } from '../../services/cart.service';
+import { faBookmark } from '@ng-icons/font-awesome/regular';
+import {
+  faSolidBookmark,
+  faSolidCartShopping,
+} from '@ng-icons/font-awesome/solid';
 @Component({
   selector: 'app-movie-details-m',
   imports: [MediaCardComponent, CommonModule, HttpClientModule, NgIcon],
-  providers: [MovieService, ToastService, provideIcons({ solarStarBold })],
+  providers: [
+    MovieService,
+    ToastService,
+    provideIcons({
+      solarStarBold,
+      faBookmark,
+      faSolidBookmark,
+      faSolidCartShopping,
+    }),
+  ],
   templateUrl: './movie-details.component.html',
 })
 export class MovieDetailsComponent implements OnInit {
+  cart = inject(CartService);
+  watchList = inject(WatchListService);
+  isInWatchList = computed(() => {
+    return this.watchList
+      .watchList()
+      ?.some((item) => item.item._id === this.movieID);
+  });
+  isInCart = computed(() => {
+    return this.cart.cart()?.some((item) => item.item._id === this.movieID);
+  });
   movieID!: string;
   movieDetails!: MovieType;
   loading: boolean = false;
@@ -171,7 +197,18 @@ export class MovieDetailsComponent implements OnInit {
     });
   }
 
-  addToCart() {}
-
-  addToWatchlist() {}
+  addToCart() {
+    this.cart.addToCart({
+      kind: 'movies',
+      item: this.movieDetails,
+      _id: this.movieID,
+    });
+  }
+  addToWatchList() {
+    this.watchList.addToWatchList({
+      kind: 'movies',
+      item: this.movieDetails,
+      _id: this.movieID,
+    });
+  }
 }
