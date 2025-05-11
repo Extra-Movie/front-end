@@ -6,6 +6,7 @@ import { tap } from 'rxjs';
 import { registeredUser } from '../Types/Authentication.types';
 import {
   CartResponse,
+  WatchListResponse,
   userData,
   userLists,
   userListsResponse,
@@ -29,6 +30,7 @@ export class UserService {
   usersState = new RequestStateService<userData[]>();
   userListState = new RequestStateService<userListsResponse>();
   cartState = new RequestStateService<CartResponse>();
+  watchListState = new RequestStateService<WatchListResponse>();
 
   getUser(id: string) {
     const req$ = this.http.get<userData>(`${this.authUrl}/${id}`);
@@ -99,10 +101,10 @@ export class UserService {
     return this.userListState.track(req$);
   }
   getWatchlist() {
-    const req$ = this.http.get<userListsResponse>(
+    const req$ = this.http.get<WatchListResponse>(
       `${this.authUrl}/getWatchlist`
     );
-    return this.userListState.track(req$);
+    return this.watchListState.track(req$);
   }
   getCart() {
     const req$ = this.http.get<CartResponse>(`${this.authUrl}/getCart`);
