@@ -28,18 +28,17 @@
 
     </div>
     <div class="actions hidden lg:flex gap-4 items-center">
-      <!-- Search -->
-      <label class="input input-primary bg-transparent">
-        <ng-icon name="ionSearch" />
-        <input type="search" placeholder="Search..." />
-      </label>
       <!-- Icons & Button -->
       <app-theme-button />
       <app-cart />
+      @if (!authService.isLoggedIn()) {
       <a routerLink="register"
         class="bg-primary btn btn-active hover:shadow-[0px_0px_5px_var(--color-primary)] transition-all">
         Register
       </a>
+      }@else {
+      <app-user-avatar />
+      }
     </div>
 
     <!-- Burger Icon (Mobile) -->
@@ -52,7 +51,7 @@
 
   <!-- Sidebar -->
   <div
-    class="fixed top-0 left-0 h-full w-64 bg-base-200 text-base-content shadow-lg z-50 transform transition-color duration-300 "
+    class="fixed top-0 left-0 h-full w-64 bg-base-200 text-base-content shadow-lg z-50 transform transition-color duration-300 md:hidden"
     [class.-translate-x-full]="!menuOpen" [class.translate-x-0]="menuOpen">
     <div class="flex justify-between items-center p-4 border-b border-(--color-primary)">
       <h2 class="text-xl font-bold">BlockBuster</h2>
@@ -60,13 +59,7 @@
         <i class="fas fa-times text-2xl"></i>
       </button>
     </div>
-    <ul class="p-4 space-y-4">
-      <li>
-        <label class="input input-primary bg-transparent w-full">
-          <ng-icon name="ionSearch" />
-          <input type="search" placeholder="Search..." />
-        </label>
-      </li>
+    <ul class="p-4 space-y-6 pt-8">
       <li><a routerLink="/"
           class=" font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Home</a>
       </li>
@@ -87,10 +80,14 @@
         <app-cart />
       </li>
       <li class="flex justify-center">
+        @if (!authService.isLoggedIn()) {
         <a routerLink="register"
           class="w-full bg-primary btn btn-active hover:shadow-[0px_0px_5px_var(--color-primary)] transition-all">
           Register
         </a>
+        }@else {
+        <app-user-avatar class="w-full" />
+        }
       </li>
     </ul>
   </div>
