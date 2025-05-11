@@ -73,7 +73,9 @@
                                   {{ movie.vote_average }}
                                 </td>
                               <td>{{ movie.release_date }}</td>
-                              <td><button (click)="deleteMovie(movie._id)" class="btn btn-sm btn-error">Delete</button></td>
+                               <button (click)="deleteMovie(movie._id)" class="btn btn-sm btn-error">
+                                    <ng-icon name="faSolidTrashArrowUp"/>
+                                  </button>
                           </tr>
                           </ng-template>
                       </tbody>
