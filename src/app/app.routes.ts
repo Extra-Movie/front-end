@@ -18,6 +18,8 @@ import { AdminMainComponent } from './pages/admin-main/admin-main.component';
 import { MovieDetailsComponent } from './pages/movie-details/movie-details.component';
 import { SeriesDetailsComponent } from './pages/series-details/series-details.component';
 import { authGuard } from './guards/auth.guard';
+import { WatchListComponent } from './pages/watch-list/watch-list.component';
+import { OwnedComponent } from './pages/owned/owned.component';
 
 export const routes: Routes = [
   {
@@ -45,6 +47,18 @@ export const routes: Routes = [
         component: CheckoutComponent,
         canActivate: [authGuard],
         title: 'Checkout',
+      }, //contact us
+      {
+        path: 'user/watchList',
+        component: WatchListComponent,
+        canActivate: [authGuard],
+        title: 'WatchList',
+      }, //contact us
+      {
+        path: 'user/owned',
+        component: OwnedComponent,
+        canActivate: [authGuard],
+        title: 'Owned Media',
       }, //contact us
       {
         path: 'movies',
