@@ -369,7 +369,7 @@ export class MoviesTableComponent implements OnInit{
               this.showErrorToast('Error Deleting Movie');
             }
           },
-          error: (error) => {
+          error: (error:Error) => {
             console.log('Error Deleting Movie', error);
             this.showErrorToast('Error Deleting Movie');
           }

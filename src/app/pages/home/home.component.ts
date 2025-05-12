@@ -16,7 +16,7 @@ import { CarouselSeriesComponent } from "../../components/carouselseries/carouse
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  imports: [FilterModalComponent, CommonModule, HeroComponent, CarouselComponent, CarouselSeriesComponent],
+  imports: [ CommonModule, HeroComponent, CarouselComponent, CarouselSeriesComponent],
 })
 export class HomeComponent implements OnInit {
   constructor(
