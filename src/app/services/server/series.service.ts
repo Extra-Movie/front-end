@@ -10,6 +10,10 @@ import { Series , SeriesResponseType,SeriesFilteredValuesType} from '../../Types
 })
 export class SeriesService {
   private URL = 'https://back-end-production-e1e1.up.railway.app/api/tvshows';
+  private reqHeader = new HttpHeaders({
+      // 'Content-Type': 'application/json',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTYzYTg4OTA1OTFiNDcwYzlkOTExNiIsIm5hbWUiOiJnaGFkYSIsImVtYWlsIjoiZ2hhZGFAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzQ2OTQ1MzE5LCJleHAiOjE3NDcyMDQ1MTl9.eBwRp7ZgfHOQMDXLaGs5pEJw0wBpWo32QGR0dl3NrhI'
+    });
 
   constructor(private http: HttpClient) { }
 
@@ -66,14 +70,25 @@ export class SeriesService {
      })
     )
  }
- addSeries(series: Series): Observable<any> {
-  return this.http.post(this.URL, series ).pipe(
+ addSeries(series: FormData): Observable<any> {
+  return this.http.post(this.URL, series, { headers: this.reqHeader }).pipe(
     catchError(error => {
       console.error('Error add series:', error);
       return of({ state: 'error', error } as const);
     })
   );
 }
+  // addSeries(series: FormData): Observable<any> {
+  // const headers = new HttpHeaders();
+  // return this.http.post(this.URL, series, { headers }).pipe(
+  //   catchError(error => {
+  //     console.error('Error adding series:', error);
+  //     return of({ state: 'error', error } as const);
+  //   })
+  // );
+  //}
+
+
 
 
   topWatchedSeries(seriesList:Series[],n:number=10) :Series[]{
