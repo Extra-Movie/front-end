@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DarkModeService } from '../../services/dark-mode.service';
 import { ToastService } from '../../services/toast.service';
-
-import { FilterModalComponent } from '../filter/filter-modal/filter-modal.component';
-
 import { MovieService } from '../../services/server/movie.service';
-
 import { MovieGenreType, MovieGenreMatchType } from '../../Types/Movie.types';
-
 import { CommonModule } from '@angular/common';
 import { HeroComponent } from '../../components/hero/hero.component';
 import { CarouselComponent } from '../../components/carousel/carousel.component';
