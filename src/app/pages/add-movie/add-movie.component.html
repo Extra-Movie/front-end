@@ -1,2 +1,92 @@
-<p>add-movie works!</p>
+<div class="flex items-center justify-center mt-3 text-primary">
+  <div class="w-150 bg-base-100 flex flex-col items-center justify-center border-t-4 border-t-primary p-5 rounded-lg shadow-md">
+    <form class="form w-full space-y-5 p-5" enctype="multipart/form-data" [formGroup]="AddMovieForm" (ngSubmit)="onSubmit()">
 
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+        <label class="floating-label">
+          <span>Title</span>
+          <input type="text" formControlName="title" placeholder="Movie Title" class="input input-md border-base-200 focus:border-none" />
+        </label>
+
+        <label class="floating-label">
+          <span>Original Title</span>
+          <input type="text" formControlName="original_title" placeholder="Original Title" class="input input-md border-base-200 focus:border-none" />
+        </label>
+      </div>
+
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+        <fieldset class="fieldset text-primary w-full">
+          <legend class="fieldset-legend text-primary">Movie Backdrop Image</legend>
+          <input type="file" class="file-input file-input-primary" (change)="onFileChange($event, 'backdrop_path')" />
+          <label class="label">Max size 2MB</label>
+        </fieldset>
+
+        <fieldset class="fieldset text-primary">
+          <legend class="fieldset-legend text-primary">Movie Poster Image</legend>
+          <input type="file" class="file-input file-input-primary" (change)="onFileChange($event, 'poster_path')" />
+          <label class="label">Max size 2MB</label>
+        </fieldset>
+      </div>
+
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+        <label class="floating-label">
+          <span>Release Date</span>
+          <input type="date" formControlName="release_date" placeholder="Release Date" class="input input-md border-base-200 focus:border-none" />
+        </label>
+
+        <label class="floating-label">
+          <span>Popularity</span>
+          <input type="number" formControlName="popularity" placeholder="Popularity" class="input input-md border-base-200 focus:border-none" />
+        </label>
+
+        <label class="floating-label">
+          <span>Vote Average</span>
+          <input type="number" formControlName="vote_average" placeholder="Vote Average" class="input input-md border-base-200 focus:border-none" />
+        </label>
+      </div>
+
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+        <label class="floating-label">
+          <span>Vote Count</span>
+          <input type="number" formControlName="vote_count" placeholder="Vote Count" class="input input-md border-base-200 focus:border-none" />
+        </label>
+
+        <label class="floating-label">
+          <span>Price</span>
+          <input type="number" formControlName="price" placeholder="Price" class="input input-md border-base-200 focus:border-none" />
+        </label>
+
+        <label class="floating-label">
+          <span>Number of Purchases</span>
+          <input type="number" formControlName="number_of_purchases" placeholder="Number of Purchases" class="input input-md border-base-200 focus:border-none" />
+        </label>
+      </div>
+
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+        <div class="flex items-center text-sm font-medium text-primary">
+          <input type="checkbox" formControlName="adult" class="mr-2 form-checkbox h-4 w-4 text-primary border-gray-300" />
+          <span>Adult Content</span>
+        </div>
+
+         <div class="flex items-center text-sm font-medium text-primary">
+          <input type="checkbox" formControlName="video" class="mr-2 form-checkbox h-4 w-4 text-primary border-gray-300" />
+          <span>Video </span>
+        </div>
+      </div>
+       <label class="floating-label w-full">
+          <span>Overview</span>
+          <textarea formControlName="overview" placeholder="Overview" class="w-full input input-md border-base-200 focus:border-none"></textarea>
+      </label>
+
+
+      <button type="submit" class="w-full text-base-100 btn btn-primary transition-all duration-200 ease-in-out hover:outline-primary hover:bg-base-100 hover:text-primary">
+        Add Movie
+      </button>
+    </form>
+  </div>
+</div>
