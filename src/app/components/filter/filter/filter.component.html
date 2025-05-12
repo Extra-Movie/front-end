@@ -1,5 +1,5 @@
 <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" >
-    <div class="filter-box p-5 rounded-lg bg-base-200 sm:min-w-[300px] md:min-w-[280px] ">
+    <div class="filter-box p-5 rounded-lg bg-base-200 sm:min-w-[300px] md:min-w-[280px] max-h-[calc(100vh-8rem)] overflow-y-hidden">
       <div class="flex justify-between w-full pb-3 border-b borber-b-2 border-base-300">
         <div>
 
@@ -49,11 +49,11 @@
       </div>
 
       <!-- Genres -->
-      <div class="w-full border-b borber-b-2 border-base-300 flex flex-col" >
+      <div class="w-full border-b borber-b-2 border-base-300 flex flex-col overflow-hidden" >
         <div class="collapse collapse-arrow ps-0">
           <input type="checkbox" class="ps-0" />
           <div class="collapse-title text-md font-medium ps-0">Genres</div>
-          <div  *ngIf="genresState" class="collapse-content text-sm">
+          <div  *ngIf="genresState" class="collapse-content text-sm min-h-0! max-h-32 overflow-y-auto">
             @for (genre of genresState; track $index) {
               <div class="flex items-center gap-2 my-2 place-self-start">
                 <input type="radio" id="{{ genre.name}}" class="radio radio-xs radio-secondary hidden" value="{{genre.id}}"  formControlName="genre"/>
@@ -62,8 +62,8 @@
         'text-base-content': filterForm.get('genre')?.value != genre.id}">{{ genre.name}}</label>
               </div>
             }
-          
-          </div>         
+
+          </div>
         </div>
       </div>
 
