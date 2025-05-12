@@ -4,6 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { MovieGenreType , MovieFilteredValuesType,MovieType,MovieResponseType } from '../../Types/Movie.types';
 import {LoadingState} from '../../Types/loading-state.model';
 import { catchError, map, startWith } from 'rxjs/operators';
+import { HttpHeaders } from '@angular/common/http';
 
 
 @Injectable({
@@ -16,6 +17,10 @@ export class MovieService {
     'https://back-end-production-e1e1.up.railway.app/api/movies';
 
     public filteredURL! :string ;
+    private reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTYzYTg4OTA1OTFiNDcwYzlkOTExNiIsIm5hbWUiOiJnaGFkYSIsImVtYWlsIjoiZ2hhZGFAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzQ2OTQ1MzE5LCJleHAiOjE3NDcyMDQ1MTl9.eBwRp7ZgfHOQMDXLaGs5pEJw0wBpWo32QGR0dl3NrhI'
+    });
 
 
   //page number to preview its content
@@ -73,6 +78,29 @@ export class MovieService {
   getMovieDetails(movie_id :string ) :Observable<any> {
     return  this.myClinet.get(`${this.baseURL}/${movie_id}`);
   }
+
+
+    addMovie(movieData:MovieType) :Observable<any>
+  {
+    return this.myClinet.post(`${this.baseURL}/movies`,movieData) ;
+  }
+
+  //delete movie when user admin
+  deleteMovie(movieId:string) :Observable<any>
+  {
+    return this.myClinet.delete(`${this.baseURL}/${movieId}`,{headers: this.reqHeader}).pipe(
+      map( response => {
+        const data: any = response;
+        console.log('Movies deleted now:', data);
+        return { state: 'success', data } as const;
+      }),
+      catchError(error => {
+      console.error('error loading Movies:', error);
+      return of({ state: 'error', error } as const);
+      })
+    ) ;
+  }
+
 
   // {object contains status} , {object contain values}
 
@@ -162,6 +190,7 @@ export class MovieService {
 
   //not tested yet
   //add new movie when user admin
+<<<<<<< HEAD
   private reqHeader = new HttpHeaders({
       // 'Content-Type': 'application/json',
       'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTYzYTg4OTA1OTFiNDcwYzlkOTExNiIsIm5hbWUiOiJnaGFkYSIsImVtYWlsIjoiZ2hhZGFAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzQ2OTQ1MzE5LCJleHAiOjE3NDcyMDQ1MTl9.eBwRp7ZgfHOQMDXLaGs5pEJw0wBpWo32QGR0dl3NrhI'
@@ -181,6 +210,8 @@ export class MovieService {
   {
     return this.myClinet.delete(`${this.baseURL}/${movieId}`) ;
   }
+=======
+>>>>>>> e582cf2a3aa7f9926ddb036e88dbd147142a5930
 
   // trending movies (10)
   // most watched movies (10)

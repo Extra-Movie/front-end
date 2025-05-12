@@ -11,7 +11,11 @@ import { Series , SeriesResponseType,SeriesFilteredValuesType} from '../../Types
 export class SeriesService {
   private URL = 'https://back-end-production-e1e1.up.railway.app/api/tvshows';
   private reqHeader = new HttpHeaders({
+<<<<<<< HEAD
       // 'Content-Type': 'application/json',
+=======
+      'Content-Type': 'application/json',
+>>>>>>> e582cf2a3aa7f9926ddb036e88dbd147142a5930
       'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTYzYTg4OTA1OTFiNDcwYzlkOTExNiIsIm5hbWUiOiJnaGFkYSIsImVtYWlsIjoiZ2hhZGFAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzQ2OTQ1MzE5LCJleHAiOjE3NDcyMDQ1MTl9.eBwRp7ZgfHOQMDXLaGs5pEJw0wBpWo32QGR0dl3NrhI'
     });
 
@@ -63,12 +67,17 @@ export class SeriesService {
   }
   deleteSeriesById(_id:string){
     let url=`${this.URL}/${_id}`;
-    return this.http.delete<Series>(url).pipe(
-     catchError(error => {
-       console.error('Error delete series by Id:', error);
-       return of({ state: 'error', error } as const);
-     })
-    )
+    return this.http.delete<Series>(url,{headers: this.reqHeader}).pipe(
+    map( response => {
+        const data: any = response;
+        console.log('Movies deleted now:', data);
+        return { state: 'success', data } as const;
+      }),
+      catchError(error => {
+      console.error('error loading Movies:', error);
+      return of({ state: 'error', error } as const);
+      })
+    ) ;
  }
  addSeries(series: FormData): Observable<any> {
   return this.http.post(this.URL, series, { headers: this.reqHeader }).pipe(
