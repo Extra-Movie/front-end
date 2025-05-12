@@ -1,6 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { MovieGenreType , MovieFilteredValuesType,MovieType,MovieResponseType } from '../../Types/Movie.types';
 import {LoadingState} from '../../Types/loading-state.model';
 import { catchError, map, startWith } from 'rxjs/operators';
@@ -162,15 +162,24 @@ export class MovieService {
 
   //not tested yet
   //add new movie when user admin
-  addMovie(movieData:MovieType) :Observable<any>
+  private reqHeader = new HttpHeaders({
+      // 'Content-Type': 'application/json',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTYzYTg4OTA1OTFiNDcwYzlkOTExNiIsIm5hbWUiOiJnaGFkYSIsImVtYWlsIjoiZ2hhZGFAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzQ2OTQ1MzE5LCJleHAiOjE3NDcyMDQ1MTl9.eBwRp7ZgfHOQMDXLaGs5pEJw0wBpWo32QGR0dl3NrhI'
+    });
+  addMovie(movieData:FormData) :Observable<any>
   {
-    return this.myClinet.post(`${this.baseURL}/movies`,movieData) ;
+  return this.myClinet.post(`${this.baseURL}`, movieData, { headers: this.reqHeader }).pipe(
+    catchError(error => {
+      console.error('Error add series:', error);
+      return of({ state: 'error', error } as const);
+    })
+  );
   }
 
   //delete movie when user admin
   deleteMovie(movieId:string) :Observable<any>
   {
-    return this.myClinet.delete(`${this.baseURL}/movies/${movieId}`) ;
+    return this.myClinet.delete(`${this.baseURL}/${movieId}`) ;
   }
 
   // trending movies (10)
