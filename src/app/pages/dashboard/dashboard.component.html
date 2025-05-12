@@ -2,9 +2,9 @@
   <input id="my-drawer" #drawer type="checkbox" class="drawer-toggle" />
   <div class="drawer-content">
     <!-- Page content here -->
-    <main class="grid md:grid-cols-[280px_3fr] min-h-screen">
-      <app-dashboard-sidebar class="hidden md:block" />
-      <section>
+    <main class="grid md:grid-cols-[280px_3fr] min-h-screen relative">
+      <app-dashboard-sidebar class="hidden md:block sticky top-0 left-0 h-dvh" />
+      <section class="overflow-hidden">
         <header class="container border-b-2  border-b-base-300 flex items-center justify-between">
           <h1 class="text-4xl font-extrabold text-accent">{{currentTab()}}</h1>
           <div class="flex items-center gap-4">
@@ -13,6 +13,7 @@
               <ng-icon name="faSolidBarsStaggered" size="24" />
             </label>
           </div>
+
         </header>
         <router-outlet />
       </section>

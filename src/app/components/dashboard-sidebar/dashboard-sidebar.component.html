@@ -1,27 +1,52 @@
 <aside class="flex p-4 bg-secondary flex-col gap-4 w-full h-dvh">
   <a routerLink="/" class="self-center">
-    <img src="/logos/Blockbuster-darkMode-Char.png" class=" h-10 scale-80 hidden dark:inline object-contain" alt="Logo">
-    <img src="/logos/Blockbuster-lightMode-Char.png" class=" h-10 dark:hidden  object-contain" alt="Logo">
+    <img src="/logos/Blockbuster-darkMode-Char.png" class="h-10 scale-80 hidden dark:inline object-contain" alt="Logo">
+    <img src="/logos/Blockbuster-lightMode-Char.png" class="h-10 dark:hidden object-contain" alt="Logo">
   </a>
+
   <div class="flex flex-1 flex-col gap-2 mt-4 w-full">
+
     <a (click)="toggleDrawer()" routerLinkActive="bg-base-200" routerLink="/dashboard/main"
       [routerLinkActiveOptions]="{ exact: true }"
       class="justify-start btn btn-ghost hover:bg-primary/20 hover:border-none">
       <ng-icon name="ionHomeOutline" size="16" />
-      Main</a>
+      Main
+    </a>
+
+    <!-- Users -->
     <a (click)="toggleDrawer()" routerLinkActive="bg-base-200" routerLink="/dashboard/users"
       class="justify-start btn btn-ghost hover:bg-primary/20 hover:border-none">
       <ng-icon name="faSolidUsersGear" size="16" />
-      Users</a>
-    <a (click)="toggleDrawer()" routerLinkActive="bg-base-200" routerLink="/dashboard/movies"
-      class="justify-start btn btn-ghost hover:bg-primary/20 hover:border-none">
-      <ng-icon name="faSolidFilm" size="16" />
-      Movies</a>
-    <a (click)="toggleDrawer()" routerLinkActive="bg-base-200" routerLink="/dashboard/series"
-      class="justify-start btn btn-ghost hover:bg-primary/20 hover:border-none">
-      <ng-icon name="faSolidTv" size="16" />
-      Series</a>
+      Users
+    </a>
+
+
+    <div class="collapse collapse-arrow">
+      <input type="checkbox" />
+      <div class="collapse-title justify-start btn btn-ghost hover:bg-primary/20 hover:border-none">
+        <ng-icon name="faSolidFilm" size="16" />
+        Movies
+      </div>
+      <div class="collapse-content flex flex-col gap-2 ml-6">
+        <a routerLink="/dashboard/movies/movies-table" class="btn btn-sm btn-ghost justify-start">Movies Table</a>
+        <a routerLink="/dashboard/movies/add-movie" class="btn btn-sm btn-ghost justify-start">Add Movie</a>
+      </div>
+    </div>
+
+    <div class="collapse collapse-arrow">
+      <input type="checkbox" />
+      <div class="collapse-title justify-start btn btn-ghost hover:bg-primary/20 hover:border-none">
+        <ng-icon name="faSolidTv" size="16" />
+        Series
+      </div>
+      <div class="collapse-content flex flex-col gap-2 ml-6">
+        <a routerLink="/dashboard/series/series-table" class="btn btn-sm btn-ghost justify-start">Series Table</a>
+        <a routerLink="/dashboard/series/add-series" class="btn btn-sm btn-ghost justify-start">Add Series</a>
+      </div>
+    </div>
+
   </div>
+
   <button class="btn btn-accent items-center" (click)="logout()">
     <ng-icon name="ionLogOutOutline" size="18" />
     Logout

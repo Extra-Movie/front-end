@@ -1,0 +1,92 @@
+<div class="flex items-center justify-center mt-3 text-primary">
+  <div class="w-150 bg-base-100 flex flex-col items-center justify-center border-t-4 border-t-primary p-5 rounded-lg shadow-md">
+    <form class="form w-full space-y-5 p-5" enctype="multipart/form-data" [formGroup]="AddSeriesForm" (ngSubmit)="onSubmit()">
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+        <label class="floating-label">
+          <span>Series Name</span>
+          <input type="text" formControlName="name" placeholder="Series Name" class="input input-md border-base-200 focus:border-none" />
+        </label>
+
+        <label class="floating-label">
+          <span>Original Name</span>
+          <input type="text" formControlName="original_name" placeholder="Original Name" class="input input-md border-base-200 focus:border-none" />
+        </label>
+      </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+      <fieldset class="fieldset text-primary w-full">
+        <legend class="fieldset-legend text-primary">Series Backdrop Image</legend>
+        <input type="file" class="file-input file-input-primary" (change)="onFileChange($event, 'backdrop_path')" />
+        <label class="label">Max size 2MB</label>
+      </fieldset>
+
+      <fieldset class="fieldset text-primary">
+        <legend class="fieldset-legend text-primary">Series Poster Image</legend>
+        <input type="file" class="file-input file-input-primary" (change)="onFileChange($event, 'poster_path')" />
+        <label class="label">Max size 2MB</label>
+      </fieldset>
+    </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+        <label class="floating-label">
+          <span>first air date</span>
+          <input type="date" formControlName="first_air_date" placeholder="First Air Date" class="input input-md border-base-200 focus:border-none" />
+        </label>
+
+        <label class="floating-label">
+          <span>Popularity</span>
+          <input type="number" formControlName="popularity" placeholder="Popularity" class="input input-md border-base-200 focus:border-none" />
+        </label>
+
+        <label class="floating-label">
+          <span>Vote Avg</span>
+          <input type="number" formControlName="vote_average" placeholder="Vote Avg" class="input input-md border-base-200 focus:border-none" />
+        </label>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+        <label class="floating-label">
+          <span>Vote Count</span>
+          <input type="number" formControlName="vote_count" placeholder="Vote Count" class="input input-md border-base-200 focus:border-none" />
+        </label>
+
+        <label class="floating-label">
+          <span>Country</span>
+          <input type="text" formControlName="origin_country" placeholder="Country" class="input input-md border-base-200 focus:border-none" />
+        </label>
+
+        <label class="floating-label">
+          <span>Language</span>
+          <input type="text" formControlName="original_language" placeholder="Language" class="input input-md border-base-200 focus:border-none" />
+        </label>
+      </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+      <label class="floating-label">
+        <span>Is For Adult</span>
+        <input type="text" formControlName="adult" placeholder="Is For Adult" class="input input-md border-base-200 focus:border-none" />
+      </label>
+
+      <label class="floating-label">
+        <span>Overview</span>
+        <input type="text" formControlName="overview" placeholder="Overview" class="input input-md border-base-200 focus:border-none" />
+      </label>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+      <label class="floating-label">
+        <span>Price</span>
+        <input type="number" formControlName="price" placeholder="Price" class="input input-md border-base-200 focus:border-none" />
+      </label>
+
+      <label class="floating-label">
+        <span>Num of purchases</span>
+        <input type="number" formControlName="number_of_purchases" placeholder="Number Of Purchases" class="input input-md border-base-200 focus:border-none" />
+      </label>
+     </div>
+
+      <button type="submit" class="w-full text-base-100 btn btn-primary transition-all duration-200 ease-in-out hover:outline-primary hover:bg-base-100 hover:text-primary">
+        Add Series
+      </button>
+    </form>
+  </div>
+</div>

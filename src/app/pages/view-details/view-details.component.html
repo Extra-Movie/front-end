@@ -1,0 +1,11 @@
+<div *ngIf="isError" class="alert alert-danger">Failed to load series details.</div>
+<div *ngIf="seriesDetails" class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+  <img [src]="seriesDetails.backdrop_path" class="h-60 object-cover w-full" [alt]="seriesDetails.name">
+  <div class="card-body">
+    <h5 class="card-title">{{ seriesDetails.name }}</h5>
+    <p class="card-text">{{ seriesDetails.overview }}</p>
+    <p class="card-text"><small class="text-muted">{{ seriesDetails.first_air_date }}</small></p>
+  </div>
+</div>
+
+
