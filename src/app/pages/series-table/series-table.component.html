@@ -18,8 +18,7 @@
   <section class=" w-full flex flex-col ">
     <!-- Loading Spinner -->
     <ng-container *ngIf="loading; else dataLoaded">
-      <div
-        class="flex flex-1 justify-center items-center h-full w-full">
+      <div class="flex flex-1 justify-center items-center h-full w-full">
         <span class="loading loading-spinner text-primary loading-xl"></span>
       </div>
     </ng-container>
@@ -47,8 +46,8 @@
                 <td class="text-center">{{ i + 1 }}</td>
                 <td class="flex justify-center items-center"><img [src]="series.poster_path" alt="Poster"
                     class="w-[50px] h-[50px] rounded" /></td>
-                <td class="text-center">{{ series.name }}</td>
-                <td class="text-center"> £ {{ series.price }}</td>
+                <td class="text-start whitespace-nowrap  ">{{ series.name }}</td>
+                <td class="text-center"> {{ formatCurrency(series.price) }}</td>
                 <td class="text-center">
                   <span class="text-secondary">
                     <ng-icon name="bootstrapStarFill" fill="text-secondary" />
@@ -70,7 +69,7 @@
                 <td>{{ i + 1 }}</td>
                 <td><img [src]="series.poster_path" alt="Poster" class="w-12 rounded" /></td>
                 <td>{{ series.name }}</td>
-                <td>£ {{ series.price }}</td>
+                <td> {{ formatCurrency(series.price) }}</td>
                 <td class="text-center">
                   <span class="text-secondary">
                     <ng-icon name="bootstrapStarFill" fill="text-secondary" />

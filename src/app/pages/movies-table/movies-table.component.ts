@@ -17,19 +17,22 @@ import { LoadingState } from '../../Types/loading-state.model';
 import { NgIcon , provideIcons } from '@ng-icons/core';
 import { faSolidTrashArrowUp } from '@ng-icons/font-awesome/solid';
 import {bootstrapStarFill} from '@ng-icons/bootstrap-icons';
+import { currencyFormatter } from '../../utils/formatters';
 
 @Component({
   selector: 'app-movies-table',
   imports: [CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,NgIcon],
+    FormsModule,NgIcon,
+  ],
     providers: [MovieService],
   templateUrl: './movies-table.component.html',
   styles: ``,
   viewProviders:[provideIcons({faSolidTrashArrowUp,bootstrapStarFill})]
 })
 export class MoviesTableComponent implements OnInit{
+  formatCurrency = currencyFormatter
  constructor(private movieService: MovieService, private toast: ToastService , private activeRoute:ActivatedRoute , private router:Router) {
     let params! : any ;
     this.genreIDNamesObj = JSON.parse(localStorage.getItem('genreTypesObj')??"") ;
@@ -40,23 +43,23 @@ export class MoviesTableComponent implements OnInit{
   pageSize: number = 6;
     movieResponse!: MovieResponseType;
     movieFilteredResponse!: MovieResponseType;
-  
+
     currentPage: number = 1;
     currentFilteredPage: number = 1;
-  
+
     loading: boolean = false;
-  
+
     pageMovies!: MovieType[];
     filteredPageMovies!: MovieType[];
-  
+
     totalPages!: number;
     totalFilteredPages!: number;
-  
+
     genreIDNamesObj! : MovieGenreMatchType ;
-  
+
     filterFlag :boolean = false ;
-  
-  
+
+
     //value filter obj
     filterMovieValuesObj : MovieFilteredValuesType =
     {
@@ -66,17 +69,17 @@ export class MoviesTableComponent implements OnInit{
       voteValue : 0 ,
       popularityValue : 0
     }
-  
+
     //#endregion
-  
-  
+
+
     ngOnInit(): void {
-  
+
       this.restoreState();
-  
+
         this.activeRoute.queryParams.subscribe((params) => {
         console.log("Params", params);
-  
+
         const newFilterValues: MovieFilteredValuesType = {
           nameValue: params['search'] ?? '',
           yearValue: params['year'] ?? '',
@@ -84,7 +87,7 @@ export class MoviesTableComponent implements OnInit{
           voteValue: 0,
           popularityValue: 0
         };
-  
+
         // Compare with previous values in sessionStorage
         const savedFilter = sessionStorage.getItem('filterMovieValuesObj');
         let prevFilterValues: MovieFilteredValuesType = {
@@ -94,43 +97,43 @@ export class MoviesTableComponent implements OnInit{
           voteValue: 0,
           popularityValue: 0
         };
-  
+
         if (savedFilter) {
           try {
             prevFilterValues = JSON.parse(savedFilter);
           } catch (e) {console.log(e)}
         }
-  
+
         this.filterFlag = !!(params['search'] || params['year'] || params['rating'] || params['genres']);
         const isSameFilter =
           JSON.stringify(newFilterValues) === JSON.stringify(prevFilterValues);
-  
+
         this.filterMovieValuesObj = newFilterValues;
-  
+
         if (!isSameFilter) {
           this.currentFilteredPage = 1; // Reset page only on new filter
         } else {
           // Restore page if user is paginating without filter change
           this.currentFilteredPage = parseInt(sessionStorage.getItem('currentFilteredPage') ?? "1");
         }
-  
+
         const targetPage = this.filterFlag ? this.currentFilteredPage : this.currentPage;
         this.loadMovies(targetPage, this.filterMovieValuesObj);
       });
     }
-  
+
     getGenreValue(key: string): number {
       if (key && this.genreIDNamesObj?.hasOwnProperty(key)) {
         return this.genreIDNamesObj[key];
       }
       return 0;
     }
-  
-  
-  
+
+
+
     //load movies
     loadMovies(pageNo:number ,filterVal:MovieFilteredValuesType   ):void{
-  
+
       this.movieService.getAllMovies(pageNo,filterVal).subscribe(
         {
           next:(state:LoadingState<MovieResponseType>)=>{
@@ -138,7 +141,7 @@ export class MoviesTableComponent implements OnInit{
           if(state.state==='loaded')
           {
             this.movieResponse = state.data ;
-        
+
             if(!this.filterFlag)
             {
               console.log("Noraml");
@@ -154,7 +157,7 @@ export class MoviesTableComponent implements OnInit{
               this.totalFilteredPages = this.movieResponse.totalPages ;
             }
             this.saveCurrentState();
-  
+
           }
           else if(state.state==='error')
           {
@@ -165,10 +168,10 @@ export class MoviesTableComponent implements OnInit{
           console.log("Error",error);
           this.showErrorToast('Error Fetching Movies');
         }
-  
+
       }
       )
-  
+
       this.saveCurrentState() ;
     }
 
@@ -224,11 +227,11 @@ export class MoviesTableComponent implements OnInit{
   }
 }
 
-  
-  
-  
+
+
+
     //next Page
-  
+
     nextPageContent() {
       if (!this.filterFlag)
       {
@@ -236,7 +239,7 @@ export class MoviesTableComponent implements OnInit{
         if (this.currentPage > this.totalPages) {
           this.currentPage = 1;
         }
-  
+
         this.loadMovies(this.currentPage,this.filterMovieValuesObj);
       }
       else
@@ -245,12 +248,12 @@ export class MoviesTableComponent implements OnInit{
         if (this.currentFilteredPage > this.totalFilteredPages) {
           this.currentFilteredPage = 1;
         }
-  
+
         this.loadMovies(this.currentFilteredPage,this.filterMovieValuesObj);
       }
-  
+
     }
-  
+
     //previous page content
     previousPageContent() {
       if (!this.filterFlag)
@@ -259,7 +262,7 @@ export class MoviesTableComponent implements OnInit{
         if (this.currentPage < 1) {
           this.currentPage = this.totalPages;
         }
-  
+
         this.loadMovies(this.currentPage,this.filterMovieValuesObj);
       }
       else
@@ -268,12 +271,12 @@ export class MoviesTableComponent implements OnInit{
         if (this.currentFilteredPage < 1) {
           this.currentFilteredPage = this.totalFilteredPages;
         }
-  
+
         this.loadMovies(this.currentFilteredPage,this.filterMovieValuesObj);
       }
     }
-  
-  
+
+
     showErrorToast(errorMsg:string) {
       this.toast.error(errorMsg, {
         title: 'Error',
@@ -291,8 +294,8 @@ export class MoviesTableComponent implements OnInit{
         showIcon: true,
       });
     }
-  
-  
+
+
     //using Session storage to store state
     saveCurrentState() :void
     {
@@ -305,14 +308,14 @@ export class MoviesTableComponent implements OnInit{
       sessionStorage.setItem('filteredPageMovies',JSON.stringify(this.filteredPageMovies)) ;
       sessionStorage.setItem('filterMovieValuesObj',JSON.stringify(this.filterMovieValuesObj)) ;
     }
-  
+
     restoreState() {
       this.filterFlag = sessionStorage.getItem('filterFlag') === 'true';
       this.currentPage = parseInt(sessionStorage.getItem('currentPage') ?? "1");
       this.totalPages = parseInt(sessionStorage.getItem('totalPages') ?? "1");
       this.currentFilteredPage = parseInt(sessionStorage.getItem('currentFilteredPage') ?? "1");
       this.totalFilteredPages = parseInt(sessionStorage.getItem('totalFilteredPages') ?? "1");
-  
+
       const movieContentArr = sessionStorage.getItem('pageMovies');
       try {
         this.pageMovies = movieContentArr ? JSON.parse(movieContentArr) : [];
@@ -320,7 +323,7 @@ export class MoviesTableComponent implements OnInit{
         console.log('Failed to parse pageMovies:', e);
         this.pageMovies = [];
       }
-  
+
       const filteredPageMoviesArr = sessionStorage.getItem('filteredPageMovies');
       try {
         this.filteredPageMovies = filteredPageMoviesArr ? JSON.parse(filteredPageMoviesArr) : [];
@@ -328,7 +331,7 @@ export class MoviesTableComponent implements OnInit{
         console.log('Failed to parse filteredPageMovies:', e);
         this.filteredPageMovies = [];
       }
-  
+
       const filterMovieValuesObjStr = sessionStorage.getItem('filterMovieValuesObj');
       try {
         this.filterMovieValuesObj = filterMovieValuesObjStr ? JSON.parse(filterMovieValuesObjStr) : {
@@ -359,10 +362,10 @@ export class MoviesTableComponent implements OnInit{
             if (state.state === 'success') {
               this.showSuccessToast('Movie Deleted Successfully');
               this.loadMovies(this.currentPage, this.filterMovieValuesObj);
-            } 
+            }
             else if (state.state === 'error') {
               console.log('Error Deleting Movie', state.error);
-  
+
               this.showErrorToast('Error Deleting Movie');
             }
           },

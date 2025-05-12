@@ -15,6 +15,7 @@ import { LoadingState } from '../../Types/loading-state.model';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidTrashArrowUp } from '@ng-icons/font-awesome/solid';
 import { bootstrapStarFill } from '@ng-icons/bootstrap-icons';
+import { currencyFormatter } from '../../utils/formatters';
 
 @Component({
   selector: 'app-series-table',
@@ -31,6 +32,7 @@ import { bootstrapStarFill } from '@ng-icons/bootstrap-icons';
   viewProviders: [provideIcons({ faSolidTrashArrowUp, bootstrapStarFill })],
 })
 export class SeriesTableComponent implements OnInit {
+  formatCurrency = currencyFormatter
   constructor(
     private seriesService: SeriesService,
     private toast: ToastService,

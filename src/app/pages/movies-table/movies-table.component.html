@@ -48,8 +48,8 @@
                 <td class="text-center">{{ i + 1 }}</td>
                 <td class="flex justify-center items-center"><img [src]="movie.poster_path" alt="Poster"
                     class="w-[50px] h-[50px] rounded" /></td>
-                <td class="text-center">{{ movie.title }}</td>
-                <td class="text-center"> £ {{ movie.price }}</td>
+                <td class="text-start whitespace-nowrap">{{ movie.title }}</td>
+                <td class="text-center">{{ formatCurrency(movie.price) }}</td>
                 <td class="text-center">
                   <span class="text-secondary">
                     <ng-icon name="bootstrapStarFill" fill="text-secondary" />
@@ -70,8 +70,8 @@
               <tr *ngFor="let movie of filteredPageMovies; let i = index" class="hover">
                 <td>{{ i + 1 }}</td>
                 <td><img [src]="movie.poster_path" alt="Poster" class="w-12 rounded" /></td>
-                <td>{{ movie.title }}</td>
-                <td>£ {{ movie.price }}</td>
+                <td class="text-start whitespace-nowrap">{{ movie.title }}</td>
+                <td>{{ formatCurrency(movie.price) }}</td>
                 <td class="text-center">
                   <span class="text-secondary">
                     <ng-icon name="bootstrapStarFill" fill="text-secondary" />
