@@ -1,6 +1,7 @@
 <div class="flex sm:flex-row flex-col my-3 gap-3 p-6 mx-auto min-h-screen">
   <!-- filteration section -->
-  <div><app-filter class="sm:w-1/5 w-full sm:sticky top-30" [type]="'series'"></app-filter></div>
+  <div><app-filter class="sm:w-full sm:block hidden sm:sticky top-30" [type]="'series'"></app-filter></div>
+  <div><app-filter-model class="sm:hidden block fixed bottom-0 z-10 left-2/5" [type]="'series'"></app-filter-model></div>
 
   <div class="movies-content sm:w-4/5 w-full flex flex-col items-center">
 
@@ -21,10 +22,18 @@
           </div>
         }
         @else {
-          <div *ngFor="let series of filteredPageSeries; let i = index">
-            <!-- Calling Media Card here & pass Series Object -->
-            <app-mediaCard [mediaItem]="series"></app-mediaCard>
-          </div>
+          @if(totalFilteredPages)
+          {
+            <div *ngFor="let series of filteredPageSeries; let i = index">
+              <!-- Calling Media Card here & pass Series Object -->
+              <app-mediaCard [mediaItem]="series"></app-mediaCard>
+            </div>
+          }
+          @else {
+            <div class="min-h-screen flex justify-center items-center w-full bg-black/20 dark:bg-black/85  rounded-2xl">
+              <h2 class="text-lg text-primary">No Matching Results</h2>
+            </div>
+          }
         }
 
       </div>

@@ -17,41 +17,11 @@ export class HomeComponent implements OnInit {
   constructor(
     private toast: ToastService,
     private theme: DarkModeService,
-    private movieService: MovieService
   ) {}
 
-  movieGeners!: MovieGenreType[];
-  movieGenersIDGenerated: MovieGenreMatchType = {};
-  genreStoreFlag: boolean = false;
+
 
   ngOnInit(): void {
-    //store genres in local storage for one time
-    this.getGenres();
-  }
-
-  //get media genres and store it in local storage to execute only request
-  getGenres() {
-    //geners =>
-    this.movieService.getMovieGeners().subscribe({
-      next: (data: any) => {
-        this.movieGeners = data;
-        for (let i = 0; i < this.movieGeners.length; i++) {
-          this.movieGenersIDGenerated[
-            this.movieGeners[i].name.toLocaleLowerCase()
-          ] = this.movieGeners[i].id;
-        }
-        localStorage.setItem(
-          'genreTypesObj',
-          JSON.stringify(this.movieGenersIDGenerated)
-        );
-        console.log(this.movieGenersIDGenerated);
-      },
-      error: (error) => {
-        console.log(error);
-        this.showErrorToast();
-      },
-      complete: () => console.log('completed Geners'),
-    });
   }
 
   showToast() {

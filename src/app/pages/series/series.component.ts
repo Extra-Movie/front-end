@@ -10,6 +10,8 @@ import { FilterComponent } from '../../components/filter/filter/filter.component
 import { MediaCardComponent } from '../../components/mediacard/mediacard.component';
 import { LoadingState } from '../../Types/loading-state.model';
 import { MovieGenreMatchType } from '../../Types/Movie.types';
+import { FilterModelComponent } from '../filter/filter-modal/filter-modal.component';
+
 
 @Component({
   selector: 'app-series',
@@ -20,6 +22,7 @@ import { MovieGenreMatchType } from '../../Types/Movie.types';
     ReactiveFormsModule,
     FormsModule,
     FilterComponent,
+    FilterModelComponent
   ],
   providers: [SeriesService],
   templateUrl: './series.component.html',
@@ -53,6 +56,7 @@ export class SeriesComponent implements OnInit {
   genreIDNamesObj!: MovieGenreMatchType;
 
   filterFlag: boolean = false;
+  seriesPopularityVal:number = 65 ;
 
   // value filter obj
   filterSeriesValuesObj: SeriesFilteredValuesType = {
@@ -73,9 +77,9 @@ export class SeriesComponent implements OnInit {
       const newFilterValues: SeriesFilteredValuesType = {
         nameValue: params['search'] ?? '',
         yearValue: params['year'] ?? '',
-        genreValue: this.getGenreValue(params['genres']),
-        voteValue: 0,
-        popularityValue: 0,
+        genreValue: params['genre'] ? parseInt(params['genre']) : 0,
+        voteValue: params['rating']??'',
+        popularityValue: params['popularity']??''
       };
 
       // Compare with previous values in sessionStorage
@@ -96,7 +100,7 @@ export class SeriesComponent implements OnInit {
         }
       }
 
-      this.filterFlag = !!(params['search'] || params['year'] || params['rating'] || params['genres']);
+      this.filterFlag = !!(params['search'] || params['year'] || params['rating'] || params['genres']||params['popularity']);
       const isSameFilter =
         JSON.stringify(newFilterValues) === JSON.stringify(prevFilterValues);
 
@@ -110,15 +114,23 @@ export class SeriesComponent implements OnInit {
       }
 
       const targetPage = this.filterFlag ? this.currentFilteredPage : this.currentPage;
+      if(this.filterSeriesValuesObj.popularityValue==='Latest')
+      {
+        this.filterSeriesValuesObj.popularityValue = '' ;
+        this.filterSeriesValuesObj.yearValue = '2025' ;
+      }
+      else if(this.filterSeriesValuesObj.popularityValue==='Top Rated')
+      {
+        this.filterSeriesValuesObj.popularityValue = '' ;
+        this.filterSeriesValuesObj.voteValue = 8 ;
+      }
+      else if(this.filterSeriesValuesObj.popularityValue==='Most Popular')
+      {
+        this.filterSeriesValuesObj.popularityValue = this.seriesPopularityVal ;
+      }
+
       this.loadSeries(targetPage, this.filterSeriesValuesObj);
     });
-  }
-
-  getGenreValue(key: string): number {
-    if (key && this.genreIDNamesObj?.hasOwnProperty(key)) {
-      return this.genreIDNamesObj[key];
-    }
-    return 0; // Return 0 if no genre value is found
   }
 
   // load series
@@ -177,14 +189,28 @@ export class SeriesComponent implements OnInit {
     if (!this.filterFlag) {
       this.currentPage--;
       if (this.currentPage < 1) {
-        this.currentPage = this.totalPages;
+        if(this.totalPages!=0)
+        {
+          this.currentPage = this.totalPages;
+        }
+        else
+        {
+          this.currentPage = 1 ;
+        }
       }
 
       this.loadSeries(this.currentPage, this.filterSeriesValuesObj);
     } else {
       this.currentFilteredPage--;
       if (this.currentFilteredPage < 1) {
-        this.currentFilteredPage = this.totalFilteredPages;
+        if(this.totalFilteredPages!=0)
+        {
+          this.currentFilteredPage = this.totalFilteredPages;
+        }
+        else
+        {
+          this.currentFilteredPage = 1 ;
+        }
       }
 
       this.loadSeries(this.currentFilteredPage, this.filterSeriesValuesObj);
@@ -202,38 +228,14 @@ export class SeriesComponent implements OnInit {
 
   // using Session storage to store state
   saveCurrentState(): void {
-    sessionStorage.setItem('filterFlagSeries', String(this.filterFlag));
     sessionStorage.setItem('currentPageSeries', String(this.currentPage));
     sessionStorage.setItem('currentFilteredPageSeries', String(this.currentFilteredPage));
-    sessionStorage.setItem('totalPagesSeries', String(this.totalPages));
-    sessionStorage.setItem('totalFilteredPagesSeries', String(this.totalFilteredPages));
-    sessionStorage.setItem('pageSeries', JSON.stringify(this.pageSeries));
-    sessionStorage.setItem('filteredPageSeries', JSON.stringify(this.filteredPageSeries));
     sessionStorage.setItem('filterSeriesValuesObj', JSON.stringify(this.filterSeriesValuesObj));
   }
 
   restoreState() {
-    this.filterFlag = sessionStorage.getItem('filterFlagSeries') === 'true';
     this.currentPage = parseInt(sessionStorage.getItem('currentPageSeries') ?? '1');
-    this.totalPages = parseInt(sessionStorage.getItem('totalPagesSeries') ?? '1');
     this.currentFilteredPage = parseInt(sessionStorage.getItem('currentFilteredPageSeries') ?? '1');
-    this.totalFilteredPages = parseInt(sessionStorage.getItem('totalFilteredPagesSeries') ?? '1');
-
-    const seriesContentArr = sessionStorage.getItem('pageSeries');
-    try {
-      this.pageSeries = seriesContentArr ? JSON.parse(seriesContentArr) : [];
-    } catch (e) {
-      console.log('Failed to parse pageSeries:', e);
-      this.pageSeries = [];
-    }
-
-    const filteredPageSeriesArr = sessionStorage.getItem('filteredPageSeries');
-    try {
-      this.filteredPageSeries = filteredPageSeriesArr ? JSON.parse(filteredPageSeriesArr) : [];
-    } catch (e) {
-      console.log('Failed to parse filteredPageSeries:', e);
-      this.filteredPageSeries = [];
-    }
 
     const filterSeriesValuesObjStr = sessionStorage.getItem('filterSeriesValuesObj');
     try {

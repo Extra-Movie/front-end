@@ -11,10 +11,14 @@ import {
 import {  ActivatedRoute, RouterLink } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FilterComponent } from '../../components/filter/filter/filter.component';
 import { MediaCardComponent } from '../../components/mediacard/mediacard.component';
 import { LoadingState } from '../../Types/loading-state.model';
+import { FilterComponent } from '../../components/filter/filter/filter.component';
+import { FilterModelComponent } from '../filter/filter-modal/filter-modal.component';
 
+
+
+FilterModelComponent
 
 @Component({
   selector: 'app-movies',
@@ -22,7 +26,7 @@ import { LoadingState } from '../../Types/loading-state.model';
     MediaCardComponent ,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule, FilterComponent],
+    FormsModule, FilterComponent,FilterModelComponent ],
     providers: [MovieService],
   templateUrl: './movies.component.html',
   styles: ``
@@ -30,8 +34,6 @@ import { LoadingState } from '../../Types/loading-state.model';
 export class MoviesComponent implements OnInit {
   constructor(private movieService: MovieService, private toast: ToastService , private activeRoute:ActivatedRoute) {
     let params! : any ;
-    this.genreIDNamesObj = JSON.parse(localStorage.getItem('genreTypesObj')??"") ;
-    console.log(this.genreIDNamesObj) ;
   }
 
 //#region Properties
@@ -52,6 +54,7 @@ export class MoviesComponent implements OnInit {
   genreIDNamesObj! : MovieGenreMatchType ;
 
   filterFlag :boolean = false ;
+  moviePopularityVal:number = 15 ;
 
 
   //value filter obj
@@ -77,9 +80,9 @@ export class MoviesComponent implements OnInit {
       const newFilterValues: MovieFilteredValuesType = {
         nameValue: params['search'] ?? '',
         yearValue: params['year'] ?? '',
-        genreValue: this.getGenreValue(params['genres']),
-        voteValue: 0,
-        popularityValue: 0
+        genreValue: params['genre'] ? parseInt(params['genre']) : 0,
+        voteValue: params['rating']??'',
+        popularityValue: params['popularity']??''
       };
 
       // Compare with previous values in sessionStorage
@@ -98,7 +101,7 @@ export class MoviesComponent implements OnInit {
         } catch (e) {console.log(e)}
       }
 
-      this.filterFlag = !!(params['search'] || params['year'] || params['rating'] || params['genres']);
+      this.filterFlag = !!(params['search'] || params['year'] || params['rating'] || params['genres']||params['popularity']);
       const isSameFilter =
         JSON.stringify(newFilterValues) === JSON.stringify(prevFilterValues);
 
@@ -112,15 +115,22 @@ export class MoviesComponent implements OnInit {
       }
 
       const targetPage = this.filterFlag ? this.currentFilteredPage : this.currentPage;
+      if(this.filterMovieValuesObj.popularityValue==='Latest')
+      {
+        this.filterMovieValuesObj.popularityValue = '' ;
+        this.filterMovieValuesObj.yearValue = '2025' ;
+      }
+      else if(this.filterMovieValuesObj.popularityValue==='Top Rated')
+      {
+        this.filterMovieValuesObj.popularityValue = '' ;
+        this.filterMovieValuesObj.voteValue = 8 ;
+      }
+      else if(this.filterMovieValuesObj.popularityValue==='Most Popular')
+      {
+        this.filterMovieValuesObj.popularityValue = this.moviePopularityVal ;
+      }
       this.loadMovies(targetPage, this.filterMovieValuesObj);
     });
-  }
-
-  getGenreValue(key: string): number {
-    if (key && this.genreIDNamesObj?.hasOwnProperty(key)) {
-      return this.genreIDNamesObj[key];
-    }
-    return 0;
   }
 
 
@@ -141,6 +151,7 @@ export class MoviesComponent implements OnInit {
             this.pageMovies = this.movieResponse.movies ;
             this.currentPage = this.movieResponse.page ;
             this.totalPages = this.movieResponse.totalPages ;
+            console.log("total Normal",this.totalFilteredPages);
           }
           else
           {
@@ -148,6 +159,7 @@ export class MoviesComponent implements OnInit {
             this.filteredPageMovies = this.movieResponse.movies ;
             this.currentFilteredPage = this.movieResponse.page ;
             this.totalFilteredPages = this.movieResponse.totalPages ;
+            console.log("total filter",this.totalFilteredPages);
           }
           this.saveCurrentState();
 
@@ -155,6 +167,7 @@ export class MoviesComponent implements OnInit {
         else if(state.state==='error')
         {
           console.log('Error Loading Movies' ,state.error) ;
+          this.showErrorToast('Error Fetching Movies');
         }
       },
       error : (error)=>{
@@ -200,7 +213,14 @@ export class MoviesComponent implements OnInit {
     {
       this.currentPage--;
       if (this.currentPage < 1) {
-        this.currentPage = this.totalPages;
+        if(this.totalPages!=0)
+        {
+          this.currentPage = this.totalPages;
+        }
+        else
+        {
+          this.currentPage = 1 ;
+        }
       }
 
       this.loadMovies(this.currentPage,this.filterMovieValuesObj);
@@ -209,7 +229,14 @@ export class MoviesComponent implements OnInit {
     {
       this.currentFilteredPage--;
       if (this.currentFilteredPage < 1) {
-        this.currentFilteredPage = this.totalFilteredPages;
+        if(this.totalFilteredPages!=0)
+        {
+          this.currentFilteredPage = this.totalFilteredPages;
+        }
+        else
+        {
+          this.currentFilteredPage = 1 ;
+        }
       }
 
       this.loadMovies(this.currentFilteredPage,this.filterMovieValuesObj);
@@ -230,39 +257,14 @@ export class MoviesComponent implements OnInit {
   //using Session storage to store state
   saveCurrentState() :void
   {
-    sessionStorage.setItem('filterFlag',String(this.filterFlag)) ;
     sessionStorage.setItem('currentPage',String(this.currentPage)) ;
-    sessionStorage.setItem('currentFilteredPage',String(this.currentFilteredPage)) ;
-    sessionStorage.setItem('totalPages',String(this.totalPages)) ;
-    sessionStorage.setItem('totalFilteredPages',String(this.totalFilteredPages)) ;
-    sessionStorage.setItem('pageMovies',JSON.stringify(this.pageMovies)) ;
-    sessionStorage.setItem('filteredPageMovies',JSON.stringify(this.filteredPageMovies)) ;
     sessionStorage.setItem('filterMovieValuesObj',JSON.stringify(this.filterMovieValuesObj)) ;
+    sessionStorage.setItem('currentFilteredPage',String(this.currentFilteredPage)) ;
   }
 
   restoreState() {
-    this.filterFlag = sessionStorage.getItem('filterFlag') === 'true';
     this.currentPage = parseInt(sessionStorage.getItem('currentPage') ?? "1");
-    this.totalPages = parseInt(sessionStorage.getItem('totalPages') ?? "1");
     this.currentFilteredPage = parseInt(sessionStorage.getItem('currentFilteredPage') ?? "1");
-    this.totalFilteredPages = parseInt(sessionStorage.getItem('totalFilteredPages') ?? "1");
-
-    const movieContentArr = sessionStorage.getItem('pageMovies');
-    try {
-      this.pageMovies = movieContentArr ? JSON.parse(movieContentArr) : [];
-    } catch (e) {
-      console.log('Failed to parse pageMovies:', e);
-      this.pageMovies = [];
-    }
-
-    const filteredPageMoviesArr = sessionStorage.getItem('filteredPageMovies');
-    try {
-      this.filteredPageMovies = filteredPageMoviesArr ? JSON.parse(filteredPageMoviesArr) : [];
-    } catch (e) {
-      console.log('Failed to parse filteredPageMovies:', e);
-      this.filteredPageMovies = [];
-    }
-
     const filterMovieValuesObjStr = sessionStorage.getItem('filterMovieValuesObj');
     try {
       this.filterMovieValuesObj = filterMovieValuesObjStr ? JSON.parse(filterMovieValuesObjStr) : {
@@ -281,7 +283,7 @@ export class MoviesComponent implements OnInit {
         voteValue: 0,
         popularityValue: 0
       };
-    }
   }
+}
 
 }

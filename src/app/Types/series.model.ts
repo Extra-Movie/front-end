@@ -33,6 +33,6 @@ export type SeriesFilteredValuesType = {
   yearValue : string ,
   genreValue : number ,
   voteValue : number ,
-  popularityValue : number
+  popularityValue : number | string
 }
 
