@@ -84,23 +84,24 @@ export const routes: Routes = [
       },
       {
         path: 'movies',
-        component: AdminMoviesComponent,children:[
-           { path: 'movies-table', component: MoviesTableComponent },
-           { path: 'add-movie', component: AddMovieComponent },
-        ]
+        component: AdminMoviesComponent,
+        children: [
+          { path: 'movies-table', component: MoviesTableComponent },
+          { path: 'add-movie', component: AddMovieComponent },
+        ],
       },
       {
         path: 'series',
-        component: AdminSeriesComponent,children:[
+        component: AdminSeriesComponent,
+        children: [
           { path: 'series-table', component: SeriesTableComponent },
           { path: 'add-series', component: AddSeriesComponent },
-        ]
+        ],
       },
       {
         path: 'users',
         component: AdminUsersComponent,
       },
-
     ],
   },
   {

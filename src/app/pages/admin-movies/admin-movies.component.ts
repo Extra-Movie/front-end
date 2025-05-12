@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MoviesTableComponent } from "../movies-table/movies-table.component";
 @Component({
   selector: 'app-admin-movies',
-  imports: [RouterModule, MoviesTableComponent],
+  imports: [RouterModule],
   templateUrl: './admin-movies.component.html',
   styles: ``
 })

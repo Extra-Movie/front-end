@@ -1,88 +1,96 @@
-<div class="flex flex-col  gap-6 px-6 max-h-screen">
+<div class="flex flex-col  gap-6 py-6">
   <!-- Filter Section -->
-  <div class="sm:w-1/4 w-full ">
+  <div class="w-full px-6">
     <label class="input w-full focus:outline-secondary input-secondary">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-[1em] opacity-50">
-            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
-              <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></g></svg>
-              <input type="search" placeholder="Find movie..." formcontrolname="search" class="w-full ng-pristine ng-valid ng-touched" [(ngModel)]="filterMovieValuesObj.nameValue" (ngModelChange)="onSearchChange()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-[1em] opacity-50">
+        <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.3-4.3"></path>
+        </g>
+      </svg>
+      <input type="search" placeholder="Find movie..." formcontrolname="search"
+        class="w-full ng-pristine ng-valid ng-touched" [(ngModel)]="filterMovieValuesObj.nameValue"
+        (ngModelChange)="onSearchChange()">
     </label>
-       
 
-</div>
+
+  </div>
 
   <!-- Dashboard Table Section -->
   <section class=" w-full flex flex-col">
     <!-- Loading Spinner -->
     <ng-container *ngIf="loading; else dataLoaded">
-      <div class="flex justify-center items-center h-full w-full bg-[url('/images/hateful_eight.webp')] bg-cover bg-center bg-no-repeat bg-black/80 dark:bg-black/85 bg-blend-color">
-        <span class="loading loading-spinner text-secondary"></span>
+      <div class="flex justify-center items-center h-full w-full">
+        <span class="loading loading-spinner text-primary loading-xl"></span>
       </div>
     </ng-container>
 
     <!-- Loaded Content -->
     <ng-template #dataLoaded>
 
-            <div class="overflow-x-auto ">
-                    <table class="table table-zebra w-full">
-                      <thead class="bg-accent text-accent-content text-sm uppercase">
-                          <tr>
-                            <th class="text-center">#</th>
-                            <th class="text-center">Poster</th>
-                            <th class="text-center">Title</th>
-                            <th class="text-center">Price</th>
-                            <th class="text-center">Rating</th>
-                            <th class="text-center">Year</th>
-                            <th class="text-center">Actions</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <!-- Unfiltered List -->
-                          <ng-container *ngIf="!filterFlag; else filteredList">
-                            <tr *ngFor="let movie of pageMovies; let i = index" class="hover">
-                                <td class="text-center">{{ i + 1 }}</td>
-                                <td class="flex justify-center items-center"><img [src]="movie.poster_path" alt="Poster" class="w-[50px] h-[50px] rounded" /></td>
-                                <td class="text-center">{{ movie.title  }}</td>
-                                <td class="text-center"> £ {{ movie.price }}</td>
-                                <td class="text-center"> 
-                                  <span class="text-secondary">
-                                    <ng-icon name="bootstrapStarFill"  fill="text-secondary" /> 
-                                  </span>
-                                  {{ movie.vote_average }}
-                                </td>
-                                <td class="text-center">{{ movie.release_date }}</td>
-                                <td class="text-center">
-                                  <button (click)="deleteMovie(movie._id)" class="btn btn-sm btn-error">
-                                    <ng-icon name="faSolidTrashArrowUp"/>
-                                  </button>
-                                </td>
-                            </tr>
-                          </ng-container>
+      <div class="overflow-x-auto ">
+        <table class="table table-zebra w-full">
+          <thead class="bg-accent text-accent-content text-sm uppercase">
+            <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">Poster</th>
+              <th class="text-center">Title</th>
+              <th class="text-center">Price</th>
+              <th class="text-center">Rating</th>
+              <th class="text-center">Year</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Unfiltered List -->
+            <ng-container *ngIf="!filterFlag; else filteredList">
+              <tr *ngFor="let movie of pageMovies; let i = index" class="hover">
+                <td class="text-center">{{ i + 1 }}</td>
+                <td class="flex justify-center items-center"><img [src]="movie.poster_path" alt="Poster"
+                    class="w-[50px] h-[50px] rounded" /></td>
+                <td class="text-center">{{ movie.title }}</td>
+                <td class="text-center"> £ {{ movie.price }}</td>
+                <td class="text-center">
+                  <span class="text-secondary">
+                    <ng-icon name="bootstrapStarFill" fill="text-secondary" />
+                  </span>
+                  {{ movie.vote_average }}
+                </td>
+                <td class="text-center">{{ movie.release_date }}</td>
+                <td class="text-center">
+                  <button (click)="deleteMovie(movie._id)" class="btn btn-sm btn-error">
+                    <ng-icon name="faSolidTrashArrowUp" />
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
 
-                          <!-- Filtered List -->
-                          <ng-template #filteredList>
-                          <tr *ngFor="let movie of filteredPageMovies; let i = index" class="hover">
-                              <td>{{ i + 1 }}</td>
-                              <td><img [src]="movie.poster_path" alt="Poster" class="w-12 rounded" /></td>
-                              <td>{{ movie.title  }}</td>
-                              <td>£ {{ movie.price }}</td>
-                              <td class="text-center"> 
-                                  <span class="text-secondary">
-                                    <ng-icon name="bootstrapStarFill"  fill="text-secondary" /> 
-                                  </span>
-                                  {{ movie.vote_average }}
-                                </td>
-                              <td>{{ movie.release_date }}</td>
-                               <button (click)="deleteMovie(movie._id)" class="btn btn-sm btn-error">
-                                    <ng-icon name="faSolidTrashArrowUp"/>
-                                  </button>
-                          </tr>
-                          </ng-template>
-                      </tbody>
-                    </table>
-            </div>
-      
-      
+            <!-- Filtered List -->
+            <ng-template #filteredList>
+              <tr *ngFor="let movie of filteredPageMovies; let i = index" class="hover">
+                <td>{{ i + 1 }}</td>
+                <td><img [src]="movie.poster_path" alt="Poster" class="w-12 rounded" /></td>
+                <td>{{ movie.title }}</td>
+                <td>£ {{ movie.price }}</td>
+                <td class="text-center">
+                  <span class="text-secondary">
+                    <ng-icon name="bootstrapStarFill" fill="text-secondary" />
+                  </span>
+                  {{ movie.vote_average }}
+                </td>
+                <td>{{ movie.release_date }}</td>
+                <td class="text-center">
+                  <button (click)="deleteMovie(movie._id)" class="btn btn-sm btn-error">
+                    <ng-icon name="faSolidTrashArrowUp" />
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+
+
 
       <!-- Pagination Controls -->
       <div class="flex justify-center mt-6">
@@ -97,4 +105,3 @@
     </ng-template>
   </section>
 </div>
-

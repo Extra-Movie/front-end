@@ -1,43 +1,52 @@
-<<<<<<< HEAD
-import { Component} from '@angular/core';
-
-=======
 import { Component, OnInit } from '@angular/core';
 import { SeriesService } from '../../services/server/series.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { SeriesResponseType, SeriesFilteredValuesType, Series } from '../../Types/series.model';
+import {
+  SeriesResponseType,
+  SeriesFilteredValuesType,
+  Series,
+} from '../../Types/series.model';
 import { MovieGenreMatchType } from '../../Types/Movie.types';
-import {  ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoadingState } from '../../Types/loading-state.model';
-import { NgIcon , provideIcons } from '@ng-icons/core';
+import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidTrashArrowUp } from '@ng-icons/font-awesome/solid';
-import {bootstrapStarFill} from '@ng-icons/bootstrap-icons';
->>>>>>> e582cf2a3aa7f9926ddb036e88dbd147142a5930
+import { bootstrapStarFill } from '@ng-icons/bootstrap-icons';
 
 @Component({
   selector: 'app-series-table',
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule,NgIcon],
-    providers: [SeriesService],
+    FormsModule,
+    NgIcon,
+  ],
+  providers: [SeriesService],
   templateUrl: './series-table.component.html',
   styles: ``,
-   viewProviders:[provideIcons({faSolidTrashArrowUp,bootstrapStarFill})]
+  viewProviders: [provideIcons({ faSolidTrashArrowUp, bootstrapStarFill })],
 })
-export class SeriesTableComponent implements OnInit{
-  constructor(private seriesService: SeriesService, private toast: ToastService , private activeRoute:ActivatedRoute , private router:Router) {
-      let params! : any ;
-      this.genreIDNamesObj = JSON.parse(localStorage.getItem('genreTypesObj')??"") ;
-      console.log(this.genreIDNamesObj) ;
-    }
+export class SeriesTableComponent implements OnInit {
+  constructor(
+    private seriesService: SeriesService,
+    private toast: ToastService,
+    private activeRoute: ActivatedRoute,
+    private router: Router
+  ) {
+    let params!: any;
+    this.genreIDNamesObj = JSON.parse(
+      localStorage.getItem('genreTypesObj') ?? ''
+    );
+    console.log(this.genreIDNamesObj);
+  }
 
-    //#region Properties
+  //#region Properties
   pageSize: number = 6;
-     seriesResponse!: SeriesResponseType;
+  seriesResponse!: SeriesResponseType;
   seriesFilteredResponse!: SeriesResponseType;
 
   currentPage: number = 1;
@@ -63,11 +72,10 @@ export class SeriesTableComponent implements OnInit{
     voteValue: 0,
     popularityValue: 0,
   };
-  
-    //#endregion
-  
-  
-    ngOnInit(): void {
+
+  //#endregion
+
+  ngOnInit(): void {
     this.restoreState();
 
     this.activeRoute.queryParams.subscribe((params) => {
@@ -99,7 +107,12 @@ export class SeriesTableComponent implements OnInit{
         }
       }
 
-      this.filterFlag = !!(params['search'] || params['year'] || params['rating'] || params['genres']);
+      this.filterFlag = !!(
+        params['search'] ||
+        params['year'] ||
+        params['rating'] ||
+        params['genres']
+      );
       const isSameFilter =
         JSON.stringify(newFilterValues) === JSON.stringify(prevFilterValues);
 
@@ -109,25 +122,27 @@ export class SeriesTableComponent implements OnInit{
         this.currentFilteredPage = 1; // Reset page only on new filter
       } else {
         // Restore page if user is paginating without filter change
-        this.currentFilteredPage = parseInt(sessionStorage.getItem('currentFilteredPageSeries') ?? '1');
+        this.currentFilteredPage = parseInt(
+          sessionStorage.getItem('currentFilteredPageSeries') ?? '1'
+        );
       }
 
-      const targetPage = this.filterFlag ? this.currentFilteredPage : this.currentPage;
+      const targetPage = this.filterFlag
+        ? this.currentFilteredPage
+        : this.currentPage;
       this.loadSeries(targetPage, this.filterSeriesValuesObj);
     });
   }
-  
-    getGenreValue(key: string): number {
-      if (key && this.genreIDNamesObj?.hasOwnProperty(key)) {
-        return this.genreIDNamesObj[key];
-      }
-      return 0;
+
+  getGenreValue(key: string): number {
+    if (key && this.genreIDNamesObj?.hasOwnProperty(key)) {
+      return this.genreIDNamesObj[key];
     }
-  
-  
-  
-    //load series
-    loadSeries(pageNo: number, filterVal: SeriesFilteredValuesType): void {
+    return 0;
+  }
+
+  //load series
+  loadSeries(pageNo: number, filterVal: SeriesFilteredValuesType): void {
     this.seriesService.getAllSeries(pageNo, filterVal).subscribe({
       next: (state: LoadingState<SeriesResponseType>) => {
         this.loading = state.state === 'loading';
@@ -135,7 +150,10 @@ export class SeriesTableComponent implements OnInit{
           this.seriesResponse = state.data;
           if (!this.filterFlag) {
             console.log('Normal');
-            this.pageSeries = this.seriesResponse.tvShows.slice(0, this.pageSize);
+            this.pageSeries = this.seriesResponse.tvShows.slice(
+              0,
+              this.pageSize
+            );
             this.currentPage = this.seriesResponse.page;
             this.totalPages = this.seriesResponse.totalPages;
           } else {
@@ -158,61 +176,66 @@ export class SeriesTableComponent implements OnInit{
     this.saveCurrentState();
   }
 
+  applySearchFilter() {
+    const queryParams: any = {};
 
-    applySearchFilter() {
-        const queryParams: any = {};
+    if (this.filterSeriesValuesObj.nameValue.trim()) {
+      queryParams['search'] = this.filterSeriesValuesObj.nameValue.trim();
+    }
 
-        if (this.filterSeriesValuesObj.nameValue.trim()) {
-          queryParams['search'] = this.filterSeriesValuesObj.nameValue.trim();
-        }
+    // Add other filter params if needed
+    this.currentFilteredPage = 1;
+    sessionStorage.setItem(
+      'filterSeriesValuesObj',
+      JSON.stringify(this.filterSeriesValuesObj)
+    );
 
-        // Add other filter params if needed
-        this.currentFilteredPage = 1;
-        sessionStorage.setItem('filterSeriesValuesObj', JSON.stringify(this.filterSeriesValuesObj));
-
-        // Update the URL to trigger the queryParams observable
-        this.router.navigate([], {
-          relativeTo: this.activeRoute,
-          queryParams: queryParams,
-          queryParamsHandling: 'merge', // Keep other params if needed
-  });
+    // Update the URL to trigger the queryParams observable
+    this.router.navigate([], {
+      relativeTo: this.activeRoute,
+      queryParams: queryParams,
+      queryParamsHandling: 'merge', // Keep other params if needed
+    });
   }
-
 
   onSearchChange(): void {
-  const search = this.filterSeriesValuesObj.nameValue.trim();
+    const search = this.filterSeriesValuesObj.nameValue.trim();
 
-  // Update filter flag
-  this.filterFlag = !!search;
+    // Update filter flag
+    this.filterFlag = !!search;
 
-  // Reset page
-  this.currentFilteredPage = 1;
+    // Reset page
+    this.currentFilteredPage = 1;
 
-  // Update query params in URL (this triggers the route logic again)
-  const queryParams: any = {
-    ...(search && { search }), // Only include 'search' if not empty
-    ...(this.filterSeriesValuesObj.yearValue && { year: this.filterSeriesValuesObj.yearValue }),
-    ...(this.filterSeriesValuesObj.genreValue && { genres: this.filterSeriesValuesObj.genreValue })
-    // Add other filters if needed
-  };
+    // Update query params in URL (this triggers the route logic again)
+    const queryParams: any = {
+      ...(search && { search }), // Only include 'search' if not empty
+      ...(this.filterSeriesValuesObj.yearValue && {
+        year: this.filterSeriesValuesObj.yearValue,
+      }),
+      ...(this.filterSeriesValuesObj.genreValue && {
+        genres: this.filterSeriesValuesObj.genreValue,
+      }),
+      // Add other filters if needed
+    };
 
-  // Update the route (this will reload data in ngOnInit)
-  history.replaceState({}, '', location.pathname); // Clear query params if empty
-  if (Object.keys(queryParams).length > 0) {
-    this.router.navigate([], {
-      queryParams,
-      queryParamsHandling: 'merge',
-    });
-  } else {
-    this.router.navigate([], {
-      queryParams: {},
-    });
+    // Update the route (this will reload data in ngOnInit)
+    history.replaceState({}, '', location.pathname); // Clear query params if empty
+    if (Object.keys(queryParams).length > 0) {
+      this.router.navigate([], {
+        queryParams,
+        queryParamsHandling: 'merge',
+      });
+    } else {
+      this.router.navigate([], {
+        queryParams: {},
+      });
+    }
   }
-}
 
-//next Page
-  
-      nextPageContent() {
+  //next Page
+
+  nextPageContent() {
     if (!this.filterFlag) {
       this.currentPage++;
       if (this.currentPage > this.totalPages) {
@@ -271,20 +294,40 @@ export class SeriesTableComponent implements OnInit{
   saveCurrentState(): void {
     sessionStorage.setItem('filterFlagSeries', String(this.filterFlag));
     sessionStorage.setItem('currentPageSeries', String(this.currentPage));
-    sessionStorage.setItem('currentFilteredPageSeries', String(this.currentFilteredPage));
+    sessionStorage.setItem(
+      'currentFilteredPageSeries',
+      String(this.currentFilteredPage)
+    );
     sessionStorage.setItem('totalPagesSeries', String(this.totalPages));
-    sessionStorage.setItem('totalFilteredPagesSeries', String(this.totalFilteredPages));
+    sessionStorage.setItem(
+      'totalFilteredPagesSeries',
+      String(this.totalFilteredPages)
+    );
     sessionStorage.setItem('pageSeries', JSON.stringify(this.pageSeries));
-    sessionStorage.setItem('filteredPageSeries', JSON.stringify(this.filteredPageSeries));
-    sessionStorage.setItem('filterSeriesValuesObj', JSON.stringify(this.filterSeriesValuesObj));
+    sessionStorage.setItem(
+      'filteredPageSeries',
+      JSON.stringify(this.filteredPageSeries)
+    );
+    sessionStorage.setItem(
+      'filterSeriesValuesObj',
+      JSON.stringify(this.filterSeriesValuesObj)
+    );
   }
 
   restoreState() {
     this.filterFlag = sessionStorage.getItem('filterFlagSeries') === 'true';
-    this.currentPage = parseInt(sessionStorage.getItem('currentPageSeries') ?? '1');
-    this.totalPages = parseInt(sessionStorage.getItem('totalPagesSeries') ?? '1');
-    this.currentFilteredPage = parseInt(sessionStorage.getItem('currentFilteredPageSeries') ?? '1');
-    this.totalFilteredPages = parseInt(sessionStorage.getItem('totalFilteredPagesSeries') ?? '1');
+    this.currentPage = parseInt(
+      sessionStorage.getItem('currentPageSeries') ?? '1'
+    );
+    this.totalPages = parseInt(
+      sessionStorage.getItem('totalPagesSeries') ?? '1'
+    );
+    this.currentFilteredPage = parseInt(
+      sessionStorage.getItem('currentFilteredPageSeries') ?? '1'
+    );
+    this.totalFilteredPages = parseInt(
+      sessionStorage.getItem('totalFilteredPagesSeries') ?? '1'
+    );
 
     const seriesContentArr = sessionStorage.getItem('pageSeries');
     try {
@@ -296,13 +339,17 @@ export class SeriesTableComponent implements OnInit{
 
     const filteredPageSeriesArr = sessionStorage.getItem('filteredPageSeries');
     try {
-      this.filteredPageSeries = filteredPageSeriesArr ? JSON.parse(filteredPageSeriesArr) : [];
+      this.filteredPageSeries = filteredPageSeriesArr
+        ? JSON.parse(filteredPageSeriesArr)
+        : [];
     } catch (e) {
       console.log('Failed to parse filteredPageSeries:', e);
       this.filteredPageSeries = [];
     }
 
-    const filterSeriesValuesObjStr = sessionStorage.getItem('filterSeriesValuesObj');
+    const filterSeriesValuesObjStr = sessionStorage.getItem(
+      'filterSeriesValuesObj'
+    );
     try {
       this.filterSeriesValuesObj = filterSeriesValuesObjStr
         ? JSON.parse(filterSeriesValuesObjStr)
@@ -325,27 +372,24 @@ export class SeriesTableComponent implements OnInit{
     }
   }
 
-    deleteSeries(id: string) {
-      this.seriesService.deleteSeriesById(id).subscribe(
-        {
-          next: (state) => {
-            console.log("Deleted",id);
-            console.log(state);
-            if (state.state === 'success') {
-              this.showSuccessToast('Series Deleted Successfully');
-              this.loadSeries(this.currentPage, this. filterSeriesValuesObj);
-            } 
-            else if (state.state === 'error') {
-              console.log('Error Deleting Movie', state.error);
-  
-              this.showErrorToast('Error Deleting Movie');
-            }
-          },
-          error: (error) => {
-            console.log('Error Deleting Movie', error);
-            this.showErrorToast('Error Deleting Movie');
-          }
+  deleteSeries(id: string) {
+    this.seriesService.deleteSeriesById(id).subscribe({
+      next: (state) => {
+        console.log('Deleted', id);
+        console.log(state);
+        if (state.state === 'success') {
+          this.showSuccessToast('Series Deleted Successfully');
+          this.loadSeries(this.currentPage, this.filterSeriesValuesObj);
+        } else if (state.state === 'error') {
+          console.log('Error Deleting Movie', state.error);
+
+          this.showErrorToast('Error Deleting Movie');
         }
-      );
-    }
+      },
+      error: (error) => {
+        console.log('Error Deleting Movie', error);
+        this.showErrorToast('Error Deleting Movie');
+      },
+    });
+  }
 }
