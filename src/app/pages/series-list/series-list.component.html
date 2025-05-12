@@ -1,0 +1,142 @@
+<!-- resource of this code to understand async process ==>https://dev.to/rensjaspers/angular-guide-for-beginners-fetching-data-from-an-api-with-loading-spinner-implementation-120l -->
+<div *ngIf="seriesState | async as state" class="p-4">
+
+  <!-- loading spinner -->
+  <div *ngIf="state.state === 'loading'" class="flex justify-center items-center h-48">
+    <span class="loading loading-spinner loading-lg text-primary"></span>
+  </div>
+
+  <!-- error case -->
+  <div *ngIf="state.state === 'error'" class="alert alert-error shadow-lg">
+    <div>
+      <span>Error loading series: {{ state.error }}</span>
+    </div>
+  </div>
+  <!-- Search Inputs -->
+  <div class="flex gap-4 mb-4">
+    <input type="text" [(ngModel)]="filters.search" placeholder="Name" class="input input-bordered" />
+    <input type="text" [(ngModel)]="filters.year" placeholder="Date" class="input input-bordered" />
+    <input type="number" [(ngModel)]="filters.vote_average" placeholder="Rating" class="input input-bordered" />
+    <input type="number" [(ngModel)]="filters.popularity" placeholder="Popularity" class="input input-bordered" />
+    <button class="btn btn-primary" (click)="search()">Search</button>
+  </div>
+
+
+  <!-- in case loaded and bring series -->
+  <div *ngIf="state.state === 'loaded'" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div *ngFor="let s of state.data" class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+      <figure>
+        <img [src]="s.backdrop_path" [alt]="s.name" class="h-60 object-cover w-full" />
+      </figure>
+      <div class="card-body">
+        <h2 class="card-title">{{ s.name }}</h2>
+        <p class="text-sm">{{ s.overview }}</p>
+        <div class="mt-2">
+          <p><strong>Price:</strong> ${{ s.price }}</p>
+          <p><strong>pop:</strong> ${{ s.popularity}}</p>
+          <!-- vote average from 0 to 10 -->
+
+          <p><strong>Rating:</strong> {{ s.vote_average }}</p>
+          <div class="mt-2">
+            <a [routerLink]="['/series', s._id]">View Details</a>
+            <a routerLink="/series/${s._id}" class="btn btn-accent ml-3">View Details</a>
+            <button (click)="deleteSeries(s._id)" class="btn btn-primary">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="join mt-5">
+    <button class="join-item btn" [class.btn-active]="Activepage === 1" (click)="loadSeries(1)">1</button>
+    <button class="join-item btn" [class.btn-active]="Activepage === 2" (click)="loadSeries(2)">2</button>
+    <button class="join-item btn" [class.btn-active]="Activepage === 3" (click)="loadSeries(3)">3</button>
+    <button class="join-item btn" [class.btn-active]="Activepage === 4" (click)="loadSeries(4)">4</button>
+  </div>
+
+  <h2>Top 15 Watching</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div *ngFor="let series of topWatching"  class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+          <div class="card-body">
+                <h2 class="card-title">{{ series.name }}</h2>
+                <p class="text-sm">{{ series.number_of_purchases }}</p>
+                <div class="mt-2">
+                  <a routerLink="/series/${series._id}" class="btn btn-accent ml-3">View Details</a>
+                  <button (click)="deleteSeries(series._id)" class="btn btn-primary">Delete</button>
+                </div>
+
+          </div>
+    </div>
+    <h3>Add New Series</h3>
+ <form (ngSubmit)="addSeries()" class="form">
+  <label class="floating-label">
+    <span> Name</span>
+    <input [(ngModel)]="newSeries.name" name="name" placeholder="Name" class="input input-md" required />
+  </label>
+  <label class="floating-label">
+    <span>vote_average num</span>
+    <input [(ngModel)]="newSeries.vote_average"  type="number" name="vote_average" placeholder="vote_average" class="input input-md" required />
+  </label>
+  <label class="floating-label">
+    <span> Orginal Name</span>
+    <input [(ngModel)]="newSeries.original_name" name="original_name" placeholder="original_name" class="input input-md" required />
+  </label>
+  <label class="floating-label">
+    <span>  popularity num</span>
+    <input [(ngModel)]="newSeries.popularity" name="popularity" type="number" placeholder="popularity" class="input input-md" required />
+  </label>
+  <label class="floating-label">
+    <span> overview</span>
+    <input [(ngModel)]="newSeries.overview" name="overview" placeholder="overview" class="input input-md" required />
+  </label>
+  <label class="floating-label">
+    <span> poster_path </span>
+    <input [(ngModel)]="newSeries.poster_path" name="poster_path" placeholder="poster_path" class="input input-md" required />
+  </label>
+
+  <label class="floating-label">
+    <span> backdrop_path </span>
+    <input [(ngModel)]="newSeries.backdrop_path" name="backdrop_path" placeholder="backdrop path" class="input input-md" required />
+  </label>
+
+  <label class="floating-label">
+    <span> original_language </span>
+    <input [(ngModel)]="newSeries.original_language" name="original_language" placeholder="original_language" class="input input-md" required />
+  </label>
+
+  <label class="floating-label">
+    <span> first_air_date </span>
+    <input [(ngModel)]="newSeries.first_air_date" type="date" name="first_air_date" placeholder="first_air_date" class="input input-md" required />
+  </label>
+
+  <label class="floating-label">
+    <span> price </span>
+    <input [(ngModel)]="newSeries.price" type="number" name="price" placeholder="price" class="input input-md" required />
+  </label>
+
+  <label class="floating-label">
+    <span> number_of_purchases </span>
+    <input [(ngModel)]="newSeries.number_of_purchases" type="number" name="number_of_purchases" placeholder="number_of_purchases" class="input input-md" required />
+  </label>
+
+
+  <button type="submit" class=" btn btn-primary">Add Series</button>
+</form>
+
+  </div>
+
+
+  <h2 class="text-primary mt-5">Top 15 Tending</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div *ngFor="let series of topTrending"  class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
+          <div class="card-body">
+                <h2 class="card-title">{{ series.name }}</h2>
+                <p class="text-sm">{{ series.popularity }}</p>
+                <div class="mt-2">
+                </div>
+          </div>
+    </div>
+  </div>
+</div>
+
+
+

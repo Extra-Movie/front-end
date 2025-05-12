@@ -1,4 +1,4 @@
-<div class="card rounded-xl flex flex-col gap-2 overflow-hidden @container">
+<div class="card rounded-xl flex flex-col gap-2 overflow-hidden @container max-w-64">
   <div class="w-full aspect-[3/4] rounded-xl overflow-hidden">
     <a [routerLink]="directToPath()">
       <img [src]="getImagePath()" [alt]="getTitle()"
@@ -24,7 +24,7 @@
           </svg>
         </span>
         <span class="text-primary font-semibold">{{(mediaItem.popularity%10)
-          <5?((mediaItem.popularity%10)+5).toFixed(1):(mediaItem.popularity%10).toFixed(1)}} 
+          <5?((mediaItem.popularity%10)+5).toFixed(1):(mediaItem.popularity%10).toFixed(1)}}
         </span>
       </div>
     </div>
