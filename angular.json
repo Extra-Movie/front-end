@@ -9,10 +9,6 @@
         "@schematics/angular:component": {
           "skipTests": true,
           "inlineStyle": true
-        },
-        "@schematics/angular:directive": {
-          "skipTests": true,
-          "inlineStyle": true
         }
       },
       "root": "",
@@ -34,7 +30,10 @@
               },
               "src/_redirects"
             ],
-            "styles": ["src/styles.css","node_modules/@fortawesome/fontawesome-free/css/all.min.css"],
+            "styles": [
+              "src/styles.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+            ],
             "scripts": []
           },
           "configurations": {

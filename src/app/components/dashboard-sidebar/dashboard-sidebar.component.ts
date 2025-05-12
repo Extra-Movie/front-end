@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Component, inject, Input } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   faSolidFilm,
@@ -7,6 +7,7 @@ import {
   faSolidUsersGear,
 } from '@ng-icons/font-awesome/solid';
 import { ionHomeOutline, ionTvOutline } from '@ng-icons/ionicons';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard-sidebar',
@@ -24,10 +25,18 @@ import { ionHomeOutline, ionTvOutline } from '@ng-icons/ionicons';
 })
 export class DashboardSidebarComponent {
   @Input() drawerToggler: HTMLInputElement | null = null;
-
+  auth = inject(AuthService);
+  router = inject(Router);
   toggleDrawer() {
     if (this.drawerToggler) {
       this.drawerToggler.checked = !this.drawerToggler.checked;
     }
+  }
+  logout() {
+    this.auth.logout();
+    if (this.drawerToggler) {
+      this.drawerToggler.checked = false;
+    }
+    this.router.navigate(['/']);
   }
 }

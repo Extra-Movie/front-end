@@ -6,8 +6,8 @@
 
   <div class="flex flex-1 flex-col gap-2 mt-4 w-full">
 
-    <!-- Main -->
-    <a (click)="toggleDrawer()" routerLinkActive="bg-base-200" routerLink="/dashboard/main" [routerLinkActiveOptions]="{ exact: true }"
+    <a (click)="toggleDrawer()" routerLinkActive="bg-base-200" routerLink="/dashboard/main"
+      [routerLinkActiveOptions]="{ exact: true }"
       class="justify-start btn btn-ghost hover:bg-primary/20 hover:border-none">
       <ng-icon name="ionHomeOutline" size="16" />
       Main
@@ -47,8 +47,7 @@
 
   </div>
 
-  <!-- Logout -->
-  <button class="btn btn-accent items-center">
+  <button class="btn btn-accent items-center" (click)="logout()">
     <ng-icon name="ionLogOutOutline" size="18" />
     Logout
   </button>

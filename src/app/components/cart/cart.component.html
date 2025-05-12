@@ -1,0 +1,35 @@
+<div class="dropdown dropdown-end">
+  <div tabindex="0" role="button"
+    class="indicator btn btn-circle text-2xl hover:text-primary transition-all focus-within:text-primary cursor-pointer hover:text-shadow-[0px_0px_10px_var(--color-primary)] border-0 hover:bg-transparent">
+    <ng-icon name="faSolidCartShopping" size="22" />
+    <span *ngIf="cart.cartCount()" class="indicator-item badge badge-xs badge-secondary">{{cart.cartCount()
+      }}</span>
+  </div>
+  <ul tabindex="0"
+    class="dropdown-content menu bg-base-100 rounded-box w-64 sm:w-74 z-1 p-2 shadow-md space-y-3 translate-x-12 sm:translate-x-20 md:translate-0">
+    <span *ngIf="cart.cartState.loading" class="loading loading-spinner mx-auto inline-block"></span>
+    <h2 *ngIf="!cart.cartCount() && !cart.cartState.loading" class="text-center my-4">The cart is empty</h2>
+    <h2 *ngIf="cart.cartState.error && !cart.cartState.loading" class="text-center text-error my-4">
+      {{cart.cartState.error }}</h2>
+    @for (item of cart.cart(); track $index) {
+    <li class="flex justify-between gap-2 border-b border-neutral/20 pb-2 last:border-b-0">
+      <a [routerLink]="[item.kind === 'movies' ?'/movies' : '/series', item.item._id]"
+        class="flex items-center flex-nowrap overflow-hidden">
+        <img src="{{ item.item.poster_path }}" alt="{{ item._id }}" class="w-10 aspect-square rounded object-cover" />
+        <div class="flex-1">
+          <h6 class="text-sm overflow-ellipsis overflow-hidden whitespace-nowrap max-w-24 sm:max-w-36 xs:max-w-36">{{
+            item.kind === 'movies' ? item.item.title : item.item.name }}</h6>
+          <span appCurrency class="text-sm text-neutral/50 ">{{ item.item.price}}</span>
+        </div>
+        <button class="btn btn-circle btn-sm btn-ghost text-neutral/50 hover:text-primary"
+          (click)="removeFromCart($event, item.item._id)">
+          <ng-icon name="faSolidXmark" size="16" />
+        </button>
+      </a>
+    </li>
+    }
+    <li>
+      <a *ngIf="cart.cartCount()" routerLink="/checkout" class="btn btn-sm btn-primary">Checkout</a>
+    </li>
+  </ul>
+</div>

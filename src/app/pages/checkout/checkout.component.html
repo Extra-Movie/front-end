@@ -14,7 +14,7 @@
       <button type="submit" [disabled]="isSubmitting()" class="btn btn-primary w-full">
         <ng-container *ngIf="!isSubmitting()">
           <ng-icon name="faSolidCreditCard" size="16"></ng-icon>
-          <span>Pay {{ currencyFormatter(cartService.cartTotalPrice()) }}</span>
+          <span>Pay {{currencyFormatter( cartService.cartTotalPrice() || 0) }}</span>
         </ng-container>
         <span *ngIf="isSubmitting()">
           <span class="loading loading-spinner loading-sm"></span>
@@ -29,13 +29,14 @@
         @for (media of cartService.cart(); track media._id) {
         <div class="flex items-center py-2 border-b border-b-neutral/10 last:border-b-0">
           <div class="flex-1">
-            <h3 class="font-semibold">{{media.title }}</h3>
-            <span class="text-gray-600 dark:text-gray-400 font-semibold text-sm">{{ currencyFormatter( media.price)
+            <h3 class="font-semibold">{{media.kind==="movies" ? media.item.title : media.item.name }}</h3>
+            <span appCurrency class="text-gray-600 dark:text-gray-400 font-semibold text-sm">{{ currencyFormatter(
+              media.item.price)
               }}</span>
           </div>
-          <img [src]="media.poster_path" alt="{{ media?.title }}"
+          <img [src]="media.item.poster_path" alt="{{ media.item._id }}"
             class="w-16 h-16 object-cover object-center rounded-lg mr-4">
-          <button class="btn btn-secondary btn-sm btn-circle" (click)="cartService.removeFromCart(media)">
+          <button class="btn btn-secondary btn-sm btn-circle" (click)="cartService.removeFromCart(media.item._id)">
             <ng-icon name="faSolidXmark" size="16" strokeWidth=".5"></ng-icon>
           </button>
         </div>
@@ -44,7 +45,7 @@
       <div class="flex items-center justify-between mt-4 border-t pt-4">
         <span class="text-lg font-semibold">Total:</span>
         <span class="text-2xl font-bold text-accent text-shadow-xs text-shadow-neutral/50">{{currencyFormatter(
-          cartService.cartTotalPrice()) }}</span>
+          cartService.cartTotalPrice() || 0 ) }}</span>
       </div>
     </aside>
   </main>

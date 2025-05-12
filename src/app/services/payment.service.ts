@@ -9,13 +9,12 @@ import {
 } from '@stripe/stripe-js';
 import { HttpClient } from '@angular/common/http';
 import { DarkModeService } from './dark-mode.service';
-import { CartItem } from './cart.service';
 import { ToastService } from './toast.service';
 @Injectable({
   providedIn: 'root',
 })
 export class PaymentService {
-  private apiUrl = 'http://localhost:5050/api' + '/payment'; // URL to web api
+  private apiUrl = environment.apiUrl + '/payment'; // URL to web api
   private http = inject(HttpClient);
   private theme$ = inject(DarkModeService).darkMode$;
   private toast = inject(ToastService);
@@ -94,8 +93,8 @@ export class PaymentService {
         this.createPaymentElement(paymentElementContainerId);
       },
       error: (error) => {
-        console.error('Error creating Payment Intent', error);
-        errorHandler?.(new Error(error));
+        console.log('Error creating Payment Intent', error);
+        errorHandler?.(error.error);
       },
       complete() {
         console.log('Payment Intent creation complete');
@@ -103,25 +102,34 @@ export class PaymentService {
     });
   }
 
-  async updatePaymentIntent(cartAmount: number) {
+  async updatePaymentIntent({
+    errorHandler,
+  }: {
+    errorHandler?: (error: Error) => void;
+  }) {
     console.log('Updating Payment Intent...');
     if (!this.stripe) {
-      throw new Error('Stripe is not initialized. Cannot create elements.');
+      errorHandler?.(
+        new Error('Stripe is not initialized. Cannot create elements.')
+      );
+      return;
     }
     if (!this.paymentElementContainerId) {
-      throw new Error(
+      console.error(
         'Payment element container ID is not set. Cannot create elements.'
       );
+      return;
     }
     const req$ = this.http.post<PaymentIntentResponse>(
       `${this.apiUrl}/create-payment-intent`,
-      { cartAmount }
+      {}
     );
     return req$.subscribe({
       next: (response) => {
         if (!response) return;
         if (response.error) {
-          throw new Error(response.error);
+          errorHandler?.(new Error(response.error));
+          return;
         }
         this.ClientSecret = response.clientSecret;
         this.elements?.update({
@@ -129,12 +137,9 @@ export class PaymentService {
         });
       },
       error: (error) => {
-        this.toast.error(error.error.message, {
-          title: 'Payment Error',
-          showIcon: true,
-          cancelable: true,
-        });
-        throw new Error('Error updating Payment Intent: ' + error.message);
+        errorHandler?.(
+          new Error('Error updating Payment Intent: ' + error.message)
+        );
       },
       complete() {
         console.log('Payment Intent update complete');

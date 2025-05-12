@@ -18,9 +18,9 @@ import { Genre } from '../../Types/genres.types';
 export class GenresService {
   moviesGenres: Genre[] = [];
   seriesGenres: Genre[] = [];
-  
+
   private URLMovies = 'https://back-end-production-e1e1.up.railway.app/api/genres/movie';
-  private URLSeries = 'https://back-end-production-e1e1.up.railway.app/api/genres/tvshow';
+  private URLSeries = 'https://back-end-production-e1e1.up.railway.app/api/genres/tv';
 
   constructor(private http: HttpClient) {}
 
@@ -29,7 +29,7 @@ export class GenresService {
       map(response=>{
         const data: Genre[] = response;
         this.moviesGenres = data;
-        console.log('genres loaded now:', data);
+        console.log('Movie genres loaded now:', data);
         return { state: 'loaded',data } as const;
       }),
       catchError(error => {
@@ -40,13 +40,13 @@ export class GenresService {
     );
   }
 
-  
-  
+
+
   getSeriesGenres(): Observable<LoadingState<Genre[]>> {
     return this.http.get<Genre[]>(this.URLSeries).pipe(
       map(response=>{
         const data: Genre[] = response;
-        console.log('genres loaded now:', data);
+        console.log('Series genres loaded now:', data);
         return { state: 'loaded', data } as const;
       }),
       catchError(error => {
@@ -56,7 +56,7 @@ export class GenresService {
       startWith({ state: 'loading' } as const)
     );
   }
-  
-  
-  
+
+
+
 }

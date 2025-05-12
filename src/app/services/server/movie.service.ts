@@ -73,26 +73,23 @@ export class MovieService {
     );
   }
 
-  //need _id to be Passed >> string
-  getMovieDetails(movie_id: string): Observable<any> {
-    return this.myClinet.get(`${this.baseURL}/${movie_id}`);
-  }
+  // return  this.myClinet.get(`${this.baseURL}/${movie_id}`);
 
-  //delete movie when user admin
-  deleteMovie(movieId: string): Observable<any> {
-    return this.myClinet.delete(`${this.baseURL}/${movieId}`).pipe(
-      map((response) => {
-        const data: any = response;
-        console.log('Movies deleted now:', data);
-        return { state: 'success', data } as const;
+  //need _id to be Passed >> string
+  getMovieDetails(movie_id :string ) :Observable<LoadingState<any>> {
+    return this.myClinet.get(`${this.baseURL}/${movie_id}`).pipe(
+      map( response => {
+        const data:any = response;
+        console.log('One Movie loaded now:', data);
+        return { state: 'loaded', data } as const;
       }),
-      catchError((error) => {
-        console.error('error loading Movies:', error);
-        return of({ state: 'error', error } as const);
-      })
+      catchError(error => {
+      console.error('error loading Movie', error);
+      return of({ state: 'error', error } as const);
+      }),
+      startWith({ state: 'loading' } as const)
     );
   }
-
   //not tested yet
   //add new movie when user admin
 

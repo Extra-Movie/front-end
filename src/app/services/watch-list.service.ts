@@ -7,15 +7,15 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CartService {
+export class WatchListService {
   user = inject(UserService);
   toast = inject(ToastService);
   auth = inject(AuthService);
-  cart = signal<CartItem[] | undefined>(undefined);
-  cartState = this.user.cartState.state();
-  cartCount = computed(() => this.cart()?.length);
-  cartTotalPrice = computed(() => {
-    return this.cart()?.reduce((total, movie) => {
+  watchList = signal<CartItem[] | undefined>(undefined);
+  watchListState = this.user.watchListState.state();
+  watchListCount = computed(() => this.watchList()?.length);
+  watchListTotalPrice = computed(() => {
+    return this.watchList()?.reduce((total, movie) => {
       return total + movie.item.price;
     }, 0);
   });
@@ -23,48 +23,48 @@ export class CartService {
   constructor() {
     effect(() => {
       if (!this.auth.isLoggedIn()) {
-        this.cart.set(undefined);
+        this.watchList.set(undefined);
       } else {
-        this.user.getCart().subscribe((res) => {
+        this.user.getWatchlist().subscribe((res) => {
           if (res) {
-            this.cart.set(res.cart.filter((item) => item.item));
+            this.watchList.set(res.watchlist.filter((item) => item.item));
           }
         });
       }
     });
   }
 
-  addToCart(mediaItem: CartItem) {
+  addToWatchList(mediaItem: CartItem) {
     if (!this.auth.isLoggedIn()) {
-      this.toast.error('Please login to add items to cart', {
+      this.toast.error('Please login to add items to watchList', {
         title: 'Login required',
         showIcon: true,
         duration: 2000,
       });
       return;
     }
-    const mediaIndex = this.cart()?.findIndex(
+    const mediaIndex = this.watchList()?.findIndex(
       (m) => m.item._id === mediaItem.item._id
     );
     if (mediaIndex === -1) {
       this.user
-        .addToCart({ item: mediaItem.item._id, kind: mediaItem.kind })
+        .addToWatchlist({ item: mediaItem.item._id, kind: mediaItem.kind })
         .subscribe((res) => {
           if (res) {
-            this.cart.update((prev) => {
+            this.watchList.update((prev) => {
               if (!prev) return [mediaItem];
               return [...prev, mediaItem];
             });
           }
           if (mediaItem.kind === 'movies') {
-            this.toast.success(`${mediaItem.item.title} added to cart`, {
+            this.toast.success(`${mediaItem.item.title} added to watchList`, {
               title: 'Added successfully',
               showIcon: true,
               duration: 2000,
             });
           }
           if (mediaItem.kind === 'tvShows') {
-            this.toast.success(`${mediaItem.item.name} added to cart`, {
+            this.toast.success(`${mediaItem.item.name} added to watchList`, {
               title: 'Added successfully',
               showIcon: true,
               duration: 2000,
@@ -73,32 +73,32 @@ export class CartService {
         });
     }
     if (mediaIndex !== -1) {
-      this.removeFromCart(mediaItem._id);
+      this.removeFromWatchList(mediaItem._id);
     }
   }
 
-  removeFromCart(mediaId: CartItem['_id']) {
+  removeFromWatchList(mediaId: CartItem['_id']) {
     if (!this.auth.isLoggedIn()) {
-      this.toast.error('Please login to remove items from cart', {
+      this.toast.error('Please login to remove items from watchList', {
         title: 'Login required',
         showIcon: true,
         duration: 2000,
       });
       return;
     }
-    const kind = this.cart()?.find((m) => m.item._id === mediaId)?.kind;
+    const kind = this.watchList()?.find((m) => m.item._id === mediaId)?.kind;
     if (!kind) {
-      this.toast.error('Item not found in cart', {
+      this.toast.error('Item not found in watchList', {
         title: 'Error',
         showIcon: true,
         duration: 2000,
       });
       return;
     }
-    this.user.removeFromCart({ item: mediaId, kind }).subscribe((res) => {
+    this.user.removeFromWatchlist({ item: mediaId, kind }).subscribe((res) => {
       if (res) {
-        this.cart.update((prev) => prev?.filter((m) => m.item._id !== mediaId));
-        this.toast.success('Item removed from cart', {
+        this.watchList.update((prev) => prev?.filter((m) => m.item._id !== mediaId));
+        this.toast.success('Item removed from watchList', {
           title: 'Removed successfully',
           showIcon: true,
           duration: 2000,

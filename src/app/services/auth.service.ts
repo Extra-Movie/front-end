@@ -21,7 +21,7 @@ export class AuthService {
   );
   readonly token = this._token.asReadonly();
 
-  isLoggedIn = computed(() => !this.token());
+  isLoggedIn = computed(() => !!this.token());
 
   //#region
   loginState = new RequestStateService<loginResponse>();

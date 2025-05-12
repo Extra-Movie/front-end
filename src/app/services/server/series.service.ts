@@ -57,13 +57,20 @@ export class SeriesService {
       startWith({ state: 'loading' } as const)
     );
   }
-  getSeriesById(_id: string) {
+  getSeriesById(_id: string):Observable<LoadingState<any>> {
     const url = `${this.URL}/${_id}`;
-    return this.http.get<Series>(url).pipe(
-      catchError((error) => {
-        console.error('Error loading series by Id:', error);
-        return of({ state: 'error', error } as const);
-      })
+    return this.http.get(url).pipe(
+      map( response => {
+        const data:any = response;
+        console.log('One Series loaded now:', data);
+        return { state: 'loaded', data } as const;
+      }),
+      catchError(error => {
+      console.error('error loading Series', error);
+      return of({ state: 'error', error } as const);
+      }),
+      startWith({ state: 'loading' } as const)
+
     );
   }
   deleteSeriesById(_id: string) {

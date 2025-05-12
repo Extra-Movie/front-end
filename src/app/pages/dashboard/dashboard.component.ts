@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
@@ -15,6 +15,8 @@ import {
 } from '@ng-icons/font-awesome/solid';
 import { filter } from 'rxjs';
 import { DashboardSidebarComponent } from '../../components/dashboard-sidebar/dashboard-sidebar.component';
+import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 @Component({
   selector: 'app-dashboard',
   imports: [
@@ -38,6 +40,8 @@ import { DashboardSidebarComponent } from '../../components/dashboard-sidebar/da
 })
 export class DashboardComponent {
   currentTab = signal<string>('Dashboard');
+  authService = inject(AuthService);
+  toast = inject(ToastService);
   constructor(private router: Router) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -51,5 +55,14 @@ export class DashboardComponent {
           this.currentTab.set('Dashboard');
         }
       });
+    effect(() => {
+      if (!this.authService.isLoggedIn()) {
+        this.toast.error('You are not logged in', {
+          title: 'Access Denied',
+          showIcon: true,
+        });
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }
