@@ -12,15 +12,19 @@ import { loginResponse, loginUser } from './../../Types/Authentication.types';
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 import { RequestState } from '../../services/apiRequest.service';
+import { NgIcon , provideIcons } from '@ng-icons/core';
+import {faSolidEye,faSolidEyeSlash} from '@ng-icons/font-awesome/solid'
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink,NgIcon],
   templateUrl: './login.component.html',
   styles: ``,
+  viewProviders:[provideIcons({faSolidEyeSlash,faSolidEye})]
 })
 export class LoginComponent {
   state: WritableSignal<RequestState<loginResponse>>;
+  showPassword: boolean = false;
   constructor(
     private router: Router,
     private auth: AuthService,
@@ -74,4 +78,8 @@ export class LoginComponent {
       }
     });
   }
+
+  togglePassword() {
+  this.showPassword = !this.showPassword;
+}
 }
