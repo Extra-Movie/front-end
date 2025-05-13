@@ -20,14 +20,14 @@
         {
           <div *ngFor="let movie of pageMovies; let i = index">
             <!-- Calling Movie Card here & pass Movie Object -->
-            <app-mediaCard [mediaItem]="movie"></app-mediaCard>
+            <app-mediaCard class="*:mx-auto" [mediaItem]="movie"></app-mediaCard>
           </div>
         }
         @else {
           @if(totalFilteredPages){
             <div *ngFor="let movie of filteredPageMovies; let i = index">
               <!-- Calling Movie Card here & pass Movie Object -->
-              <app-mediaCard [mediaItem]="movie"></app-mediaCard>
+              <app-mediaCard class="*:mx-auto" [mediaItem]="movie"></app-mediaCard>
             </div>
           }
           @else {

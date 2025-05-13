@@ -18,7 +18,7 @@
         {
           <div *ngFor="let series of pageSeries; let i = index">
             <!-- Calling Media Card here & pass Series Object -->
-            <app-mediaCard [mediaItem]="series"></app-mediaCard>
+            <app-mediaCard class="*:mx-auto" [mediaItem]="series"></app-mediaCard>
           </div>
         }
         @else {
@@ -26,7 +26,7 @@
           {
             <div *ngFor="let series of filteredPageSeries; let i = index">
               <!-- Calling Media Card here & pass Series Object -->
-              <app-mediaCard [mediaItem]="series"></app-mediaCard>
+              <app-mediaCard class="*:mx-auto" [mediaItem]="series"></app-mediaCard>
             </div>
           }
           @else {
