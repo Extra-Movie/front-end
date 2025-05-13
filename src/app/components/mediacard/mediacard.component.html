@@ -1,4 +1,4 @@
-<div class="card rounded-xl flex flex-col gap-2 overflow-hidden @container max-w-64">
+<div class="card rounded-xl flex flex-col gap-2 overflow-hidden @container sm:max-w-64">
   <div class="w-full aspect-[3/4] rounded-xl overflow-hidden">
     <a [routerLink]="directToPath()">
       <img [src]="getImagePath()" [alt]="getTitle()"
@@ -14,7 +14,7 @@
     </div>
     <div class="flex justify-between items-center mb-2">
       <!-- Price -->
-      <p class="font-semibold text-base-content">£{{ mediaItem.price }}</p>
+      <p class="font-semibold text-base-content">EGP {{ mediaItem.price.toFixed(1) }}</p>
       <!-- popularity and star icon -->
       <div class="flex items-center">
         <span class="text-warning mr-1">
