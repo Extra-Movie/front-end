@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { SeriesService } from '../../services/server/series.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { SeriesResponseType, SeriesFilteredValuesType, Series } from '../../Types/series.model';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import {
+  SeriesResponseType,
+  SeriesFilteredValuesType,
+  Series,
+} from '../../Types/series.model';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ToastService } from '../../services/toast.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterComponent } from '../../components/filter/filter/filter.component';
@@ -11,7 +15,6 @@ import { MediaCardComponent } from '../../components/mediacard/mediacard.compone
 import { LoadingState } from '../../Types/loading-state.model';
 import { MovieGenreMatchType } from '../../Types/Movie.types';
 import { FilterModelComponent } from '../filter/filter-modal/filter-modal.component';
-
 
 @Component({
   selector: 'app-series',
@@ -22,7 +25,7 @@ import { FilterModelComponent } from '../filter/filter-modal/filter-modal.compon
     ReactiveFormsModule,
     FormsModule,
     FilterComponent,
-    FilterModelComponent
+    FilterModelComponent,
   ],
   providers: [SeriesService],
   templateUrl: './series.component.html',
@@ -32,15 +35,12 @@ export class SeriesComponent implements OnInit {
   constructor(
     private seriesService: SeriesService,
     private toast: ToastService,
-    private activeRoute: ActivatedRoute
-  ) {
-    this.genreIDNamesObj = JSON.parse(localStorage.getItem('genreTypesObj') ?? '{}');
-    console.log(this.genreIDNamesObj);
-  }
+    private activeRoute: ActivatedRoute,
+    private router: Router
+  ) {}
 
   //#region Properties
   seriesResponse!: SeriesResponseType;
-  seriesFilteredResponse!: SeriesResponseType;
 
   currentPage: number = 1;
   currentFilteredPage: number = 1;
@@ -53,12 +53,11 @@ export class SeriesComponent implements OnInit {
   totalPages!: number;
   totalFilteredPages!: number;
 
-  genreIDNamesObj!: MovieGenreMatchType;
+  genreIDNamesObj: MovieGenreMatchType = JSON.parse(localStorage.getItem('genreTypesObj') ?? '{}');
 
   filterFlag: boolean = false;
-  seriesPopularityVal:number = 65 ;
+  seriesPopularityVal: number = 65;
 
-  // value filter obj
   filterSeriesValuesObj: SeriesFilteredValuesType = {
     nameValue: '',
     yearValue: '',
@@ -72,17 +71,42 @@ export class SeriesComponent implements OnInit {
     this.restoreState();
 
     this.activeRoute.queryParams.subscribe((params) => {
-      console.log('Params', params);
-
       const newFilterValues: SeriesFilteredValuesType = {
         nameValue: params['search'] ?? '',
         yearValue: params['year'] ?? '',
         genreValue: params['genre'] ? parseInt(params['genre']) : 0,
-        voteValue: params['rating']??'',
-        popularityValue: params['popularity']??''
+        voteValue: params['rating'] ?? '',
+        popularityValue: params['popularity'] ?? '',
       };
 
-      // Compare with previous values in sessionStorage
+      // Handle popularity alias values
+      if (newFilterValues.popularityValue === 'Latest') {
+        newFilterValues.popularityValue = '';
+        newFilterValues.yearValue = '2025';
+      } else if (newFilterValues.popularityValue === 'Top Rated') {
+        newFilterValues.popularityValue = '';
+        newFilterValues.voteValue = 8;
+      } else if (newFilterValues.popularityValue === 'Most Popular') {
+        newFilterValues.popularityValue = this.seriesPopularityVal;
+      }
+
+      this.filterFlag = !!(
+        params['search'] ||
+        params['year'] ||
+        params['rating'] ||
+        params['genre'] ||
+        params['popularity']
+      );
+
+      if (!params['page']) {
+        this.router.navigate([], {
+          relativeTo: this.activeRoute,
+          queryParams: { ...params, page: 1 },
+          queryParamsHandling: 'merge',
+        });
+        return;
+      }
+
       const savedFilter = sessionStorage.getItem('filterSeriesValuesObj');
       let prevFilterValues: SeriesFilteredValuesType = {
         nameValue: '',
@@ -100,40 +124,25 @@ export class SeriesComponent implements OnInit {
         }
       }
 
-      this.filterFlag = !!(params['search'] || params['year'] || params['rating'] || params['genres']||params['popularity']);
       const isSameFilter =
         JSON.stringify(newFilterValues) === JSON.stringify(prevFilterValues);
 
       this.filterSeriesValuesObj = newFilterValues;
 
       if (!isSameFilter) {
-        this.currentFilteredPage = 1; // Reset page only on new filter
+        this.currentFilteredPage = 1;
       } else {
-        // Restore page if user is paginating without filter change
-        this.currentFilteredPage = parseInt(sessionStorage.getItem('currentFilteredPageSeries') ?? '1');
+        this.currentFilteredPage = parseInt(params['page'] ?? '1') || 1;
       }
 
-      const targetPage = this.filterFlag ? this.currentFilteredPage : this.currentPage;
-      if(this.filterSeriesValuesObj.popularityValue==='Latest')
-      {
-        this.filterSeriesValuesObj.popularityValue = '' ;
-        this.filterSeriesValuesObj.yearValue = '2025' ;
-      }
-      else if(this.filterSeriesValuesObj.popularityValue==='Top Rated')
-      {
-        this.filterSeriesValuesObj.popularityValue = '' ;
-        this.filterSeriesValuesObj.voteValue = 8 ;
-      }
-      else if(this.filterSeriesValuesObj.popularityValue==='Most Popular')
-      {
-        this.filterSeriesValuesObj.popularityValue = this.seriesPopularityVal ;
-      }
+      const targetPage = this.filterFlag
+        ? this.currentFilteredPage
+        : (this.currentPage = parseInt(params['page'] ?? '1') || 1);
 
       this.loadSeries(targetPage, this.filterSeriesValuesObj);
     });
   }
 
-  // load series
   loadSeries(pageNo: number, filterVal: SeriesFilteredValuesType): void {
     this.seriesService.getAllSeries(pageNo, filterVal).subscribe({
       next: (state: LoadingState<SeriesResponseType>) => {
@@ -141,12 +150,10 @@ export class SeriesComponent implements OnInit {
         if (state.state === 'loaded') {
           this.seriesResponse = state.data;
           if (!this.filterFlag) {
-            console.log('Normal');
             this.pageSeries = this.seriesResponse.tvShows;
             this.currentPage = this.seriesResponse.page;
             this.totalPages = this.seriesResponse.totalPages;
           } else {
-            console.log('Filter');
             this.filteredPageSeries = this.seriesResponse.tvShows;
             this.currentFilteredPage = this.seriesResponse.page;
             this.totalFilteredPages = this.seriesResponse.totalPages;
@@ -154,6 +161,7 @@ export class SeriesComponent implements OnInit {
           this.saveCurrentState();
         } else if (state.state === 'error') {
           console.log('Error Loading Series', state.error);
+          this.showErrorToast('Error Fetching Series');
         }
       },
       error: (error) => {
@@ -165,55 +173,51 @@ export class SeriesComponent implements OnInit {
     this.saveCurrentState();
   }
 
-  // next Page
   nextPageContent() {
     if (!this.filterFlag) {
       this.currentPage++;
       if (this.currentPage > this.totalPages) {
         this.currentPage = 1;
       }
-
-      this.loadSeries(this.currentPage, this.filterSeriesValuesObj);
+      this.router.navigate([], {
+        relativeTo: this.activeRoute,
+        queryParams: { page: this.currentPage },
+        queryParamsHandling: 'merge',
+      });
     } else {
       this.currentFilteredPage++;
       if (this.currentFilteredPage > this.totalFilteredPages) {
         this.currentFilteredPage = 1;
       }
-
-      this.loadSeries(this.currentFilteredPage, this.filterSeriesValuesObj);
+      this.router.navigate([], {
+        relativeTo: this.activeRoute,
+        queryParams: { page: this.currentFilteredPage },
+        queryParamsHandling: 'merge',
+      });
     }
   }
 
-  // previous page content
   previousPageContent() {
     if (!this.filterFlag) {
       this.currentPage--;
       if (this.currentPage < 1) {
-        if(this.totalPages!=0)
-        {
-          this.currentPage = this.totalPages;
-        }
-        else
-        {
-          this.currentPage = 1 ;
-        }
+        this.currentPage = this.totalPages || 1;
       }
-
-      this.loadSeries(this.currentPage, this.filterSeriesValuesObj);
+      this.router.navigate([], {
+        relativeTo: this.activeRoute,
+        queryParams: { page: this.currentPage },
+        queryParamsHandling: 'merge',
+      });
     } else {
       this.currentFilteredPage--;
       if (this.currentFilteredPage < 1) {
-        if(this.totalFilteredPages!=0)
-        {
-          this.currentFilteredPage = this.totalFilteredPages;
-        }
-        else
-        {
-          this.currentFilteredPage = 1 ;
-        }
+        this.currentFilteredPage = this.totalFilteredPages || 1;
       }
-
-      this.loadSeries(this.currentFilteredPage, this.filterSeriesValuesObj);
+      this.router.navigate([], {
+        relativeTo: this.activeRoute,
+        queryParams: { page: this.currentFilteredPage },
+        queryParamsHandling: 'merge',
+      });
     }
   }
 
@@ -226,17 +230,11 @@ export class SeriesComponent implements OnInit {
     });
   }
 
-  // using Session storage to store state
   saveCurrentState(): void {
-    sessionStorage.setItem('currentPageSeries', String(this.currentPage));
-    sessionStorage.setItem('currentFilteredPageSeries', String(this.currentFilteredPage));
     sessionStorage.setItem('filterSeriesValuesObj', JSON.stringify(this.filterSeriesValuesObj));
   }
 
   restoreState() {
-    this.currentPage = parseInt(sessionStorage.getItem('currentPageSeries') ?? '1');
-    this.currentFilteredPage = parseInt(sessionStorage.getItem('currentFilteredPageSeries') ?? '1');
-
     const filterSeriesValuesObjStr = sessionStorage.getItem('filterSeriesValuesObj');
     try {
       this.filterSeriesValuesObj = filterSeriesValuesObjStr
