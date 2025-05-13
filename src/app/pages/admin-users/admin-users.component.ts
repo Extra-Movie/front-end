@@ -52,8 +52,6 @@ export class AdminUsersComponent implements OnInit{
         this.userService.getAllUsers().subscribe({
             next: (users) => {
               this.users = users; 
-              console.log(this.users);
-              console.log(users[0]);
               this.loading = false;
             },
             error: (err) => {
@@ -72,6 +70,7 @@ export class AdminUsersComponent implements OnInit{
       this.userService.makeAdmin(id).subscribe(
         {
           next : (res)=>{
+            console.log(res);
             this.showSuccessToast('User Updated Successfully');
             this.loadUsers();
           },

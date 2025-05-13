@@ -30,18 +30,12 @@
                 <td >{{ user.email }}</td>
                 <td class="text-center">{{ user.isAdmin ?'Admin':'User'}}</td>
                 <td class="text-center flex gap-5 justify-center">
-                    <button [disabled]="user.isAdmin" class="btn btn-sm btn-success">
-                        <ng-icon name="faSolidUserPlus" />
-                    </button>
-                    <button   class="btn btn-sm btn-error">
-                        <ng-icon name="faSolidTrashArrowUp" />
-                    </button>
-                     <!-- <button (click)="makeAdmin(user._id)" class="btn btn-sm btn-success">
+                     <button [disabled]="user.isAdmin" (click)="makeAdmin(user._id)" class="btn btn-sm btn-success">
                         <ng-icon name="faSolidUserPlus" />
                     </button>
                     <button (click)="deleteUser(user._id)" class="btn btn-sm btn-error">
                         <ng-icon name="faSolidTrashArrowUp" />
-                    </button> -->
+                    </button>
                    
                 </td>
                  

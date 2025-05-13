@@ -54,7 +54,7 @@ export class UserService {
   }
 
   deletUser(id: string) {
-    const req$ = this.http.delete<userResponse>(`${this.authUrl}/${id}`);
+    const req$ = this.http.delete<userResponse>(`${this.authUrl}/${id}`, { headers: this.reqHeader });
     return this.delState.track(req$).pipe(
       tap((res) => {
         if (res) {
@@ -71,8 +71,15 @@ export class UserService {
   }
 
   makeAdmin(id: string) {
-    const req$ = this.http.patch<userResponse>(`${this.authUrl}/${id}`, {});
-    return this.delState.track(req$);
+    const req$ = this.http.patch<userData>(`${this.authUrl}/${id}`, { headers: this.reqHeader });
+    return this.userState.track(req$).pipe(
+      tap((res)=>{
+        if(res){
+          console.log("service",res);
+          res.isAdmin=true;
+        }
+      })
+    )
   }
 
   addToWatchlist(movie: userLists) {
