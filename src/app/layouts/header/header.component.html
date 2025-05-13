@@ -94,19 +94,37 @@
       </button>
     </div>
     <ul class="p-4 space-y-6 pt-8">
-      <li><a routerLink="/"
+      <li><a routerLink="/home" 
+            routerLinkActive="active" 
+            #rla="routerLinkActive" 
+            [class.activeLink]="rla.isActive"
+            [routerLinkActiveOptions]="{ exact: true }"
           class=" font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Home</a>
       </li>
-      <li><a routerLink="/movies"
+      <li><a  routerLink="/movies" 
+    routerLinkActive="active" 
+    #rlaMovies="routerLinkActive" 
+    [class.activeLink]="rlaMovies.isActive"
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Movies
         </a></li>
-      <li><a routerLink="/series"
+      <li><a routerLink="/series" 
+    routerLinkActive="active" 
+    #rlaSeries="routerLinkActive" 
+    [class.activeLink]="rlaSeries.isActive"
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Series</a>
       </li>
-      <li><a routerLink="/about"
+      <li><a routerLink="/about" 
+    routerLinkActive="active" 
+    #rlaAbout="routerLinkActive" 
+    [class.activeLink]="rlaAbout.isActive"
+    [routerLinkActiveOptions]="{ exact: true }"
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">About
           Us</a></li>
-      <li><a routerLink="/contact-us"
+      <li><a  routerLink="/contact-us" 
+    routerLinkActive="active" 
+    #rlaContact="routerLinkActive" 
+    [class.activeLink]="rlaContact.isActive"
+    [routerLinkActiveOptions]="{ exact: true }"
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Contact
           Us</a></li>
       <li class="flex space-x-5 justify-between">
