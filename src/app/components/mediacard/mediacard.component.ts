@@ -7,17 +7,21 @@ import { WatchListService } from '../../services/watch-list.service';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faSolidBookmark, faSolidCartShopping } from '@ng-icons/font-awesome/solid';
 import { faBookmark } from '@ng-icons/font-awesome/regular';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 RouterLink;
 
 @Component({
   selector: 'app-mediaCard',
-  imports: [RouterLink, NgIcon],
+  imports: [RouterLink, NgIcon,CommonModule,FormsModule],
   templateUrl: './mediacard.component.html',
   providers: [provideIcons({faSolidBookmark, faBookmark,faSolidCartShopping})],
 })
 export class MediaCardComponent {
   @Input({ required: true }) mediaItem!: MovieType | Series;
+   @Input() color: string = '';
+    @Input() height: string = '';
 
   cart = inject(CartService);
   watchList = inject(WatchListService);
