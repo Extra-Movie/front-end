@@ -1,0 +1,16 @@
+<section class="count-up border-t-5 border-b-5 py-4 border-primary">
+  <div class="flex justify-center items-center gap-30 bg-primary py-8">
+    <div class="movies flex flex-col justify-center items-center">
+      <span class="text-7xl font-bold text-white">{{ moviesValue | number:'1.0-0' }}</span>
+      <h3 class="text-xl text-white">Movies</h3>
+    </div>
+    <div class="series flex flex-col justify-center items-center">
+      <span class="text-7xl font-bold text-white">{{ seriesValue | number:'1.0-0' }}</span>
+      <h3 class="text-xl text-white">Series</h3>
+    </div>
+    <div class="users flex flex-col justify-center items-center">
+      <span class="text-7xl font-bold text-white">{{ usersValue | number:'1.0-0' }}</span>
+      <h3 class="text-xl text-white">Users</h3>
+    </div>
+  </div>
+</section>
