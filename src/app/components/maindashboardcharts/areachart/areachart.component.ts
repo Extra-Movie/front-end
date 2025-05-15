@@ -1,4 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 
 import {
   ChartComponent,
@@ -33,16 +39,19 @@ export type ChartOptions = {
   templateUrl: './areachart.component.html',
   styles: ``,
 })
-export class AreachartComponent {
+export class AreachartComponent implements OnChanges {
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
+  @Input() data: number[] = [];
+  @Input() categories: string[] = [];
+  @Input() title: string = '';
 
   constructor() {
     this.chartOptions = {
       series: [
         {
-          name: 'STOCK ABC',
-          data: [100, 55, 13, 43, 22],
+          name: 'Value',
+          data: this.data,
         },
       ],
       chart: {
@@ -75,7 +84,7 @@ export class AreachartComponent {
         colors: ['var(--color-primary)'],
       },
       title: {
-        text: 'Fundamental Analysis of Stocks',
+        text: this.title,
         align: 'left',
         style: {
           color: 'var(--color-primary)',
@@ -83,29 +92,9 @@ export class AreachartComponent {
           fontWeight: 'bold',
         },
       },
-
-      labels: [
-        '2023-01-01',
-        '2023-02-01',
-        '2023-03-01',
-        '2023-04-01',
-        '2023-05-01',
-      ],
-      grid: {
-        borderColor: 'var(--color-base-300)',
-        row: {
-          colors: ['transparent', 'transparent'],
-          opacity: 0.1,
-        },
-        xaxis: {
-          lines: { show: false },
-        },
-        yaxis: {
-          lines: { show: true },
-        },
-      },
       xaxis: {
-        type: 'datetime',
+        type: 'category',
+        categories: this.categories,
         labels: {
           style: {
             colors: 'var(--color-base-content)',
@@ -132,6 +121,32 @@ export class AreachartComponent {
           colors: 'var(--color-base-content)',
         },
       },
+      grid: {
+        borderColor: 'var(--color-base-300)',
+        row: {
+          colors: ['transparent', 'transparent'],
+          opacity: 0.1,
+        },
+        xaxis: {
+          lines: { show: false },
+        },
+        yaxis: {
+          lines: { show: true },
+        },
+      },
     };
+  }
+ 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data'] || changes['categories'] || changes['title']) {
+      this.chartOptions.series = [
+        {
+          name: 'Value',
+          data: changes['data'].currentValue,
+        },
+      ];
+      this.chartOptions.xaxis.categories = changes['categories'].currentValue;
+      this.chartOptions.title.text = changes['title'].currentValue;
+    }
   }
 }

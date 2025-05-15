@@ -8,8 +8,8 @@ import { Component, Input } from '@angular/core';
   styles: ``,
 })
 export class KpiComponent {
-  @Input() icon = 'fa-solid fa-users';
-  @Input() title = 'Title';
-  @Input() value = '0';
+  @Input() icon = '';
+  @Input() title = '';
+  @Input() value: number | string = 0;
   @Input() year = new Date().getFullYear();
 }

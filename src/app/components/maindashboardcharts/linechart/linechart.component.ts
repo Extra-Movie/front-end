@@ -1,4 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 
 import {
   ChartComponent,
@@ -21,6 +27,7 @@ export type ChartOptions = {
   stroke: ApexStroke | any;
   title: ApexTitleSubtitle | any;
   fill: ApexFill | any;
+  tooltip: ApexTooltip | any;
 };
 
 @Component({
@@ -29,16 +36,19 @@ export type ChartOptions = {
   templateUrl: './linechart.component.html',
   styles: ``,
 })
-export class LinechartComponent {
+export class LinechartComponent implements OnChanges {
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
+  @Input() data: number[] = [];
+  @Input() categories: string[] = [];
+  @Input() title: string = '';
 
   constructor() {
     this.chartOptions = {
       series: [
         {
           name: 'Desktops',
-          data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
+          data: [2053, ...this.data],
         },
       ],
       chart: {
@@ -72,7 +82,7 @@ export class LinechartComponent {
         },
       },
       title: {
-        text: 'Product Trends by Month',
+        text: this.title,
         align: 'left',
         style: {
           color: 'var(--color-primary)',
@@ -80,6 +90,7 @@ export class LinechartComponent {
           fontWeight: 'bold',
         },
       },
+
       grid: {
         borderColor: 'var(--color-base-300)',
         row: {
@@ -94,17 +105,7 @@ export class LinechartComponent {
         },
       },
       xaxis: {
-        categories: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-        ],
+        categories: ['Jun', ...this.categories],
         labels: {
           style: {
             colors: 'var(--color-base-content)',
@@ -118,5 +119,17 @@ export class LinechartComponent {
         },
       },
     };
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data'] || changes['categories'] || changes['title']) {
+      this.chartOptions.series = [
+        {
+          name: 'Value',
+          data: changes['data'].currentValue,
+        },
+      ];
+      this.chartOptions.xaxis.categories = changes['categories'].currentValue;
+      this.chartOptions.title.text = changes['title'].currentValue;
+    }
   }
 }

@@ -1,4 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  SimpleChanges,
+  OnChanges,
+  Input,
+} from '@angular/core';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -18,7 +24,6 @@ export type ChartOptions = {
   xaxis: ApexXAxis | any;
   fill: ApexFill | any;
   grid: ApexGrid | any;
-  
 };
 
 @Component({
@@ -27,16 +32,20 @@ export type ChartOptions = {
   templateUrl: './barchart.component.html',
   styles: ``,
 })
-export class BarchartComponent {
+export class BarchartComponent implements OnChanges {
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
+  @Input() data: number[] = [];
+  @Input() categories: string[] = [];
+  @Input() title: string = '';
+  @Input() horizontal: boolean = false;
 
   constructor() {
     this.chartOptions = {
       series: [
         {
           name: 'basic',
-          data: [400, 430, 448, 470, 540, 580],
+          data: this.data,
         },
       ],
       chart: {
@@ -48,7 +57,7 @@ export class BarchartComponent {
         },
       },
       title: {
-        text: 'Countries With Most Oil Reserves',
+        text: this.title,
         align: 'left',
         style: {
           color: 'var(--color-primary)',
@@ -58,7 +67,7 @@ export class BarchartComponent {
       },
       plotOptions: {
         bar: {
-          horizontal: true,
+          horizontal: this.horizontal,
           barHeight: '80%',
           borderRadius: 5,
         },
@@ -71,14 +80,7 @@ export class BarchartComponent {
         },
       },
       xaxis: {
-        categories: [
-          'South Korea',
-          'Canada',
-          'United Kingdom',
-          'Netherlands',
-          'Italy',
-          'France',
-        ],
+        categories: this.categories,
         labels: {
           style: {
             colors: 'var(--color-base-content)',
@@ -120,5 +122,23 @@ export class BarchartComponent {
         opacity: 0.85,
       },
     };
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['data'] ||
+      changes['categories'] ||
+      changes['title'] ||
+      changes['horizontal']
+    ) {
+      this.chartOptions.series = [
+        {
+          name: 'basic',
+          data: this.data,
+        },
+      ];
+      this.chartOptions.xaxis.categories = this.categories;
+      this.chartOptions.title.text = this.title;
+      this.chartOptions.plotOptions.bar.horizontal = this.horizontal;
+    }
   }
 }

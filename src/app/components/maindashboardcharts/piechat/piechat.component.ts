@@ -1,4 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 
 import {
@@ -13,6 +20,7 @@ export type ChartOptions = {
   responsive: ApexResponsive[] | any;
   labels: any;
   fill: any;
+  title: any;
 };
 
 @Component({
@@ -21,19 +29,31 @@ export type ChartOptions = {
   imports: [NgApexchartsModule],
   templateUrl: './piechat.component.html',
 })
-export class PieComponent {
+export class PieComponent implements OnChanges {
   @ViewChild('chart') chart!: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
+  @Input() series: number[] = [];
+  @Input() labels: string[] = [];
+  @Input() title: string = '';
 
   constructor() {
     this.chartOptions = {
-      series: [100, 55, 13],
+      series: this.series,
       chart: {
         height: 240,
         type: 'pie',
         foreColor: 'var(--color-base-content)',
       },
-      labels: ['Team A', 'Team B', 'Team C'],
+      title: {
+        text: this.title,
+        align: 'left',
+        style: {
+          fontSize: '16px',
+          fontWeight: 'bold',
+          color: 'var(--color-primary)',
+        },
+      },
+      labels: this.labels,
       fill: {
         colors: [
           'var(--color-primary)',
@@ -43,20 +63,30 @@ export class PieComponent {
       },
       responsive: [
         {
-          breakpoint: 480,
+          breakpoint: 1200,
           options: {
-            chart: {
-              width: 200,
-            },
             legend: {
               position: 'bottom',
-              labels: {
-                colors: ['var(--color-base-content)'],
-              },
+            },
+          },
+        },
+        {
+          breakpoint: 1021,
+          options: {
+            legend: {
+              position: 'right',
             },
           },
         },
       ],
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['series']) {
+      this.chartOptions.series = changes['series'].currentValue;
+      this.chartOptions.labels = changes['labels'].currentValue;
+      this.chartOptions.title.text = changes['title'].currentValue;
+    }
   }
 }

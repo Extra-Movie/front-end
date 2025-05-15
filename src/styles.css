@@ -79,8 +79,8 @@ a {
   @apply mx-auto p-4 sm:px-6 lg:px-8;
 }
 
-.range{
-  --range-progress:var(--color-primary);
+.range {
+  --range-progress: var(--color-primary);
 }
 
 .hide-scrollbar::-webkit-scrollbar {
@@ -89,4 +89,33 @@ a {
 .hide-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+.apexcharts-tooltip {
+  background-color: var(--color-base-100) !important;
+  border: 1px solid var(--color-base-300) !important;
+  border-radius: 8px !important;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1) !important;
+  color: var(--color-base-content) !important;
+  padding: 10px !important;
+  font-size: 14px;
+}
+.apexcharts-tooltip-title {
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 5px;
+  background-color: transparent !important;
+  border-bottom: 1px solid var(--color-base-300);
+  color: var(--color-base-content) !important;
+}
+.apexcharts-tooltip-series-group {
+  display: flex !important;
+  align-items: center;
+  margin: 4px 0;
+}
+.apexcharts-tooltip-marker {
+  margin-right: 6px;
+  border-radius: 50%;
+}
+.apexcharts-tooltip-text {
+  font-size: 13px !important;
 }
