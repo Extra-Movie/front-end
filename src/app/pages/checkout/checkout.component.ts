@@ -86,6 +86,7 @@ export class CheckoutComponent implements OnInit {
         cancelable: true,
         duration: 6000,
       });
+      this.cartService.clearCart();
       this.router.navigate(['/']);
     }
   }
