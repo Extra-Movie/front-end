@@ -1,5 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poetsen+One&display=swap');
 @import "tailwindcss";
 @plugin "daisyui";
+
+@theme {
+  --font-heading: "Poetsen One", sans-serif;
+  --font-body: "Nunito", sans-serif;
+  --font-weight-black: 1000;
+  --font-weight-extrabold: 900;
+  --font-weight-bold: 800;
+  --font-weight-semibold: 700;
+  --font-weight-medium: 600;
+  --font-weight-normal: 500;
+  --font-weight-light: 400;
+}
 
 @plugin "daisyui/theme" {
   name: "light";
@@ -79,8 +92,8 @@ a {
   @apply mx-auto p-4 sm:px-6 lg:px-8;
 }
 
-.range{
-  --range-progress:var(--color-primary);
+.range {
+  --range-progress: var(--color-primary);
 }
 
 .hide-scrollbar::-webkit-scrollbar {
