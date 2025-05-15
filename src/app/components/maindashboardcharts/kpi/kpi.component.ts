@@ -1,11 +1,15 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-kpi',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './kpi.component.html',
-  styles: ``
+  styles: ``,
 })
 export class KpiComponent {
-
+  @Input() icon = 'fa-solid fa-users';
+  @Input() title = 'Title';
+  @Input() value = '0';
+  @Input() year = new Date().getFullYear();
 }

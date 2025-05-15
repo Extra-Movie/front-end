@@ -18,6 +18,7 @@ export type ChartOptions = {
   xaxis: ApexXAxis | any;
   fill: ApexFill | any;
   grid: ApexGrid | any;
+  
 };
 
 @Component({
