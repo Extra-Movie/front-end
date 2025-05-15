@@ -9,9 +9,10 @@ import { faSolidBookmark, faSolidCartShopping } from '@ng-icons/font-awesome/sol
 import { faBookmark } from '@ng-icons/font-awesome/regular';
 import { bootstrapTv } from '@ng-icons/bootstrap-icons';
 import { Router } from '@angular/router';
+import { CurrencyDirective } from '../../directives/currency.directive';
 @Component({
   selector: 'app-watch-list',
-  imports: [CommonModule,FormsModule,NgIcon],
+  imports: [CommonModule,FormsModule,NgIcon, CurrencyDirective],
   providers: [provideIcons({faSolidBookmark, faBookmark,faSolidCartShopping,bootstrapTv})],
   templateUrl: './watch-list.component.html',
   styles: ``
