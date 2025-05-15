@@ -1,1 +1,36 @@
-<p>admin-main works!</p>
+<div class="w-full p-6 space-y-8 min-h-screen bg-base-100">
+  <div
+    class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 min-h-[150px] gap-4"
+  >
+    <app-kpi
+      class="bg-base-300 rounded-2xl p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
+    ></app-kpi>
+    <app-kpi
+      class="bg-base-200 rounded-2xl p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
+    ></app-kpi>
+    <app-kpi
+      class="bg-base-300 rounded-2xl p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
+    ></app-kpi>
+    <app-kpi
+      class="bg-base-200 rounded-2xl p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
+    ></app-kpi>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <pie-app
+      class="bg-base-200 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+    ></pie-app>
+
+    <app-linechart
+      class="bg-base-200 lg:col-span-2 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+    ></app-linechart>
+
+    <app-areachart
+      class="bg-base-200 h-[280px] lg:col-span-2 flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+    ></app-areachart>
+
+    <app-barchart
+      class="bg-base-200 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+    ></app-barchart>
+  </div>
+</div>
