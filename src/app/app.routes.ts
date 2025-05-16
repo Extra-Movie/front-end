@@ -24,6 +24,7 @@ import { SeriesDetailsComponent } from './pages/series-details/series-details.co
 import { authGuard } from './guards/auth.guard';
 import { WatchListComponent } from './pages/watch-list/watch-list.component';
 import { OwnedComponent } from './pages/owned/owned.component';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -99,7 +100,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     title: 'Dashboard',
-    canActivate: [authGuard],
+    canActivate: [authGuard, adminGuard],
     component: DashboardComponent,
     children: [
       {

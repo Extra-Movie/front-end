@@ -8,6 +8,7 @@ import { catchError, map, startWith ,tap} from 'rxjs/operators';
 import { LoadingState } from '../../Types/loading-state.model';
 
 import { Genre } from '../../Types/genres.types';
+import { environment } from '../../../environments/environment';
 
 
 @Injectable({
@@ -19,8 +20,8 @@ export class GenresService {
   moviesGenres: Genre[] = [];
   seriesGenres: Genre[] = [];
 
-  private URLMovies = 'https://back-end-production-e1e1.up.railway.app/api/genres/movie';
-  private URLSeries = 'https://back-end-production-e1e1.up.railway.app/api/genres/tv';
+  private URLMovies = environment.apiUrl + '/genres/movie';
+  private URLSeries = environment.apiUrl + '/genres/tv';
 
   constructor(private http: HttpClient) {}
 
