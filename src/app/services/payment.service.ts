@@ -27,7 +27,7 @@ export class PaymentService {
   private LightAppearance: Partial<Appearance> = {
     theme: 'stripe',
     variables: {
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'Nunito, Arial, sans-serif',
       fontSizeBase: '16px',
       borderRadius: '4px',
       colorBackground: '#fdfcfc',
@@ -40,7 +40,7 @@ export class PaymentService {
   private DarkAppearance: Appearance = {
     theme: 'stripe',
     variables: {
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'Nunito, Arial, sans-serif',
       fontSizeBase: '16px',
       borderRadius: '4px',
       colorBackground: '#060605',
