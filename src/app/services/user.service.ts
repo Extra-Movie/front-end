@@ -37,11 +37,15 @@ export class UserService {
   ownedState = new RequestStateService<OwnedResponse>();
 
   getMyData() {
-    const userState = new RequestStateService<userData>();
-    const req$ = this.http.get<userData>(`${this.authUrl}/getuser`);
+    const userState = new RequestStateService<{ userData: userData }>();
+    const req$ = this.http.get<{ userData: userData }>(
+      `${this.authUrl}/getuser`
+    );
     return userState.track(req$).pipe(
       tap((res) => {
-        this._user.set(res);
+        console.log('🚀 ~ UserService ~ tap ~ res:', res);
+        if (res) this._user.set(res?.userData);
+        else this._user.set(null);
       })
     );
   }

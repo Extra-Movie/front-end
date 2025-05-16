@@ -11,7 +11,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
   return user.getMyData().pipe(
     map((res) => {
       if (res) {
-        if (res.isAdmin) return true;
+        if (res.userData.isAdmin) return true;
         toast.error('You are not authorized to access this page', {
           title: 'Access Denied',
           showIcon: true,

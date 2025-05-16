@@ -21,6 +21,6 @@ export class AppComponent {
     this.router.events.subscribe(() => {
       window.scrollTo({ behavior: 'smooth', top: 0, left: 0 });
     });
-    user.getMyData();
+    user.getMyData().subscribe();
   }
 }
