@@ -12,7 +12,7 @@ import {
   userListsResponse,
   userResponse,
 } from '../Types/User.types';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -56,7 +56,7 @@ export class UserService {
   }
 
   getAllUsers() {
-    const req$ = this.http.get<{ usersData: userData[] }>(this.authUrl, { headers: this.reqHeader })
+    const req$ = this.http.get<{ usersData: userData[] }>(this.authUrl)
      .pipe(map(response => response.usersData));
     return req$;
   }
@@ -72,7 +72,7 @@ export class UserService {
   }
 
   makeAdmin(id: string) {
-    const req$ = this.http.patch<userData>(`${this.authUrl}/${id}`, { headers: this.reqHeader });
+    const req$ = this.http.patch<userData>(`${this.authUrl}/${id}`,{});
     return this.userState.track(req$).pipe(
       tap((res)=>{
         if(res){
