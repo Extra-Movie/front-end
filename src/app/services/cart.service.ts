@@ -25,11 +25,15 @@ export class CartService {
       if (!this.auth.isLoggedIn()) {
         this.cart.set(undefined);
       } else {
-        this.user.getCart().subscribe((res) => {
-          if (res) {
-            this.cart.set(res.cart.filter((item) => item.item));
-          }
-        });
+        this.getCart();
+      }
+    });
+  }
+
+  private getCart() {
+    this.user.getCart().subscribe((res) => {
+      if (res) {
+        this.cart.set(res.cart.filter((item) => item.item));
       }
     });
   }
@@ -105,5 +109,28 @@ export class CartService {
         });
       }
     });
+  }
+  updateCart() {
+    if (!this.auth.isLoggedIn()) {
+      this.toast.error('Please login to clear cart', {
+        title: 'Login required',
+        showIcon: true,
+        duration: 2000,
+      });
+      return;
+    }
+    this.getCart();
+  }
+
+  clearCart() {
+    if (!this.auth.isLoggedIn()) {
+      this.toast.error('Please login to clear cart', {
+        title: 'Login required',
+        showIcon: true,
+        duration: 2000,
+      });
+      return;
+    }
+    this.cart.set(undefined);
   }
 }

@@ -109,9 +109,9 @@ export class PaymentService {
   }) {
     console.log('Updating Payment Intent...');
     if (!this.stripe) {
-      errorHandler?.(
-        new Error('Stripe is not initialized. Cannot create elements.')
-      );
+      // errorHandler?.(
+      //   new Error('Stripe is not initialized. Cannot create elements.')
+      // );
       return;
     }
     if (!this.paymentElementContainerId) {
@@ -183,8 +183,9 @@ export class PaymentService {
       console.error('Error confirming payment', error);
       return { error: new Error(error.message) };
     }
-    console.table(paymentIntent);
     this.elements.getElement('payment')?.clear();
+    
+
     return { success: true };
   }
 

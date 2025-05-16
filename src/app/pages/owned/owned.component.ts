@@ -9,9 +9,10 @@ import { faSolidBookmark, faSolidCartShopping } from '@ng-icons/font-awesome/sol
 import { faBookmark } from '@ng-icons/font-awesome/regular';
 import { bootstrapTv } from '@ng-icons/bootstrap-icons';
 import { FormsModule } from '@angular/forms';
+import { CurrencyDirective } from '../../directives/currency.directive';
 @Component({
   selector: 'app-owned',
-  imports: [CommonModule,FormsModule,NgIcon],
+  imports: [CommonModule,FormsModule,NgIcon, CurrencyDirective],
   providers: [provideIcons({faSolidBookmark, faBookmark,faSolidCartShopping,bootstrapTv})],
   templateUrl: './owned.component.html',
   styles: ``

@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { RequestStateService } from './apiRequest.service';
-import { tap } from 'rxjs';
 import { registeredUser } from '../Types/Authentication.types';
 import {
   CartResponse,
@@ -13,9 +12,7 @@ import {
   userListsResponse,
   userResponse,
 } from '../Types/User.types';
-import { HttpHeaders } from '@angular/common/http';
-import { map } from 'rxjs';
-
+import { map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +24,8 @@ export class UserService {
     localStorage.getItem('token') || sessionStorage.getItem('token') || null
   );
   readonly token = this._token.asReadonly();
+  private _user = signal<userData | null>(null);
+  readonly user = this._user.asReadonly();
 
   delState = new RequestStateService<userResponse>();
   updateState = new RequestStateService<registeredUser>();
@@ -37,10 +36,19 @@ export class UserService {
   watchListState = new RequestStateService<WatchListResponse>();
   ownedState = new RequestStateService<OwnedResponse>();
 
-  private reqHeader = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTYzYTg4OTA1OTFiNDcwYzlkOTExNiIsIm5hbWUiOiJnaGFkYSIsImVtYWlsIjoiZ2hhZGFAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzQ2OTQ1MzE5LCJleHAiOjE3NDcyMDQ1MTl9.eBwRp7ZgfHOQMDXLaGs5pEJw0wBpWo32QGR0dl3NrhI'
-    });
+  getMyData() {
+    const userState = new RequestStateService<{ userData: userData }>();
+    const req$ = this.http.get<{ userData: userData }>(
+      `${this.authUrl}/getuser`
+    );
+    return userState.track(req$).pipe(
+      tap((res) => {
+        console.log('🚀 ~ UserService ~ tap ~ res:', res);
+        if (res) this._user.set(res?.userData);
+        else this._user.set(null);
+      })
+    );
+  }
 
   getUser(id: string) {
     const req$ = this.http.get<userData>(`${this.authUrl}/${id}`);
@@ -48,21 +56,14 @@ export class UserService {
   }
 
   getAllUsers() {
-    const req$ = this.http.get<{ usersData: userData[] }>(this.authUrl, { headers: this.reqHeader })
+    const req$ = this.http.get<{ usersData: userData[] }>(this.authUrl)
      .pipe(map(response => response.usersData));
     return req$;
   }
 
   deletUser(id: string) {
-    const req$ = this.http.delete<userResponse>(`${this.authUrl}/${id}`, { headers: this.reqHeader });
-    return this.delState.track(req$).pipe(
-      tap((res) => {
-        if (res) {
-          localStorage.removeItem('token');
-          sessionStorage.removeItem('token');
-        }
-      })
-    );
+    const req$ = this.http.delete<userResponse>(`${this.authUrl}/${id}`);
+    return this.delState.track(req$);
   }
 
   updateUser(id: string, user: registeredUser) {
@@ -71,7 +72,7 @@ export class UserService {
   }
 
   makeAdmin(id: string) {
-    const req$ = this.http.patch<userData>(`${this.authUrl}/${id}`, { headers: this.reqHeader });
+    const req$ = this.http.patch<userData>(`${this.authUrl}/${id}`,{});
     return this.userState.track(req$).pipe(
       tap((res)=>{
         if(res){

@@ -1,165 +1,158 @@
-<div class="px-4 mb-2">
- <div class="px-3 h-45 pt-5 bg-base-100 text-primary font-bold flex items-center ">
-  <h2
-    class="font-bold mb-4 text-4xl
+<div class="container mb-2">
+  <div class="px-3 pt-5 bg-base-100 text-primary font-bold flex items-center ">
+    <h2 class="font-black mb-4 text-4xl md:text-6xl
            bg-[url('https://images.pexels.com/photos/1146717/pexels-photo-1146717.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')]
            bg-cover bg-center
            text-transparent bg-clip-text">
-    My Owned
-  </h2>
-</div>
+      My Owned
+    </h2>
+  </div>
 
 
   <div *ngIf="isLoading(); else loaded" class="flex justify-center items-center h-40">
     <span class="loading loading-spinner text-primary w-12 h-12"></span>
   </div>
 
-<ng-template #loaded>
-  <div class="flex flex-row-reverse gap-10 text-[22px] p-3 mb-3 items-center ">
-              <svg (click)="viewMode = 'grid1'"  class="w-7 h-7 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.143 4H4.857A.857.857 0 0 0 4 4.857v4.286c0 .473.384.857.857.857h4.286A.857.857 0 0 0 10 9.143V4.857A.857.857 0 0 0 9.143 4Zm10 0h-4.286a.857.857 0 0 0-.857.857v4.286c0 .473.384.857.857.857h4.286A.857.857 0 0 0 20 9.143V4.857A.857.857 0 0 0 19.143 4Zm-10 10H4.857a.857.857 0 0 0-.857.857v4.286c0 .473.384.857.857.857h4.286a.857.857 0 0 0 .857-.857v-4.286A.857.857 0 0 0 9.143 14Zm10 0h-4.286a.857.857 0 0 0-.857.857v4.286c0 .473.384.857.857.857h4.286a.857.857 0 0 0 .857-.857v-4.286a.857.857 0 0 0-.857-.857Z"/>
-              </svg>
-              <svg  (click)="viewMode = 'grid2'" class="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/>
-              </svg>
+  <ng-template #loaded>
+    <div class="flex flex-row-reverse gap-6 text-[22px] mb-3 items-center ">
+      <svg (click)="viewMode = 'grid1'" class="w-7 h-7 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+        width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9.143 4H4.857A.857.857 0 0 0 4 4.857v4.286c0 .473.384.857.857.857h4.286A.857.857 0 0 0 10 9.143V4.857A.857.857 0 0 0 9.143 4Zm10 0h-4.286a.857.857 0 0 0-.857.857v4.286c0 .473.384.857.857.857h4.286A.857.857 0 0 0 20 9.143V4.857A.857.857 0 0 0 19.143 4Zm-10 10H4.857a.857.857 0 0 0-.857.857v4.286c0 .473.384.857.857.857h4.286a.857.857 0 0 0 .857-.857v-4.286A.857.857 0 0 0 9.143 14Zm10 0h-4.286a.857.857 0 0 0-.857.857v4.286c0 .473.384.857.857.857h4.286a.857.857 0 0 0 .857-.857v-4.286a.857.857 0 0 0-.857-.857Z" />
+      </svg>
+      <svg (click)="viewMode = 'grid2'" class="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+        height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
+      </svg>
 
 
-            <div *ngIf="arrowMode ==='up'">
-              <svg (click)="sort()" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v13m0-13 4 4m-4-4-4 4"/>
-              </svg>
-            </div>
+      <div *ngIf="arrowMode ==='up'">
+        <svg (click)="sort()" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+          height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 6v13m0-13 4 4m-4-4-4 4" />
+        </svg>
+      </div>
 
-             <div *ngIf="arrowMode ==='down'">
-              <svg (click)="descSort()" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19V5m0 14-4-4m4 4 4-4"/>
-              </svg>
-            </div>
+      <div *ngIf="arrowMode ==='down'">
+        <svg (click)="descSort()" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+          height="24" fill="none" viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 19V5m0 14-4-4m4 4 4-4" />
+        </svg>
+      </div>
 
-            <p class="text-[18px]" type="button">Sort By Alphabetic</p>
+      <p class="text-[18px]" type="button">Sort By Alphabetic</p>
 
 
 
-</div>
+    </div>
 
-  <div *ngIf="viewMode === 'grid1' && (ownedItems()?.length ?? 0) > 0"
- class=" rounded-2xl p-10  gap-4 grid lg:grid-cols-3 md:grid-col-2 sm:grid-col-1 ">
-      <div *ngFor="let item of ownedItems()" class="card border-base-300 border-1 rounded-xl flex flex-row overflow-hidden @container p-2">
-          <div class="p-5 flex flex-col w-1/2 justify-between ">
+    <div *ngIf="viewMode === 'grid1' && (ownedItems()?.length ?? 0) > 0"
+      class=" rounded-2xl py-10  gap-4 grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))]">
+      <div *ngFor="let item of ownedItems()"
+        class="card border-base-300 border-1 rounded-xl flex flex-row overflow-hidden @container p-2">
+        <div class="p-4 flex flex-col w-1/2 justify-between ">
           <div class="h-3/4 grid grid-cols-1 content-between">
-              <h2 class="text-lg font-bold truncate">{{ item.kind === 'movies' ? item.item.title : item.item.name }}</h2>
+            <h2 class="text-lg font-bold truncate">{{ item.kind === 'movies' ? item.item.title : item.item.name }}</h2>
             <div class="flex justify-between items-center">
-              <p class="font-semibold text-base-content">£{{ item.item.price }}</p>
+              <p appCurrency class="font-semibold text-base-content">{{ item.item.price }}</p>
               <div class="flex items-center">
                 <span class="text-warning mr-1">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 </span>
                 <span class="text-primary font-semibold">
                   {{
-                    (item.item.popularity % 10) < 5
-                      ? ((item.item.popularity % 10) + 5).toFixed(1)
-                      : (item.item.popularity % 10).toFixed(1)
-                  }}
-                </span>
+                  (item.item.popularity % 10) < 5 ? ((item.item.popularity % 10) + 5).toFixed(1) : (item.item.popularity
+                    % 10).toFixed(1) }} </span>
               </div>
             </div>
           </div>
 
           <div class="flex">
-           <button
-          (click)="goToDetails(item)"
-          class="btn btn-primary text-primary relative overflow-hidden w-full bg-transparent
+            <button (click)="goToDetails(item)" class="btn btn-primary text-primary relative overflow-hidden w-full bg-transparent
                 after:content-[''] after:absolute after:top-0 after:left-0 after:h-full after:w-full
                 after:bg-primary after:rounded-1xl after:-z-10
                 after:transform after:-translate-x-full after:origin-top-left hover:text-neutral
                 after:transition-transform hover:after:translate-x-0">
-          Show Details
-        </button>
+              Details
+            </button>
 
           </div>
         </div>
         <div class="w-1/2 flex flex-row-reverse aspect-[3/4] rounded-xl overflow-hidden relative">
-          <img
-              class="w-full rounded-xl h-full object-center
+          <img class="w-full rounded-xl h-full object-center
                     transition-transform duration-500 ease-in-out
-                    hover:scale-105 hover:brightness-110 hover:shadow-xl"
-              [src]="item.item.poster_path"
-              [alt]="item.kind === 'movies' ? item.item.title : item.item.name"
-            />
+                    hover:scale-105 hover:brightness-110 hover:shadow-xl" [src]="item.item.poster_path"
+            [alt]="item.kind === 'movies' ? item.item.title : item.item.name" />
         </div>
 
       </div>
     </div>
 
 
-     <div *ngIf="viewMode === 'grid2' && (ownedItems()?.length ?? 0) > 0"
- class="mx-auto rounded-2xl p-10  gap-4 grid lg:grid-cols-1 md:grid-col-2 sm:grid-col-1 content-center w-3/4 ">
-      <div *ngFor="let item of ownedItems()" class="card border-base-300 border-1 rounded-xl flex flex-row overflow-hidden @container p-2  max-h-90">
-          <div class="p-5 flex flex-col w-1/2 justify-between ">
+    <div *ngIf="viewMode === 'grid2' && (ownedItems()?.length ?? 0) > 0" class="mx-auto rounded-2xl py-10  gap-4 grid ">
+      <div *ngFor="let item of ownedItems()"
+        class="card border-base-300 border-1 rounded-xl flex flex-row overflow-hidden @container p-2  max-h-90">
+        <div class="p-4 flex flex-col w-1/2 justify-between flex-1">
           <div class="h-3/4 grid grid-cols-1 content-between">
-              <h2 class="text-lg font-bold truncate">{{ item.kind === 'movies' ? item.item.title : item.item.name }}</h2>
+            <h2 class="text-lg font-bold truncate">{{ item.kind === 'movies' ? item.item.title : item.item.name }}</h2>
+            <p class=" line-clamp-3 max-w-2xl">{{item.item.overview}}</p>
             <div class="flex justify-between items-center">
-              <p class="font-semibold text-base-content">£{{ item.item.price }}</p>
+              <p appCurrency class="font-semibold text-base-content">{{ item.item.price }}</p>
               <div class="flex items-center">
                 <span class="text-warning mr-1">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    <path
+                      d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                 </span>
                 <span class="text-primary font-semibold">
                   {{
-                    (item.item.popularity % 10) < 5
-                      ? ((item.item.popularity % 10) + 5).toFixed(1)
-                      : (item.item.popularity % 10).toFixed(1)
-                  }}
-                </span>
+                  (item.item.popularity % 10) < 5 ? ((item.item.popularity % 10) + 5).toFixed(1) : (item.item.popularity
+                    % 10).toFixed(1) }} </span>
               </div>
             </div>
           </div>
 
           <div class="flex">
-           <button
-          (click)="goToDetails(item)"
-          class="btn btn-primary text-primary relative overflow-hidden w-full bg-transparent
+            <button (click)="goToDetails(item)" class="btn btn-primary text-primary relative overflow-hidden w-full bg-transparent
                 after:content-[''] after:absolute after:top-0 after:left-0 after:h-full after:w-full
                 after:bg-primary after:rounded-1xl after:-z-10
                 after:transform after:-translate-x-full after:origin-top-left hover:text-neutral
                 after:transition-transform hover:after:translate-x-0">
-          Show Details
-        </button>
+              Show Details
+            </button>
 
           </div>
         </div>
-        <div class="w-1/2 flex flex-row-reverse aspect-[3/4] rounded-xl overflow-hidden relative">
-          <img
-              class="w-3/4 rounded-xl h-full object-center
+        <div class="flex flex-row-reverse aspect-[3/4] h-full max-w-1/2 rounded-xl overflow-hidden relative">
+          <img class="object-cover rounded-xl h-full object-center
                     transition-transform duration-500 ease-in-out
-                    hover:scale-105 hover:brightness-110 hover:shadow-xl"
-              [src]="item.item.poster_path"
-              [alt]="item.kind === 'movies' ? item.item.title : item.item.name"
-            />
+                    hover:scale-105 hover:brightness-110 hover:shadow-xl" [src]="item.item.poster_path"
+            [alt]="item.kind === 'movies' ? item.item.title : item.item.name" />
         </div>
 
       </div>
     </div>
-</ng-template>
+  </ng-template>
 
 
-<div *ngIf="ownedItems()?.length === 0">
-  <div class="empty-message mb-20">
-    <div class="flex justify-center gap-5 rounded-2xl h-50 items-center bg-base-200">
-      <p class="text-2xl">Your watchlist is empty</p>
-      <div class="text-primary">
-         <ng-icon name="bootstrapTv" class="w-full h-full text-inherit" style="width:40px;height:40px;"></ng-icon>
+  <div *ngIf="ownedItems()?.length === 0 && !isLoading()">
+    <div class="empty-message mb-20">
+      <div class="flex justify-center gap-5 rounded-2xl h-50 items-center bg-base-200">
+        <p class="text-2xl">Your watchlist is empty</p>
+        <div class="text-primary">
+          <ng-icon name="bootstrapTv" class="w-full h-full text-inherit" style="width:40px;height:40px;"></ng-icon>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
 
 
 </div>
-
