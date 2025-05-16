@@ -29,6 +29,6 @@ import { Component, Input, OnInit } from '@angular/core';
         current += step;
         this[property] = current;
       }
-    }, 10);
+    }, 15);
   }
 }
