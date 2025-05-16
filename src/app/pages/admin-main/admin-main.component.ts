@@ -10,11 +10,12 @@ import {
 import { PieComponent } from '../../components/maindashboardcharts/piechat/piechat.component';
 import { LinechartComponent } from '../../components/maindashboardcharts/linechart/linechart.component';
 import { AreachartComponent } from '../../components/maindashboardcharts/areachart/areachart.component';
-import { BarchartComponent } from '../../components/maindashboardcharts/barchart/barchart.component';
 import { KpiComponent } from '../../components/maindashboardcharts/kpi/kpi.component';
 import { RequestState } from '../../services/apiRequest.service';
 import { totalUsersType } from '../../Types/maindashboard.types';
 import { CommonModule } from '@angular/common';
+import { VerbarchartComponent } from '../../components/maindashboardcharts/verbarchart/verbarchart.component';
+import { HorbarchartComponent } from '../../components/maindashboardcharts/horbarchart/horbarchart.component';
 
 @Component({
   selector: 'app-admin-main',
@@ -22,9 +23,10 @@ import { CommonModule } from '@angular/common';
     PieComponent,
     LinechartComponent,
     AreachartComponent,
-    BarchartComponent,
     KpiComponent,
     CommonModule,
+    VerbarchartComponent,
+    HorbarchartComponent,
   ],
   templateUrl: './admin-main.component.html',
   styles: ``,
@@ -76,6 +78,7 @@ export class AdminMainComponent implements OnInit {
     data: [],
     categories: [],
   };
+
 
   constructor() {
     this.state = this.maindashboardService.totalUsersState.state;
@@ -164,8 +167,8 @@ export class AdminMainComponent implements OnInit {
       next: (res) => {
         if (res) {
           const dummy = [
-            { totalCount: 10, month: 'January' },
-            { totalCount: 20, month: 'February' },
+            { totalCount: 10, month: 'Jan' },
+            { totalCount: 20, month: 'Feb' },
             { totalCount: 25, month: 'March' },
             { totalCount: 30, month: 'April' },
             { totalCount: 45, month: 'May' },
@@ -214,7 +217,17 @@ export class AdminMainComponent implements OnInit {
     this.maindashboardService.getTopSellingContent().subscribe({
       next: (res) => {
         if (res) {
-          console.log(res);
+          this.movieChartData.data = res.movies.map(
+            (item) => item.number_of_purchases
+          );
+          this.movieChartData.categories = res.movies.map((item) => item.title);
+
+          this.tvShowChartData.data = res.tvShows.map(
+            (item) => item.number_of_purchases
+          );
+          this.tvShowChartData.categories = res.tvShows.map(
+            (item) => item.name
+          );
         }
       },
       error: (err) => {
@@ -222,4 +235,6 @@ export class AdminMainComponent implements OnInit {
       },
     });
   }
+
+ 
 }

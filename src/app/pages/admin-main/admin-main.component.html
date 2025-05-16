@@ -1,6 +1,7 @@
-@if(userByRoleChartData.series.length === 0 ||
-monthlySalesTrendChartData.data.length === 0 || userGrowthChartData.data.length
-=== 0) {
+@if(userByRoleChartData.series.length === 0 &&
+monthlySalesTrendChartData.data.length === 0 && userGrowthChartData.data.length
+=== 0 && movieChartData.data.length === 0 && tvShowChartData.data.length === 0)
+{
 <div
   class="min-h-screen flex justify-center items-center w-full bg-black/20 dark:bg-black/85 rounded-2xl"
 >
@@ -48,21 +49,25 @@ monthlySalesTrendChartData.data.length === 0 || userGrowthChartData.data.length
       [title]="'Monthly Sales Trend'"
       class="bg-base-200 lg:col-span-2 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
     ></app-linechart>
-
+    <app-verbarchart
+      [data]="movieChartData.data"
+      [categories]="movieChartData.categories"
+      [title]="'Top Movies'"
+      class="bg-base-200 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+    ></app-verbarchart>
     <app-areachart
       [data]="userGrowthChartData.data"
       [categories]="userGrowthChartData.categories"
       [title]="'User Growth'"
-      class="bg-base-200 h-[280px] lg:col-span-2 flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+      class="bg-base-200 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
     ></app-areachart>
 
-    <app-barchart
+    <app-horbarchart
+      [data]="tvShowChartData.data"
+      [categories]="tvShowChartData.categories"
+      [title]="'Top Series'"
       class="bg-base-200 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
-    ></app-barchart>
-    
-    <app-barchart
-      class="bg-base-200 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
-    ></app-barchart>
+    ></app-horbarchart>
   </div>
 </div>
 }

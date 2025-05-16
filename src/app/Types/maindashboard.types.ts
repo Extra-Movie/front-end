@@ -29,14 +29,19 @@ export type monthlySalesTrendType = [
   }
 ];
 
-export type topSellingContentType = [
-  {
-    totalCount: number;
-    contentName: string;
-  }
-];
+export type topSellingMovieType = {
+  _id: string;
+  title: string;
+  number_of_purchases: number;
+}[];
+export type topSellingSerieType = {
+  _id: string;
+  name: string;
+  number_of_purchases: number;
+}[];
 
 export type topSellingContentResponseType = {
-  movies: topSellingContentType;
-  tvShows: topSellingContentType;
+  movies: topSellingMovieType;
+  tvShows: topSellingSerieType;
 };
+

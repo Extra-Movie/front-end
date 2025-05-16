@@ -1,12 +1,14 @@
-<div id="chart" class="w-full" *ngIf="chartOptions.series">
+<div id="chart" class="w-full">
   <apx-chart
     [series]="chartOptions.series"
     [chart]="chartOptions.chart"
     [xaxis]="chartOptions.xaxis"
-    [dataLabels]="chartOptions.dataLabels"
-    [grid]="chartOptions.grid"
     [stroke]="chartOptions.stroke"
+    [dataLabels]="chartOptions.dataLabels"
+    [yaxis]="chartOptions.yaxis"
+    [legend]="chartOptions.legend"
     [title]="chartOptions.title"
-    [tooltip]="chartOptions.tooltip"
+    [fill]="chartOptions.fill"
+    [grid]="chartOptions.grid"
   ></apx-chart>
 </div>
