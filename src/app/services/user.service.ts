@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { RequestStateService } from './apiRequest.service';
-import { tap } from 'rxjs';
 import { registeredUser } from '../Types/Authentication.types';
 import {
   CartResponse,
@@ -13,6 +12,7 @@ import {
   userListsResponse,
   userResponse,
 } from '../Types/User.types';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +24,8 @@ export class UserService {
     localStorage.getItem('token') || sessionStorage.getItem('token') || null
   );
   readonly token = this._token.asReadonly();
+  private _user = signal<userData | null>(null);
+  readonly user = this._user.asReadonly();
 
   delState = new RequestStateService<userResponse>();
   updateState = new RequestStateService<registeredUser>();
@@ -33,6 +35,16 @@ export class UserService {
   cartState = new RequestStateService<CartResponse>();
   watchListState = new RequestStateService<WatchListResponse>();
   ownedState = new RequestStateService<OwnedResponse>();
+
+  getMyData() {
+    const userState = new RequestStateService<userData>();
+    const req$ = this.http.get<userData>(`${this.authUrl}/getuser`);
+    return userState.track(req$).pipe(
+      tap((res) => {
+        this._user.set(res);
+      })
+    );
+  }
 
   getUser(id: string) {
     const req$ = this.http.get<userData>(`${this.authUrl}/${id}`);
@@ -46,14 +58,7 @@ export class UserService {
 
   deletUser(id: string) {
     const req$ = this.http.delete<userResponse>(`${this.authUrl}/${id}`);
-    return this.delState.track(req$).pipe(
-      tap((res) => {
-        if (res) {
-          localStorage.removeItem('token');
-          sessionStorage.removeItem('token');
-        }
-      })
-    );
+    return this.delState.track(req$);
   }
 
   updateUser(id: string, user: registeredUser) {
