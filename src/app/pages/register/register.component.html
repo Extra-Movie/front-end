@@ -17,7 +17,7 @@
 
       <!-- name  -->
       <div class="name-sec my-3 w-full ">
-        <label class="input bg-transparent duration-300 hover:border-accent-accent rounded-sm w-full">
+        <label class="input bg-transparent duration-300 hover:border-accent-accent rounded-sm w-full focus:outline-secondary input-secondary">
           <svg class="h-[1em] w-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
               <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
@@ -40,7 +40,7 @@
 
       <!-- email  -->
       <div class="email-sec my-3 w-full ">
-        <label class="input bg-transparent duration-300 hover:border-accent-accent rounded-sm w-full">
+        <label class="input bg-transparent duration-300 hover:border-accent-accent rounded-sm w-full focus:outline-secondary input-secondary" >
           <svg class="h-[1em] opacity-50 w-[1em]" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
             viewBox="0 0 24 24" width="20" height="20">
             <path
@@ -60,7 +60,7 @@
 
       <!-- password -->
       <div class="pass-sec my-3 w-full ">
-        <label class="input bg-transparent w-full duration-300 hover:border-accent-accent">
+        <label class="input bg-transparent w-full duration-300 hover:border-accent-accent focus:outline-secondary input-secondary">
           <svg class="h-[1em] w-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
               <path
@@ -69,9 +69,22 @@
               <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
             </g>
           </svg>
-          <input formControlName="password" type="password" required placeholder="Password" minlength="8"
+          <input formControlName="password" [type]="showPassword ? 'text' : 'password'" required placeholder="Password" minlength="8"
             class="text-base placeholder:text-gray-500 placeholder:text-md ps-3 " accesskey="p" maxlength="30" />
-        </label>
+          
+            <!-- Toggle Eye Icon -->
+        <button type="button" (click)="togglePassword()" class="cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 text-xl text-gray-400 hover:text-accent focus:outline-none">
+          <ng-container *ngIf="showPassword; else hiddenEye">
+            <!-- Eye Icon (visible password) -->
+              <ng-icon name="faSolidEye"/>
+          </ng-container>
+          <ng-template #hiddenEye>
+            <!-- Eye-Off Icon (hidden password) -->
+            <ng-icon name="faSolidEyeSlash"/>
+          </ng-template>
+        </button>
+       
+          </label>
 
         @if(passwordStatus)
         {

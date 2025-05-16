@@ -15,16 +15,20 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { ToastService } from '../../services/toast.service';
 import { RequestState } from '../../services/apiRequest.service';
+import { NgIcon , provideIcons } from '@ng-icons/core';
+import {faSolidEye,faSolidEyeSlash} from '@ng-icons/font-awesome/solid'
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink,NgIcon],
 
   templateUrl: './register.component.html',
   styles: ``,
+    viewProviders:[provideIcons({faSolidEyeSlash,faSolidEye})]
 })
 export class RegisterComponent {
   state: WritableSignal<RequestState<registerResponse>>;
+   showPassword: boolean = false;
 
   constructor(
     private router: Router,
@@ -134,4 +138,8 @@ export class RegisterComponent {
       }
     });
   }
+
+   togglePassword() {
+  this.showPassword = !this.showPassword;
+}
 }

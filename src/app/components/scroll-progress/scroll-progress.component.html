@@ -1,0 +1,7 @@
+<!-- Circular Scroll Button with Dynamic Border -->
+<div class="scroll-circle fixed bottom-[50px] right-[40px] w-[60px] h-[60px] rounded-full flex justify-center items-center text-primary-content cursor-pointer z-5000 transition-all shadow-xl"
+  [ngStyle]="{'background': 'conic-gradient(#ae8442 ' + scrollPercent + '%, #e4e3e3 ' + scrollPercent + '%)'}"
+  *ngIf="showButton"
+  (click)="scrollToTop()">
+  <ng-icon name="faSolidArrowUp" size="24"/>
+</div>
