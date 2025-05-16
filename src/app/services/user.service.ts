@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { RequestStateService } from './apiRequest.service';
@@ -24,6 +24,7 @@ export class UserService {
     localStorage.getItem('token') || sessionStorage.getItem('token') || null
   );
   readonly token = this._token.asReadonly();
+  headers = new HttpHeaders().set('authorization', `Bearer ${this.token()}`);
   private _user = signal<userData | null>(null);
   readonly user = this._user.asReadonly();
 
@@ -56,13 +57,18 @@ export class UserService {
   }
 
   getAllUsers() {
-    const req$ = this.http.get<{ usersData: userData[] }>(this.authUrl)
-     .pipe(map(response => response.usersData));
+    const req$ = this.http
+      .get<{ usersData: userData[] }>(this.authUrl, {
+        headers: this.headers,
+      })
+      .pipe(map((response) => response.usersData));
     return req$;
   }
 
   deletUser(id: string) {
-    const req$ = this.http.delete<userResponse>(`${this.authUrl}/${id}`);
+    const req$ = this.http.delete<userResponse>(`${this.authUrl}/${id}`, {
+      headers: this.headers,
+    });
     return this.delState.track(req$);
   }
 
@@ -72,15 +78,12 @@ export class UserService {
   }
 
   makeAdmin(id: string) {
-    const req$ = this.http.patch<userData>(`${this.authUrl}/${id}`,{});
-    return this.userState.track(req$).pipe(
-      tap((res)=>{
-        if(res){
-          console.log("service",res);
-          res.isAdmin=true;
-        }
-      })
-    )
+    const req$ = this.http.patch<userData>(
+      `${this.authUrl}/${id}`,
+      {},
+      { headers: this.headers }
+    );
+    return this.userState.track(req$);
   }
 
   addToWatchlist(movie: userLists) {
