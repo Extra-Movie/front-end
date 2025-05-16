@@ -1,1 +1,73 @@
-<p>admin-main works!</p>
+@if(userByRoleChartData.series.length === 0 &&
+monthlySalesTrendChartData.data.length === 0 && userGrowthChartData.data.length
+=== 0 && movieChartData.data.length === 0 && tvShowChartData.data.length === 0)
+{
+<div
+  class="min-h-screen flex justify-center items-center w-full bg-black/20 dark:bg-black/85 rounded-2xl"
+>
+  <span class="loading loading-spinner text-primary"></span>
+</div>
+} @else {
+<div class="w-full p-6 space-y-8 min-h-screen bg-base-100">
+  <div class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-4">
+    <app-kpi
+      [value]="totalusers"
+      [title]="'Total Users'"
+      [icon]="'fa-solid fa-users'"
+      class="bg-base-300 rounded-2xl p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
+    ></app-kpi>
+    <app-kpi
+      [value]="totalSales"
+      [title]="'Total Transactions'"
+      [icon]="'fa-solid fa-money-bill-wave'"
+      class="bg-base-200 rounded-2xl p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
+    ></app-kpi>
+    <app-kpi
+      [value]="totalRevenue"
+      [title]="'Total Revenue'"
+      [icon]="'fa-solid fa-dollar-sign'"
+      class="bg-base-300 rounded-2xl p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
+    ></app-kpi>
+    <app-kpi
+      [value]="cartFrequency"
+      [title]="'Cart Frequency'"
+      [icon]="'fa-solid fa-shopping-cart'"
+      class="bg-base-200 rounded-2xl p-4 shadow-md hover:shadow-xl transition-shadow duration-300"
+    ></app-kpi>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <pie-app
+      [series]="userByRoleChartData.series"
+      [labels]="userByRoleChartData.labels"
+      [title]="'Users by Role'"
+      class="bg-base-200 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+    ></pie-app>
+
+    <app-linechart
+      [data]="monthlySalesTrendChartData.data"
+      [categories]="monthlySalesTrendChartData.categories"
+      [title]="'Monthly Sales Trend'"
+      class="bg-base-200 lg:col-span-2 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+    ></app-linechart>
+    <app-verbarchart
+      [data]="movieChartData.data"
+      [categories]="movieChartData.categories"
+      [title]="'Top Movies'"
+      class="bg-base-200 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+    ></app-verbarchart>
+    <app-areachart
+      [data]="userGrowthChartData.data"
+      [categories]="userGrowthChartData.categories"
+      [title]="'User Growth'"
+      class="bg-base-200 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+    ></app-areachart>
+
+    <app-horbarchart
+      [data]="tvShowChartData.data"
+      [categories]="tvShowChartData.categories"
+      [title]="'Top Series'"
+      class="bg-base-200 h-[280px] flex justify-center items-center rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+    ></app-horbarchart>
+  </div>
+</div>
+}
