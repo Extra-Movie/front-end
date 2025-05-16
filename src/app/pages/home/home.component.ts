@@ -9,11 +9,13 @@ import { CarouselComponent } from '../../components/carousel/carousel.component'
 import { CarouselSeriesComponent } from "../../components/carouselseries/carouselseries.component";
 import { CountUpComponent } from '../../components/count-up/count-up.component';
 import { StartRegisterComponent } from "../../components/start-register/start-register.component";
+import { CameraViewComponent } from "../../components/camera-view/camera-view.component";
+import { MockupResponsiveComponent } from "../../components/mockup-responsive/mockup-responsive.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  imports: [CommonModule, HeroComponent, CarouselComponent, CarouselSeriesComponent, CountUpComponent, StartRegisterComponent],
+  imports: [CommonModule, HeroComponent, CarouselComponent, CarouselSeriesComponent, CountUpComponent, StartRegisterComponent, CameraViewComponent, MockupResponsiveComponent],
 })
 export class HomeComponent implements OnInit {
   constructor(
