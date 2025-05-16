@@ -13,6 +13,9 @@ import {
   userListsResponse,
   userResponse,
 } from '../Types/User.types';
+import { HttpHeaders } from '@angular/common/http';
+import { map } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
@@ -34,18 +37,24 @@ export class UserService {
   watchListState = new RequestStateService<WatchListResponse>();
   ownedState = new RequestStateService<OwnedResponse>();
 
+  private reqHeader = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4MTYzYTg4OTA1OTFiNDcwYzlkOTExNiIsIm5hbWUiOiJnaGFkYSIsImVtYWlsIjoiZ2hhZGFAZ21haWwuY29tIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNzQ2OTQ1MzE5LCJleHAiOjE3NDcyMDQ1MTl9.eBwRp7ZgfHOQMDXLaGs5pEJw0wBpWo32QGR0dl3NrhI'
+    });
+
   getUser(id: string) {
     const req$ = this.http.get<userData>(`${this.authUrl}/${id}`);
     return this.userState.track(req$);
   }
 
   getAllUsers() {
-    const req$ = this.http.get<userData[]>(this.authUrl);
-    return this.usersState.track(req$);
+    const req$ = this.http.get<{ usersData: userData[] }>(this.authUrl, { headers: this.reqHeader })
+     .pipe(map(response => response.usersData));
+    return req$;
   }
 
   deletUser(id: string) {
-    const req$ = this.http.delete<userResponse>(`${this.authUrl}/${id}`);
+    const req$ = this.http.delete<userResponse>(`${this.authUrl}/${id}`, { headers: this.reqHeader });
     return this.delState.track(req$).pipe(
       tap((res) => {
         if (res) {
@@ -62,8 +71,15 @@ export class UserService {
   }
 
   makeAdmin(id: string) {
-    const req$ = this.http.patch<userResponse>(`${this.authUrl}/${id}`, {});
-    return this.delState.track(req$);
+    const req$ = this.http.patch<userData>(`${this.authUrl}/${id}`, { headers: this.reqHeader });
+    return this.userState.track(req$).pipe(
+      tap((res)=>{
+        if(res){
+          console.log("service",res);
+          res.isAdmin=true;
+        }
+      })
+    )
   }
 
   addToWatchlist(movie: userLists) {
