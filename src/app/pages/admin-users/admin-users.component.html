@@ -1,1 +1,63 @@
-<p>admin-users works!</p>
+ <!-- Dashboard Table Section -->
+  <section class=" w-full flex flex-col p-5">
+    <!-- Loading Spinner -->
+    <ng-container *ngIf="loading; else dataLoaded">
+      <div class="flex justify-center items-center h-full w-full">
+        <span class="loading loading-spinner text-primary loading-xl"></span>
+      </div>
+    </ng-container>
+
+    <!-- Loaded Content -->
+    <ng-template #dataLoaded>
+
+      <div class="overflow-x-auto ">
+        <table class="table table-zebra w-full">
+          <thead class="bg-accent text-accent-content text-sm uppercase">
+            <tr>
+              <th class="text-center">#</th>
+              <th >Name</th>
+              <th >Email</th>
+              <th class="text-center">Role</th>
+              <th class="text-center" >Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            <ng-container >
+              <tr *ngFor="let user of users; let i = index" class="hover">
+                <td class="text-center">{{ i + 1 }}</td>
+                <td class=" whitespace-nowrap">{{ user.name }}</td>
+                <td >{{ user.email }}</td>
+                <td class="text-center">{{ user.isAdmin ?'Admin':'User'}}</td>
+                <td class="text-center flex gap-5 justify-center">
+                     <button [disabled]="user.isAdmin" (click)="makeAdmin(user._id)" class="btn btn-sm btn-success">
+                        <ng-icon name="faSolidUserPlus" />
+                    </button>
+                    <button (click)="deleteUser(user._id)" class="btn btn-sm btn-error">
+                        <ng-icon name="faSolidTrashArrowUp" />
+                    </button>
+                   
+                </td>
+                 
+              </tr>
+            </ng-container>
+
+           
+          </tbody>
+        </table>
+      </div>
+
+
+
+      <!-- Pagination Controls -->
+      <!-- <div class="flex justify-center mt-6">
+        <div class="join">
+          <button (click)="previousPageContent()" class="join-item btn btn-outline">«</button>
+          <button class="join-item btn btn-outline">
+            Page {{ filterFlag ? currentFilteredPage : currentPage }}
+          </button>
+          <button (click)="nextPageContent()" class="join-item btn btn-outline">»</button>
+        </div>
+      </div> -->
+    </ng-template>
+  </section>

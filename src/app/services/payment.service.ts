@@ -27,7 +27,7 @@ export class PaymentService {
   private LightAppearance: Partial<Appearance> = {
     theme: 'stripe',
     variables: {
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'Nunito, Arial, sans-serif',
       fontSizeBase: '16px',
       borderRadius: '4px',
       colorBackground: '#fdfcfc',
@@ -40,7 +40,7 @@ export class PaymentService {
   private DarkAppearance: Appearance = {
     theme: 'stripe',
     variables: {
-      fontFamily: 'Helvetica, Arial, sans-serif',
+      fontFamily: 'Nunito, Arial, sans-serif',
       fontSizeBase: '16px',
       borderRadius: '4px',
       colorBackground: '#060605',
@@ -109,9 +109,9 @@ export class PaymentService {
   }) {
     console.log('Updating Payment Intent...');
     if (!this.stripe) {
-      errorHandler?.(
-        new Error('Stripe is not initialized. Cannot create elements.')
-      );
+      // errorHandler?.(
+      //   new Error('Stripe is not initialized. Cannot create elements.')
+      // );
       return;
     }
     if (!this.paymentElementContainerId) {
@@ -183,8 +183,9 @@ export class PaymentService {
       console.error('Error confirming payment', error);
       return { error: new Error(error.message) };
     }
-    console.table(paymentIntent);
     this.elements.getElement('payment')?.clear();
+    
+
     return { success: true };
   }
 

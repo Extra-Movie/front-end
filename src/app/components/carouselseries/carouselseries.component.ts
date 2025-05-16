@@ -19,6 +19,7 @@ export class CarouselSeriesComponent implements OnInit, AfterViewInit {
   currentIndex: number = 0;
   visibleItems: number = 20;
   isMinimized: boolean = false;
+  autoplayInterval: any;
   constructor(
     private seriesService: SeriesService,
     private toastService: ToastService
@@ -31,6 +32,7 @@ export class CarouselSeriesComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.adjustVisibleItems();
     window.addEventListener('resize', () => this.adjustVisibleItems());
+    this.startAutoplay(); // Start autoplay on init
   }
 
   //visible items, width and height of the card
@@ -53,7 +55,7 @@ export class CarouselSeriesComponent implements OnInit, AfterViewInit {
     if (width < 640) return '80%';
     if (width < 768) return '48%';
     if (width < 1024) return '31%';
-    return '23%';
+    return '20%';
   }
 
   getCardHeight(): string {
@@ -117,4 +119,25 @@ export class CarouselSeriesComponent implements OnInit, AfterViewInit {
       behavior: 'smooth'
     });
   }
+
+  startAutoplay(): void {
+  this.autoplayInterval = setInterval(() => {
+    if (this.currentIndex < this.  popularSeries.length - this.visibleItems) {
+      this.next();
+    } else {
+      this.currentIndex = 0; 
+      this.scrollCarousel();
+    }
+  }, 1000); 
+}
+
+stopAutoplay(): void {
+  if (this.autoplayInterval) {
+    clearInterval(this.autoplayInterval);
+  }
+}
+
+ngOnDestroy(): void {
+  this.stopAutoplay();
+}
 }

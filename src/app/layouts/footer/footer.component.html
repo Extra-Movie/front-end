@@ -1,81 +1,89 @@
 <footer
   class="bg-base-200 text-base-content relative before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-[4px] before:block before:bg-gradient-to-r before:from-(--color-primary) before:to-primary before:shadow-[0_0_20px_0_var(--color-accent)]">
   <div class="container">
-    <div
-      class="footer-top  grid grid-cols-12  sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12 gap-y-[50px] lg:py-[70px] md:py-[50px] py-[30px]  md:px-[30px] px-[25px]">
-      <div class="footer-about col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-3">
-        <a routerLink="/" class=" inline-block">
-          <img class="h-16 object-contain w-full dark:hidden" src="/logos/Blockbuster-lightMode-Char.png" alt="logo">
-          <img class="h-16 object-contain w-full hidden dark:inline" src="/logos/Blockbuster-darkMode-Char.png" alt="logo">
-        </a>
-        <p class="p-5 ps-0">Blockbuster is a movie streaming platform that provides users with access to
-          a wide selection of movies and TV shows.
-        </p>
-        <div class="social-icons flex gap-5  ">
-          <a routerLink="#"
-            class="hover:text-primary transition-all  text-2xl hover:translate-y-[-5px] text-primary "><ng-icon
-              name="faBrandSquareFacebook" /></a>
-          <a routerLink="#"
-            class="hover:text-primary transition-all text-2xl hover:translate-y-[-5px] text-primary"><ng-icon
-              name="faBrandSquareXTwitter" /></a>
-          <a routerLink="#"
-            class="hover:text-primary transition-all text-2xl hover:translate-y-[-5px] text-primary "><ng-icon
-              name="faBrandSquareInstagram" /></a>
-          <a routerLink="#"
-            class="hover:text-primary transition-all text-2xl hover:translate-y-[-5px] text-primary  "><ng-icon
-              name="faBrandSquareYoutube" /></a>
+    <div class="footer-top grid  lg:grid-cols-12 gap-y-[40px] md:gap-y-[30px]  md:py-[50px] py-[30px] md:px-[30px] px-[25px] ">
+
+        <!-- Logo: 2 rows -->
+        <div class="footer-logo  col-span-12 lg:col-span-3">
+          <a routerLink="/" class="inline-block">
+            <!-- Full logo for medium screens and up -->
+            <img class="h-40 object-contain w-full dark:hidden hidden md:inline" src="/logos/Blockbuster-lightMode.png" alt="logo">
+            <img class="h-40 object-contain w-full hidden  dark:hidden dark:md:inline" src="/logos/Blockbuster-darkMode.png" alt="logo">
+
+            <!-- Char logo for small screens only -->
+            <img class="h-10 object-contain w-full dark:hidden inline md:hidden" src="/logos/Blockbuster-lightMode-Char.png" alt="logo">
+            <img class="h-10 object-contain w-full hidden dark:inline dark:md:hidden" src="/logos/Blockbuster-darkMode-Char.png" alt="logo">
+          </a>
+
+        </div>
+
+        <!-- About: 1 row -->
+        <!-- <div class="footer-about row-span-1 col-span-12 lg:col-span-9 lg:col-start-4">
+          <p class="p-5 ps-0">Blockbuster is your ultimate destination for streaming movies and TV shows anytime, anywhere. We bring entertainment to your fingertips.
+          </p>
+        </div> -->
+
+        <!-- Menu 1 -->
+        <div class="footer-menu row-span-1 col-span-12 md:col-span-6 lg:col-span-2 lg:col-start-4">
+          <span class="mb-2 font-semibold">Resources</span>
+          <ul class="mt-3">
+            <li class="mb-1">
+              <a routerLink="/home" class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Home</a>
+            </li>
+            <li class="mb-1">
+              <a routerLink="/about" class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">About Us</a>
+            </li>
+            <li class="mb-1">
+              <a routerLink="/contact-us" class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Menu 2 -->
+        <div class="footer-menu row-span-1 col-span-12 md:col-span-6 lg:col-span-2">
+          <span class="mb-2 font-semibold">Browse</span>
+          <ul class="mt-3">
+            <li class="mb-1"><a routerLink="/movies" class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Movies</a></li>
+            <li class="mb-1"><a routerLink="/series" class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">TV Shows</a></li>
+          </ul>
+        </div>
+
+        <!-- Menu 3 -->
+        <div class="footer-menu row-span-1 col-span-12 md:col-span-6 lg:col-span-2">
+          <span class="mb-3 font-semibold">Help</span>
+          <ul class="mt-3">
+            <li class="mb-1"><a routerLink="/home" class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Account Settings</a></li>
+            <li class="mb-1"><a routerLink="/user/watchList" class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">WatchList</a></li>
+            <li class="mb-1"><a routerLink="/user/owned" class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Owned Media</a></li>
+          </ul>
+        </div>
+
+        <!-- Menu 4 -->
+        <div class="footer-menu row-span-1 col-span-12 md:col-span-6 lg:col-span-2">
+          <span class="mb-3 font-semibold">Social Media</span>
+          <div class="social-icons flex gap-5 mt-3 ">
+                <a routerLink="#"
+                  class="hover:text-primary transition-all  text-4xl hover:translate-y-[-5px] text-primary "><ng-icon
+                    name="faBrandSquareFacebook" /></a>
+                <a routerLink="#"
+                  class="hover:text-primary transition-all text-4xl hover:translate-y-[-5px] text-primary"><ng-icon
+                    name="faBrandSquareXTwitter" /></a>
+                <a routerLink="#"
+                  class="hover:text-primary transition-all text-4xl hover:translate-y-[-5px] text-primary "><ng-icon
+                    name="faBrandSquareInstagram" /></a>
+                <a routerLink="#"
+                  class="hover:text-primary transition-all text-4xl hover:translate-y-[-5px] text-primary  "><ng-icon
+                    name="faBrandSquareYoutube" /></a>
+            </div>
         </div>
       </div>
-      <div class="footer-menu col-span-6 sm:col-span-6 md:col-span-6 lg:col-span-2 lg:col-start-6">
-        <span class="mb-2 font-semibold ">Resources</span>
-        <ul class="mt-3">
-          <li class="mb-1"><a routerLink="/home"
-              class="font-extralight hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Home</a>
-          </li>
-          <li class="mb-1"><a routerLink="/home"
-              class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">About
-              Us</a></li>
-          <li class="mb-1"><a routerLink="/home"
-              class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Help
-              Center</a></li>
-        </ul>
+
+      <div  class="footer-bottom flex justify-between items-center  border-t border-(--color-base-100) flex-wrap gap-y-3 py-[25px]   md:px-[30px] px-[25px]">
+        <p>© Blockbuster, 2025. Create by <a routerLink="#" class="hover:text-primary transition-all">Blockbuster</a> </p>
+        <div class="flex gap-[30px] flex-wrap">
+          <a routerLink="#" class="hover:text-primary transition-all">Terms and Conditions</a>
+          <a routerLink="#" class="hover:text-primary transition-all">Privacy Policy</a>
+        </div>
       </div>
-      <div class="footer-menu col-span-6 sm:col-span-6 md:col-span-6 lg:col-span-2">
-        <span class="mb-2 font-semibold ">Browse</span>
-        <ul class="mt-3">
-          <li class="mb-1"><a routerLink="/home"
-              class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Movies</a>
-          </li>
-          <li class="mb-1"><a routerLink="/home"
-              class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Tv
-              Shows</a></li>
-          <li class="mb-1"><a routerLink="/home"
-              class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Anime</a>
-          </li>
-        </ul>
-      </div>
-      <div class="footer-menu col-span-6 sm:col-span-6 md:col-span-6 lg:col-span-2">
-        <span class="mb-3 font-semibold ">Help</span>
-        <ul class="mt-3">
-          <li class="mb-1"><a routerLink="/home"
-              class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Account
-              Settings</a></li>
-          <li class="mb-1"><a routerLink="/home"
-              class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Support</a>
-          </li>
-          <li class="mb-1"><a routerLink="/home"
-              class="font-extralight hover:text-primary transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1 ">Feedback</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div
-      class="footer-bottom flex justify-between items-center  border-t border-(--color-base-100) flex-wrap gap-y-3 py-[25px]   md:px-[30px] px-[25px]">
-      <p>© Blockbuster, 2025. Create by <a routerLink="#" class="hover:text-primary transition-all">Blockbuster</a> </p>
-      <div class="flex gap-[50px]">
-        <a routerLink="#" class="hover:text-primary transition-all">Terms and Conditions</a>
-        <a routerLink="#" class="hover:text-primary transition-all">Privacy Policy</a>
-      </div>
-    </div>
   </div>
 </footer>

@@ -3,27 +3,64 @@
   <div class="container flex justify-between items-center text-base-content">
     <!-- Logo -->
     <a routerLink="/" class=" cursor-pointer">
-      <img src="/logos/Blockbuster-darkMode.png" alt="Logo" class="w-16 hidden dark:inline aspect-square" />
-      <img src="/logos/Blockbuster-lightMode.png" alt="Logo" class="w-16 dark:hidden aspect-square" />
+      <!-- <img src="/logos/Blockbuster-darkMode.png" alt="Logo" class="w-16 hidden dark:inline aspect-square" />
+      <img src="/logos/Blockbuster-lightMode.png" alt="Logo" class="w-16 dark:hidden aspect-square" /> -->
+       <div class="flex gap-2 items-center">
+        <img src="/logos/Blockbuster-darkMode-Logo.png" alt="Logo" class="w-14 hidden dark:inline aspect-square" />
+        <img src="/logos/Blockbuster-darkMode-Char.png" alt="Logo" class="w-50 h-10 hidden  dark:hidden dark:md:inline  " />
+       </div>
+       <div class="flex gap-2 items-center">
+           <img src="/logos/Blockbuster-lightMode-Logo.png" alt="Logo" class="w-14 dark:hidden aspect-square" />
+          <img src="/logos/Blockbuster-lightMode-Char.png" alt="Logo" class="w-50 h-10 dark:hidden hidden md:inline " />
+       </div>
     </a>
 
     <!-- Tabs (Large Screens) -->
-    <div class="hidden lg:flex space-x-6 items-center">
-      <a routerLink="/"
-        class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1  font-medium">Home</a>
-      <a routerLink="/movies"
-        class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium">Movies
-      </a>
-      <a routerLink="/series"
-        class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium">Series</a>
-      <a routerLink="/about"
-        class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium">About
-        Us</a>
-      <a routerLink="/contact-us"
-        class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium">Contact
-        Us</a>
+   <div class="hidden lg:flex space-x-6 items-center">
+  <a 
+    routerLink="/home" 
+    routerLinkActive="active" 
+    #rla="routerLinkActive" 
+    [class.activeLink]="rla.isActive"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium"
+  >Home</a>
 
-    </div>
+  <a 
+    routerLink="/movies" 
+    routerLinkActive="active" 
+    #rlaMovies="routerLinkActive" 
+    [class.activeLink]="rlaMovies.isActive"
+    class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium"
+  >Movies</a>
+
+  <a 
+    routerLink="/series" 
+    routerLinkActive="active" 
+    #rlaSeries="routerLinkActive" 
+    [class.activeLink]="rlaSeries.isActive"
+    class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium"
+  >Series</a>
+
+  <a 
+    routerLink="/about" 
+    routerLinkActive="active" 
+    #rlaAbout="routerLinkActive" 
+    [class.activeLink]="rlaAbout.isActive"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium"
+  >About Us</a>
+
+  <a 
+    routerLink="/contact-us" 
+    routerLinkActive="active" 
+    #rlaContact="routerLinkActive" 
+    [class.activeLink]="rlaContact.isActive"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="hover:text-primary transition-all duration-500 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-center after:bg-primary after:transition-transform pb-1 font-medium"
+  >Contact Us</a>
+</div>
+
     <div class="actions hidden lg:flex gap-4 items-center">
       <!-- Icons & Button -->
       <app-theme-button />
@@ -57,19 +94,37 @@
       </button>
     </div>
     <ul class="p-4 space-y-6 pt-8">
-      <li><a routerLink="/"
+      <li><a routerLink="/home" 
+            routerLinkActive="active" 
+            #rla="routerLinkActive" 
+            [class.activeLink]="rla.isActive"
+            [routerLinkActiveOptions]="{ exact: true }"
           class=" font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Home</a>
       </li>
-      <li><a routerLink="/movies"
+      <li><a  routerLink="/movies" 
+    routerLinkActive="active" 
+    #rlaMovies="routerLinkActive" 
+    [class.activeLink]="rlaMovies.isActive"
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Movies
         </a></li>
-      <li><a routerLink="/series"
+      <li><a routerLink="/series" 
+    routerLinkActive="active" 
+    #rlaSeries="routerLinkActive" 
+    [class.activeLink]="rlaSeries.isActive"
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Series</a>
       </li>
-      <li><a routerLink="/about"
+      <li><a routerLink="/about" 
+    routerLinkActive="active" 
+    #rlaAbout="routerLinkActive" 
+    [class.activeLink]="rlaAbout.isActive"
+    [routerLinkActiveOptions]="{ exact: true }"
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">About
           Us</a></li>
-      <li><a routerLink="/contact-us"
+      <li><a  routerLink="/contact-us" 
+    routerLinkActive="active" 
+    #rlaContact="routerLinkActive" 
+    [class.activeLink]="rlaContact.isActive"
+    [routerLinkActiveOptions]="{ exact: true }"
           class="font-medium hover:text-primary  transition-all relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:scale-x-0 hover:after:scale-x-100 after:origin-left after:bg-primary after:transition-transform pb-1">Contact
           Us</a></li>
       <li class="flex space-x-5 justify-between">

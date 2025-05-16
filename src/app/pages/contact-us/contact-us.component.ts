@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { faSolidEnvelope, faSolidPhone } from '@ng-icons/font-awesome/solid';
 @Component({
   selector: 'app-contact-us',
-  imports: [],
+  imports: [NgIcon],
   templateUrl: './contact-us.component.html',
-  styles: ``
+  styles: ``,
+  providers: [provideIcons({ faSolidEnvelope, faSolidPhone })]
 })
 export class ContactUsComponent {
 

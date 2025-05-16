@@ -15,6 +15,7 @@ export type userListsResponse = {
 };
 
 export type userData = {
+  _id: string;
   name: string;
   email: string;
   isAdmin: boolean;

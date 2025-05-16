@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaCardComponent } from '../mediacard/mediacard.component';
 import { MovieService } from '../../services/server/movie.service';
@@ -12,16 +12,17 @@ import { ToastService } from '../../services/toast.service';
   styles: ``
 
 })
-export class CarouselComponent implements OnInit, AfterViewInit {
-getItemWidth() {
-throw new Error('Method not implemented.');
-}
+export class CarouselComponent implements OnInit,  AfterViewInit, OnDestroy {
+  getItemWidth() {
+    throw new Error('Method not implemented.');
+  }
   @ViewChild('carouselContainer') carouselContainer!: ElementRef;
 
   popularMovies: MovieType[] = [];
   loading: boolean = true;
   currentIndex: number = 0;
   visibleItems: number = 20;
+  autoplayInterval: any;
 
   constructor(
     private movieService: MovieService,
@@ -30,11 +31,13 @@ throw new Error('Method not implemented.');
 
   ngOnInit(): void {
     this.fetchPopularMovies();
+    
   }
 
   ngAfterViewInit(): void {
     this.adjustVisibleItems();
     window.addEventListener('resize', () => this.adjustVisibleItems());
+     this.startAutoplay(); // Start autoplay on init
   }
 
   //Visible items , width and height of cards
@@ -47,7 +50,7 @@ throw new Error('Method not implemented.');
     } else if (width < 1024) {
       this.visibleItems = 3;
     } else {
-      this.visibleItems = 4;
+      this.visibleItems = 5;
     }
   }
 
@@ -56,14 +59,14 @@ throw new Error('Method not implemented.');
   if (width < 640) return '80%';
   if (width < 768) return '48%';
   if (width < 1024) return '31%';
-  return '23%';
+  return '20%';
 }
   getCardHeight(): string {
-  const width = window.innerWidth;
-  if (width < 640) return '400px';
-  if (width < 768) return '300px';
-  if (width < 1024) return '200px';
-  return '150px';
+    const width = window.innerWidth;
+    if (width < 640) return '400px';
+    if (width < 768) return '300px';
+    if (width < 1024) return '200px';
+    return '450px';
 }
 
   fetchPopularMovies(): void {
@@ -116,6 +119,29 @@ throw new Error('Method not implemented.');
     behavior: 'smooth'
   });
 }
+
+startAutoplay(): void {
+  this.autoplayInterval = setInterval(() => {
+    if (this.currentIndex < this.popularMovies.length - this.visibleItems) {
+      this.next();
+    } else {
+      this.currentIndex = 0; 
+      this.scrollCarousel();
+    }
+  }, 1000); 
+}
+
+stopAutoplay(): void {
+  if (this.autoplayInterval) {
+    clearInterval(this.autoplayInterval);
+  }
+}
+
+ngOnDestroy(): void {
+  this.stopAutoplay();
+}
+
+
 
   }
 

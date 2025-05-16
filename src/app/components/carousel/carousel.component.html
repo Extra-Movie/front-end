@@ -1,8 +1,8 @@
-<section class="py-4 w-full overflow-hidden">
-  <div class="container mx-auto px-2 sm:px-4">
+<section class="py-10 my-10 w-full overflow-hidden">
+  <div  (mouseenter)="stopAutoplay()" (mouseleave)="startAutoplay()">
     <!-- Header -->
-    <div class="flex flex-wrap justify-between items-center mb-4 gap-2">
-      <h1 class="text-base  text-gray-800 dark:text-white sm:text-lg md:text-2xl font-bold">Primetime Movies For You</h1>
+    <div class="flex flex-wrap justify-between items-center mb-5 gap-2 px-8">
+      <h1 class="text-base relative ps-2 text-gray-800 dark:text-white sm:text-lg md:text-2xl font-bold before:content-[''] before:w-2 before:h-full before:bg-primary before:absolute before:-left-3 before:top-1/2 before:-translate-y-1/2">Primetime Movies For You</h1>
       <div class="flex gap-1 sm:gap-2">
         <button
           (click)="prev()"
@@ -29,17 +29,18 @@
     </div>
 
     <!-- Carousel -->
-    <div *ngIf="!loading" class="relative overflow-hidden justify-between flex-nowrap">
+    <div *ngIf="!loading" class="relative overflow-hidden justify-between flex-nowrap  " >
       <div
         #carouselContainer
-        class="flex transition-all duration-300 gap-3 sm:gap-4 md:gap-5 overflow-x-auto md:overflow-x-hidden hide-scrollbar">
+        class="flex transition-all duration-300 gap-3 sm:gap-4 md:gap-5 overflow-x-auto md:overflow-x-hidden hide-scrollbar  py-3">
         <div
           *ngFor="let movie of popularMovies"
           class="flex-none"
           [ngStyle]="{
-            width: getCardWidth()
+            width: getCardWidth() 
+            
           }">
-          <app-mediaCard [mediaItem]="movie"></app-mediaCard>
+          <app-mediaCard [mediaItem]="movie"    ></app-mediaCard>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink , RouterLinkActive } from '@angular/router';
 import { ThemeButtonComponent } from '../../components/theme-button/theme-button.component';
 import { CartComponent } from '../../components/cart/cart.component';
 import { AuthService } from '../../services/auth.service';
@@ -13,6 +13,7 @@ import { UserAvatarComponent } from '../../components/user-avatar/user-avatar.co
     ThemeButtonComponent,
     CartComponent,
     UserAvatarComponent,
+     RouterLinkActive 
   ],
   templateUrl: './header.component.html',
 })
