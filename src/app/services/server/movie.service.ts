@@ -1,5 +1,5 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { effect, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import {
   MovieFilteredValuesType,
@@ -8,12 +8,14 @@ import {
 import { LoadingState } from '../../Types/loading-state.model';
 import { catchError, map, startWith } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { UserService } from '../user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MovieService {
-  constructor(private myClinet: HttpClient) {}
+  headers = new HttpHeaders();
+  constructor(private myClinet: HttpClient, private userService: UserService) {}
 
   private readonly baseURL: string = environment.apiUrl + '/movies';
 
@@ -103,7 +105,11 @@ export class MovieService {
   }
   //delete movie when user admin
   deleteMovie(movieId: string): Observable<any> {
-    return this.myClinet.delete(`${this.baseURL}/${movieId}`).pipe(
+    console.log('movieId:', movieId);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.userService.token()}`,
+    });
+    return this.myClinet.delete(`${this.baseURL}/${movieId}`, { headers }).pipe(
       map((response) => {
         const data: any = response;
         console.log('Movies deleted now:', data);

@@ -9,6 +9,7 @@ import {
   SeriesFilteredValuesType,
 } from '../../Types/series.model';
 import { environment } from '../../../environments/environment';
+import { UserService } from '../user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class SeriesService {
     'Content-Type': 'application/json',
   });
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
 
   getAllSeries(
     page: number = 1,
@@ -57,25 +58,27 @@ export class SeriesService {
       startWith({ state: 'loading' } as const)
     );
   }
-  getSeriesById(_id: string):Observable<LoadingState<any>> {
+  getSeriesById(_id: string): Observable<LoadingState<any>> {
     const url = `${this.URL}/${_id}`;
     return this.http.get(url).pipe(
-      map( response => {
-        const data:any = response;
+      map((response) => {
+        const data: any = response;
         console.log('One Series loaded now:', data);
         return { state: 'loaded', data } as const;
       }),
-      catchError(error => {
-      console.error('error loading Series', error);
-      return of({ state: 'error', error } as const);
+      catchError((error) => {
+        console.error('error loading Series', error);
+        return of({ state: 'error', error } as const);
       }),
       startWith({ state: 'loading' } as const)
-
     );
   }
   deleteSeriesById(_id: string) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.userService.token()}`,
+    });
     let url = `${this.URL}/${_id}`;
-    return this.http.delete<Series>(url, { headers: this.reqHeader }).pipe(
+    return this.http.delete<Series>(url, { headers }).pipe(
       map((response) => {
         const data: any = response;
         console.log('Movies deleted now:', data);
