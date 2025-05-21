@@ -5,12 +5,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-hero',
   templateUrl: './hero.component.html',
+  imports: [RouterModule],
   styles: ``,
 })
-export class HeroComponent {
-  explorenow() {
-  }
-  learnmore() {
-  }
-
-}
+export class HeroComponent {}
