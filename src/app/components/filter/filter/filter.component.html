@@ -1,89 +1,95 @@
-<form [formGroup]="filterForm" (ngSubmit)="onSubmit()" >
-    <div class="filter-box p-5 rounded-lg bg-base-200 sm:min-w-[300px] md:min-w-[280px] max-h-[calc(100vh-8rem)] overflow-y-auto">
-      <div class="flex justify-between w-full pb-3 border-b borber-b-2 border-base-300">
-        <div>
+<form [formGroup]="filterForm" (ngSubmit)="onSubmit()">
+  <div
+    class="filter-box p-5 rounded-lg bg-base-200 sm:min-w-[300px] md:min-w-[280px] max-h-[calc(100vh-8rem)] overflow-y-auto">
+    <div class="flex justify-between w-full pb-3 border-b borber-b-2 border-base-300">
+      <div>
 
-          <span class="ml-2 font-bold text-xl md:text-xl">Filter</span>
-        </div>
-        <button type="button" (click)="clearFilters()" class="btn btn-sm btn-outline btn-primary hover:bg-primary hover:text-base-200 transition-all shadow-md">
-          Clear All Filters
-        </button>
+        <span class="ml-2 font-bold text-xl md:text-xl">Filter</span>
       </div>
-
-      <!-- Search -->
-      <div class="w-full py-3">
-        <label class="input w-full focus:outline-primary input-primary">
-          <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </g>
-          </svg>
-          <input type="search" placeholder="Search Here ..." class="w-full" formControlName="search" />
-        </label>
-      </div>
-
-      <!-- Rating -->
-      <div class="pb-3 w-full border-b borber-b-2 border-base-300">
-        <label for="vote" class="block text-md font-medium">Rating</label>
-        <div class="w-full max-w-xs">
-          <input type="range" min="0" max="5" step="1" class="range range-xs" formControlName="rating" />
-          <div class="flex justify-between px-2.5 mt-2 text-xs">
-            <span>0</span>
-            <span class="invisible">2</span>
-            <span class="invisible">3</span>
-            <span class="invisible">4</span>
-            <span>5</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Popularity -->
-      <div class="py-3 w-full border-b borber-b-2 border-base-300 flex flex-col">
-        <label class="text-md font-medium mb-2">Popularity</label>
-        <div class="join">
-          <input class="join-item btn text-xs px-3" type="radio" formControlName="popularity" value="Latest" aria-label="Latest" />
-          <input class="join-item btn text-xs px-3" type="radio" formControlName="popularity" value="Top Rated" aria-label="Top Rated" />
-          <input class="join-item btn text-xs px-3" type="radio" formControlName="popularity" value="Most Popular" aria-label="Most Popular" />
-        </div>
-      </div>
-
-      <!-- Genres -->
-      <div class="w-full border-b borber-b-2 border-base-300 flex flex-col overflow-hidden" >
-        <div class="collapse collapse-arrow ps-0">
-          <input type="checkbox" class="ps-0" />
-          <div class="collapse-title text-md font-medium ps-0">Genres</div>
-          <div  *ngIf="genresState" class="collapse-content text-sm min-h-0! max-h-32 overflow-y-auto">
-            @for (genre of genresState; track $index) {
-              <div class="flex items-center gap-2 my-2 place-self-start">
-                <input type="radio" id="{{ genre.name}}" class="radio radio-xs radio-secondary hidden" value="{{genre.id}}"  formControlName="genre"/>
-                <label for="{{ genre.name}}" class="text-sm cursor-pointer"  [ngClass]="{
-        'text-primary font-bold': filterForm.get('genre')?.value == genre.id,
-        'text-base-content': filterForm.get('genre')?.value != genre.id}">{{ genre.name}}</label>
-              </div>
-            }
-
-          </div>
-        </div>
-      </div>
-
-      <!-- Release Year -->
-      <div class="w-full flex flex-col py-3">
-        <label for="year" class="text-md font-medium mb-2">Release Year</label>
-        <label class="input focus:outline-primary input-primary">
-          <span class="label">At Year</span>
-          <input type="text" class="placeholder:text-base-300" placeholder="YYYY" formControlName="year" />
-        </label>
-        <small *ngIf="filterForm.get('year')?.invalid && filterForm.get('year')?.touched" class="text-red-500">
-          Please enter a valid year (YYYY)
-        </small>
-      </div>
-
-      <!-- Save Filters -->
-      <button type="submit" class="btn btn-primary w-full mt-4">
-        <ng-icon name="faSolidFilter" size="15px" />
-        Filter
+      <button type="button" (click)="clearFilters()"
+        class="btn btn-sm btn-outline btn-primary hover:bg-primary hover:text-base-200 transition-all shadow-md">
+        Clear All Filters
       </button>
     </div>
 
-  </form>
+    <!-- Search -->
+    <div class="w-full py-3">
+      <label class="input w-full focus:outline-primary input-primary">
+        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none" stroke="currentColor">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </g>
+        </svg>
+        <input type="search" placeholder="Search Here ..." class="w-full" formControlName="search" />
+      </label>
+    </div>
+
+    <!-- Rating -->
+    <div class="pb-3 w-full border-b borber-b-2 border-base-300">
+      <label for="vote" class="block text-md font-medium">Rating</label>
+      <div class="w-full max-w-xs">
+        <input type="range" min="0" max="5" step="1" class="range range-xs" formControlName="rating" />
+        <div class="flex justify-between px-2.5 mt-2 text-xs">
+          <span>0</span>
+          <span class="invisible">2</span>
+          <span class="invisible">3</span>
+          <span class="invisible">4</span>
+          <span>5</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popularity -->
+    <div class="py-3 w-full border-b borber-b-2 border-base-300 flex flex-col">
+      <label class="text-md font-medium mb-2">Popularity</label>
+      <div class="join">
+        <input class="join-item btn text-xs px-3" type="radio" formControlName="popularity" value="Latest"
+          aria-label="Latest" />
+        <input class="join-item btn text-xs px-3" type="radio" formControlName="popularity" value="Top Rated"
+          aria-label="Top Rated" />
+        <input class="join-item btn text-xs px-3" type="radio" formControlName="popularity" value="Most Popular"
+          aria-label="Most Popular" />
+      </div>
+    </div>
+
+    <!-- Genres -->
+    <div class="w-full border-b borber-b-2 border-base-300 flex flex-col overflow-hidden">
+      <div class="collapse collapse-arrow ps-0">
+        <input type="checkbox" class="ps-0" />
+        <div class="collapse-title text-md font-medium ps-0">Genres</div>
+        <div *ngIf="genresState" class="collapse-content text-sm min-h-0! max-h-32 overflow-y-auto">
+          @for (genre of genresState; track $index) {
+          <div class="flex items-center gap-2 my-2 place-self-start">
+            <input type="radio" id="{{ genre.id}}" class="radio radio-xs radio-secondary hidden active:border-2"
+              value="{{genre.id}}" formControlName="genre" />
+            <label for="{{ genre.id}}" class="text-sm cursor-pointer" [ngClass]="{
+        'text-primary font-bold': filterForm.get('genre')?.value == genre.id,
+        'text-base-content': filterForm.get('genre')?.value != genre.id}">{{ genre.name}}</label>
+          </div>
+          }
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Release Year -->
+    <div class="w-full flex flex-col py-3">
+      <label for="year" class="text-md font-medium mb-2">Release Year</label>
+      <label class="input focus:outline-primary input-primary">
+        <span class="label">At Year</span>
+        <input type="text" class="placeholder:text-base-300" placeholder="YYYY" formControlName="year" />
+      </label>
+      <small *ngIf="filterForm.get('year')?.invalid && filterForm.get('year')?.touched" class="text-red-500">
+        Please enter a valid year (YYYY)
+      </small>
+    </div>
+
+    <!-- Save Filters -->
+    <button type="submit" class="btn btn-primary w-full mt-4">
+      <ng-icon name="faSolidFilter" size="15px" />
+      Filter
+    </button>
+  </div>
+
+</form>
