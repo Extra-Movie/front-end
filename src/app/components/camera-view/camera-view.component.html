@@ -1,4 +1,5 @@
-<section class="relative w-full h-[calc(100vh-88px)] bg-gradient-to-b from-base-200 to-base-100 text-base-100-content overflow-hidden font-sans p-5">
+<section
+  class="relative w-full h-[calc(100vh-88px)] bg-gradient-to-b from-base-200 to-base-100 text-base-100-content overflow-hidden font-sans p-5">
 
   <!-- Corner White Frame -->
   <div class="absolute top-5 left-5 w-30 h-30 border-t-4 border-l-4 border-neutral"></div>
@@ -7,34 +8,36 @@
   <div class="absolute bottom-5 right-5 w-30 h-30 border-b-4 border-r-4 border-neutral"></div>
 
   <!-- Crosshair Lines -->
-    <div class="hidden md:block absolute top-0 left-1/2 w-px h-1/3 bg-neutral opacity-60"></div>
-    <div class="hidden md:block absolute bottom-0 left-1/2 w-px h-1/3 bg-neutral opacity-60"></div>
+  <div class="hidden md:block absolute top-0 left-1/2 w-px h-1/3 bg-neutral opacity-60"></div>
+  <div class="hidden md:block absolute bottom-0 left-1/2 w-px h-1/3 bg-neutral opacity-60"></div>
 
-    <div class="hidden md:block absolute top-0 left-1/4 w-px h-full bg-neutral opacity-60"></div>
-    <div class="hidden md:block absolute bottom-0 right-1/4 w-px h-full bg-neutral opacity-60"></div>
+  <div class="hidden md:block absolute top-0 left-1/4 w-px h-full bg-neutral opacity-60"></div>
+  <div class="hidden md:block absolute bottom-0 right-1/4 w-px h-full bg-neutral opacity-60"></div>
 
-    <div class="hidden md:block absolute left-10 top-1/2 h-px w-1/4 bg-neutral opacity-60"></div>
-    <div class="hidden md:block absolute right-10 top-1/2 h-px w-1/4 bg-neutral opacity-60"></div>
-    <div class="hidden md:block absolute left-1/8 top-1/10 h-px w-[70%] bg-neutral opacity-60"></div>
-    <div class="hidden md:block absolute right-1/8 bottom-1/10 h-px w-[70%] bg-neutral opacity-60"></div>
+  <div class="hidden md:block absolute left-10 top-1/2 h-px w-1/4 bg-neutral opacity-60"></div>
+  <div class="hidden md:block absolute right-10 top-1/2 h-px w-1/4 bg-neutral opacity-60"></div>
+  <div class="hidden md:block absolute left-1/8 top-1/10 h-px w-[70%] bg-neutral opacity-60"></div>
+  <div class="hidden md:block absolute right-1/8 bottom-1/10 h-px w-[70%] bg-neutral opacity-60"></div>
 
-<div class="flex flex-col justify-center items-center gap-1 absolute top-1/2 right-[6.66%] transform -translate-y-1/2 ">
+  <div
+    class="flex flex-col justify-center items-center gap-1 absolute top-1/2 right-[6.66%] transform -translate-y-1/2 ">
     <div class=" w-[20px] h-[200px]
          bg-gradient-to-b from-primary via-secondary to-white
          [mask-image:repeating-linear-gradient(to_bottom,black_0,black_3px,transparent_3px,transparent_6px)]
          mask-repeat ">
     </div>
     <span class="font-bold">L</span>
-</div>
+  </div>
 
-<div class="flex flex-col justify-center items-center gap-1 absolute top-1/2 right-[4.0%] transform -translate-y-1/2 ">
+  <div
+    class="flex flex-col justify-center items-center gap-1 absolute top-1/2 right-[4.0%] transform -translate-y-1/2 ">
     <div class=" w-[20px] h-[200px]
          bg-gradient-to-b from-primary via-secondary to-white
          [mask-image:repeating-linear-gradient(to_bottom,black_0,black_3px,transparent_3px,transparent_6px)]
          mask-repeat ">
     </div>
     <span class="font-bold">R</span>
-</div>
+  </div>
 
 
 
@@ -43,15 +46,15 @@
   <!-- Top Left REC Info -->
   <div class="absolute top-10 left-10  space-y-1 text-primary flex flex-col">
     <div class="flex items-center space-x-2">
-        <div class="w-8 h-8 rounded-full bg-primary animate-pulse"></div>
-        <span class="text-2xl font-semibold">REC</span>
+      <div class="w-8 h-8 rounded-full bg-primary animate-pulse"></div>
+      <span class="text-2xl font-semibold">REC</span>
     </div>
     <span class="text-sm text-neutral">00:12:04 | 45:00</span>
   </div>
 
   <!-- Bottom Left Camera Info -->
   <div class="absolute bottom-10 left-10 text-sm text-neutral font-mono leading-tight">
-    <div class="flex items-center gap-2"> <ng-icon name="faSolidCamera"/> -0.7EV</div>
+    <div class="flex items-center gap-2"> <ng-icon name="faSolidCamera" /> -0.7EV</div>
     <div>ISO 100 1/80 F4.0</div>
   </div>
 
@@ -63,21 +66,22 @@
 
   <!-- Bottom Right Battery Info -->
   <div class="absolute bottom-10 right-10 text-sm text-neutral">
-    <div class="flex flex-col items-center "><ng-icon name="faSolidBatteryHalf" size="30"/> ~01:30</div>
+    <div class="flex flex-col items-center "><ng-icon name="faSolidBatteryHalf" size="30" /> ~01:30</div>
   </div>
 
   <!-- Center Title -->
-  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center relative before:content-[''] before:absolute before:transform before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-[120px] before:h-[120px] before:rounded-full before:bg-transparent before:border-t before:border-b before:border-neutral before:opacity-50">
+  <div
+    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center relative before:content-[''] before:absolute before:transform before:top-1/2 before:left-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-[120px] before:h-[120px] before:rounded-full before:bg-transparent before:border-t before:border-b before:border-neutral before:opacity-50">
     <h1 class="text-5xl md:text-7xl font-bold text-primary tracking-widest">BlockBuster</h1>
   </div>
 
   <!-- Scroll Down Indicator -->
   <div class="absolute bottom-24 left-1/2 transform -translate-x-1/2 text-center">
     <p class="text-sm text-neutral mb-2">Explore thousands of movies and serieses all in one place</p>
-    <button class="btn btn-primary">
-        <ng-icon name="bootstrapRecordCircle"/>
-        Explore Now
-    </button>
+    <a routerLink="/movies" class="btn btn-primary">
+      <ng-icon name="bootstrapRecordCircle" />
+      Explore Now
+    </a>
 
     <div class="mt-2 flex justify-center gap-2 text-xs text-neutral opacity-60 font-mono ">
       <span>-3</span><span>-2</span><span>-1</span>
